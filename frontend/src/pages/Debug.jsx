@@ -281,6 +281,176 @@ const DB_NODES = [
   { id: 'cached_evaluations',  label: 'cached_evaluations',  color: '#38bdf8' },
 ]
 
+// ── Force-directed knowledge graph (inline, no CDN) ───────────────────────────
+const KG_W = 820, KG_H = 500, KG_R = 15
+
+const KG_NODES = [
+  { id: 'deal_history',        label: 'deal_history',        type: 'DB Table', tk: 'deal_history' },
+  { id: 'entity_sectors',      label: 'entity_sectors',      type: 'DB Table', tk: 'entity_sectors' },
+  { id: 'portfolio_companies', label: 'portfolio_companies',  type: 'DB Table', tk: 'portfolio_companies' },
+  { id: 'esg_red_flags',       label: 'esg_red_flags',       type: 'DB Table', tk: 'esg_red_flags' },
+  { id: 'entity_founders',     label: 'entity_founders',     type: 'DB Table', tk: 'entity_founders' },
+  { id: 'cached_evals',        label: 'cached_evaluations',  type: 'DB Table', tk: 'cached_evaluations' },
+  { id: 'mandate_config',      label: 'mandate_config',      type: 'DB Table', tk: null },
+  { id: 'extraction',          label: 'Extraction',          type: 'AI Agent' },
+  { id: 'business',            label: 'Business',            type: 'AI Agent' },
+  { id: 'esg_ag',              label: 'ESG',                 type: 'AI Agent' },
+  { id: 'memory',              label: 'Memory',              type: 'AI Agent' },
+  { id: 'forecasting',         label: 'Forecasting',         type: 'AI Agent' },
+  { id: 'fix_analysis',        label: 'Fix Analysis',        type: 'AI Agent' },
+  { id: 'portfolio_ag',        label: 'Portfolio',           type: 'AI Agent' },
+  { id: 'aggregator',          label: 'Aggregator',          type: 'Process'  },
+  { id: 'feedback_loop',       label: 'Feedback Loop',       type: 'Process'  },
+  { id: 'conviction_delta',    label: 'Conviction Δ',        type: 'Concept'  },
+  { id: 'final_score',         label: 'Final Score',         type: 'Concept'  },
+  { id: 'verdict',             label: 'Verdict',             type: 'Concept'  },
+  { id: 'blind_spots',         label: 'Blind Spots',         type: 'Concept'  },
+]
+
+const KG_LINKS = [
+  { s: 'extraction',        t: 'business',            lb: 'feeds' },
+  { s: 'extraction',        t: 'esg_ag',              lb: 'feeds' },
+  { s: 'extraction',        t: 'memory',              lb: 'feeds' },
+  { s: 'extraction',        t: 'forecasting',         lb: 'feeds' },
+  { s: 'extraction',        t: 'fix_analysis',        lb: 'feeds' },
+  { s: 'extraction',        t: 'blind_spots',         lb: 'produces' },
+  { s: 'business',          t: 'aggregator',          lb: 'scores' },
+  { s: 'esg_ag',            t: 'aggregator',          lb: 'scores' },
+  { s: 'conviction_delta',  t: 'aggregator',          lb: 'adjusts' },
+  { s: 'memory',            t: 'deal_history',        lb: 'reads' },
+  { s: 'memory',            t: 'entity_sectors',      lb: 'reads' },
+  { s: 'memory',            t: 'entity_founders',     lb: 'reads' },
+  { s: 'memory',            t: 'conviction_delta',    lb: 'produces' },
+  { s: 'esg_ag',            t: 'esg_red_flags',       lb: 'checks' },
+  { s: 'aggregator',        t: 'final_score',         lb: 'computes' },
+  { s: 'final_score',       t: 'verdict',             lb: 'maps to' },
+  { s: 'mandate_config',    t: 'verdict',             lb: 'overrides' },
+  { s: 'portfolio_ag',      t: 'portfolio_companies', lb: 'reads' },
+  { s: 'portfolio_ag',      t: 'deal_history',        lb: 'reads' },
+  { s: 'feedback_loop',     t: 'deal_history',        lb: 'writes' },
+  { s: 'feedback_loop',     t: 'entity_sectors',      lb: 'updates' },
+  { s: 'verdict',           t: 'feedback_loop',       lb: 'triggers' },
+  { s: 'verdict',           t: 'cached_evals',        lb: 'stored in' },
+]
+
+const KG_COLORS = { 'DB Table': '#6366f1', 'AI Agent': '#22c55e', 'Process': '#f59e0b', 'Concept': '#a78bfa' }
+
+const STATIC_POS = {
+  // DB Tables — left column
+  deal_history:        { x: 80,  y: 100 },
+  entity_sectors:      { x: 80,  y: 200 },
+  entity_founders:     { x: 80,  y: 300 },
+  portfolio_companies: { x: 80,  y: 400 },
+  esg_red_flags:       { x: 200, y: 460 },
+  cached_evals:        { x: 200, y: 360 },
+  mandate_config:      { x: 200, y: 260 },
+  // AI Agents — center
+  extraction:          { x: 390, y: 40  },
+  business:            { x: 290, y: 155 },
+  esg_ag:              { x: 290, y: 265 },
+  memory:              { x: 290, y: 375 },
+  forecasting:         { x: 490, y: 155 },
+  fix_analysis:        { x: 490, y: 265 },
+  portfolio_ag:        { x: 490, y: 375 },
+  // Processes + Concepts — right
+  aggregator:          { x: 620, y: 195 },
+  conviction_delta:    { x: 620, y: 335 },
+  feedback_loop:       { x: 735, y: 390 },
+  final_score:         { x: 735, y: 125 },
+  verdict:             { x: 735, y: 265 },
+  blind_spots:         { x: 620, y: 460 },
+}
+
+function KnowledgeGraphViz({ graphData }) {
+  const [hovId, setHovId] = useState(null)
+
+  const nbrs = (id) => {
+    const ns = new Set([id]), es = new Set()
+    KG_LINKS.forEach((l, i) => {
+      if (l.s === id || l.t === id) { ns.add(l.s); ns.add(l.t); es.add(i) }
+    })
+    return { ns, es }
+  }
+
+  const { ns: hNs, es: hEs } = hovId ? nbrs(hovId) : { ns: null, es: null }
+  const cnt = (tk) => tk && graphData?.tables?.[tk]?.count != null ? graphData.tables[tk].count : null
+
+  return (
+    <svg viewBox={`0 0 ${KG_W} ${KG_H}`}
+      className="w-full bg-slate-900 rounded-lg border border-slate-800"
+      style={{ height: 500 }}>
+      <defs>
+        <marker id="kgarr" markerWidth="7" markerHeight="7" refX="21" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L7,3 z" fill="rgba(99,102,241,0.45)" />
+        </marker>
+        <filter id="kgglow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+
+      {KG_LINKS.map((l, i) => {
+        const s = STATIC_POS[l.s], t = STATIC_POS[l.t]
+        if (!s || !t) return null
+        const hl  = hEs?.has(i)
+        const dim = hNs && !hNs.has(l.s) && !hNs.has(l.t)
+        return (
+          <g key={i} opacity={dim ? 0.05 : 1}>
+            <line x1={s.x} y1={s.y} x2={t.x} y2={t.y}
+              stroke={hl ? 'rgba(255,255,255,0.55)' : 'rgba(99,102,241,0.22)'}
+              strokeWidth={hl ? 2 : 1.2}
+              markerEnd="url(#kgarr)" />
+            {hl && (
+              <text x={(s.x + t.x) / 2} y={(s.y + t.y) / 2 - 5}
+                textAnchor="middle" fontSize="8" fill="rgba(200,200,255,0.65)">{l.lb}</text>
+            )}
+          </g>
+        )
+      })}
+
+      {KG_NODES.map(n => {
+        const p   = STATIC_POS[n.id]
+        if (!p) return null
+        const c   = KG_COLORS[n.type]
+        const dim = hNs && !hNs.has(n.id)
+        const isHv = n.id === hovId
+        const c_   = cnt(n.tk)
+        return (
+          <g key={n.id} transform={`translate(${p.x},${p.y})`}
+            style={{ cursor: 'pointer', opacity: dim ? 0.07 : 1 }}
+            onMouseEnter={() => setHovId(n.id)}
+            onMouseLeave={() => setHovId(null)}>
+            {isHv && <circle r={KG_R + 9} fill={c} opacity={0.28} filter="url(#kgglow)" />}
+            <circle r={KG_R} fill={c} stroke="rgba(255,255,255,0.18)" strokeWidth={1.5} />
+            {c_ != null && (
+              <g transform={`translate(${KG_R - 2},${-(KG_R - 2)})`}>
+                <circle r={8} fill="#0f172a" stroke={c} strokeWidth={1.2} />
+                <text textAnchor="middle" dominantBaseline="middle" fontSize="6.5" fill="white" fontWeight="bold">
+                  {c_ > 99 ? '99+' : c_}
+                </text>
+              </g>
+            )}
+            <text y={KG_R + 11} textAnchor="middle" fontSize="9"
+              fill="rgba(220,220,255,0.85)" fontWeight={isHv ? '600' : '400'}>
+              {n.label}
+            </text>
+          </g>
+        )
+      })}
+
+      {Object.entries(KG_COLORS).map(([tp, c], i) => (
+        <g key={tp} transform={`translate(12,${KG_H - 62 + i * 15})`}>
+          <circle r={4} fill={c} />
+          <text x={10} dominantBaseline="middle" fontSize="9" fill="rgba(200,200,255,0.45)">{tp}</text>
+        </g>
+      ))}
+      <text x={KG_W - 8} y={KG_H - 5} textAnchor="end" fontSize="8" fill="rgba(200,200,255,0.18)">
+        {KG_NODES.length} nodes · {KG_LINKS.length} edges
+      </text>
+    </svg>
+  )
+}
+
 function GraphTab({ graphData, onRefreshGraph }) {
   const [selectedNode, setSelectedNode] = useState(null)
 
@@ -370,15 +540,7 @@ function GraphTab({ graphData, onRefreshGraph }) {
         </div>
       )}
 
-      {/* D3 force-directed architecture graph */}
-      <div className="rounded-lg overflow-hidden border border-slate-800" style={{ height: '520px' }}>
-        <iframe
-          src="/knowledge-graph.html"
-          title="ConvictAI Memory Architecture"
-          className="w-full h-full border-0"
-          style={{ background: '#0f172a' }}
-        />
-      </div>
+      <KnowledgeGraphViz graphData={graphData} />
     </div>
   )
 }
@@ -395,7 +557,7 @@ function StatusBar({
   const dbPath       = graphData?.db_path ?? 'convictai.db'
 
   return (
-    <div className="sticky top-14 z-40 bg-slate-900/95 border-b border-slate-700 backdrop-blur-sm">
+    <div className="sticky top-0 z-40 bg-slate-900/95 border-b border-slate-700 backdrop-blur-sm">
       <div className="flex items-center gap-5 px-6 py-2.5 flex-wrap">
         <div className="flex items-center gap-1.5 text-xs">
           {ollamaOnline
@@ -607,16 +769,16 @@ export default function Debug() {
       />
 
       {/* Tab bar */}
-      <div className="border-b border-slate-700 bg-slate-900/80 px-6">
-        <div className="flex">
+      <div className="border-b border-slate-600 bg-slate-800 px-6">
+        <div className="flex gap-1">
           {tabs.map(t => (
             <button
               key={t.id}
               onClick={() => setActiveTab(t.id)}
-              className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+              className={`flex items-center gap-2 px-5 py-3 text-sm font-semibold border-b-2 transition-colors ${
                 activeTab === t.id
-                  ? 'border-indigo-500 text-indigo-400'
-                  : 'border-transparent text-slate-500 hover:text-slate-300'
+                  ? 'border-indigo-400 text-indigo-300 bg-slate-700/50'
+                  : 'border-transparent text-slate-300 hover:text-white hover:bg-slate-700/30'
               }`}
             >
               {t.icon}{t.label}
