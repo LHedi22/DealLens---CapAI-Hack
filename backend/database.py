@@ -6,6 +6,7 @@ from datetime import date
 from backend.models import (
     Base, DealHistory, EntitySector, MandateConfig, CachedEvaluation,
     MonitorAgreement, MonitorTransaction, MonitorLedgerSnapshot, MonitorAlert,
+    SynergyProfile, SynergyPair, SynergyGap,
 )
 
 DATABASE_URL = "sqlite+aiosqlite:///./convictai.db"
@@ -33,6 +34,7 @@ async def init_db():
                 pass
     await seed_database()
     await seed_monitor_database()
+    await seed_synergy_database()
 
 
 _EDUFLOW_CACHE = {
@@ -408,5 +410,81 @@ async def seed_monitor_database():
                     resolved_at=alert.get("resolved_at"),
                     resolved_by_note=alert.get("resolved_by_note"),
                 ))
+
+        await session.commit()
+
+
+async def seed_synergy_database():
+    async with AsyncSessionLocal() as session:
+        count = await session.scalar(
+            select(func.count()).select_from(SynergyProfile)
+        )
+        if count and count > 0:
+            return
+
+        seed_path = "backend/synergy/seed/demo_synergy_seed.json"
+        with open(seed_path) as f:
+            data = json.load(f)
+
+        # Build company_name → deal_history_id lookup
+        names = [p["company_name"] for p in data["profiles"]]
+        result = await session.execute(
+            select(DealHistory.id, DealHistory.startup_name)
+            .where(DealHistory.startup_name.in_(names))
+        )
+        deal_id_by_name: dict[str, int] = {row[1]: row[0] for row in result.all()}
+
+        now = date.today().isoformat() + "T00:00:00"
+
+        # ── Profiles ─────────────────────────────────────────────────────────
+        for p in data["profiles"]:
+            session.add(SynergyProfile(
+                company_name=p["company_name"],
+                deal_history_id=deal_id_by_name.get(p["company_name"]),
+                services_offered=json.dumps(p.get("services_offered", [])),
+                target_customers=json.dumps(p.get("target_customers", [])),
+                operational_needs=json.dumps(p.get("operational_needs", [])),
+                strategic_gaps=json.dumps(p.get("strategic_gaps", [])),
+                sector=p.get("sector"),
+                geography=p.get("geography"),
+                stage=p.get("stage"),
+                profile_confidence=p.get("profile_confidence", "MEDIUM"),
+                last_extracted_at=now,
+                extraction_source=p.get("extraction_source", "seed"),
+            ))
+
+        # ── Pairs ─────────────────────────────────────────────────────────────
+        for pair in data["pairs"]:
+            session.add(SynergyPair(
+                company_a=pair["company_a"],
+                company_b=pair["company_b"],
+                service_bridge_score=pair.get("service_bridge_score"),
+                shared_customer_score=pair.get("shared_customer_score"),
+                co_dev_score=pair.get("co_dev_score"),
+                composite_score=pair.get("composite_score"),
+                synergy_types_triggered=json.dumps(pair.get("synergy_types_triggered", [])),
+                match_explanation=pair.get("match_explanation"),
+                value_creation_type=pair.get("value_creation_type"),
+                value_estimate_label=pair.get("value_estimate_label"),
+                action_suggestion=pair.get("action_suggestion"),
+                confidence_level=pair.get("confidence_level", "MEDIUM"),
+                analyst_decision=None,
+                created_at=now,
+            ))
+
+        # ── Gaps ──────────────────────────────────────────────────────────────
+        for gap in data["gaps"]:
+            session.add(SynergyGap(
+                gap_label=gap["gap_label"],
+                need_description=gap.get("need_description"),
+                affected_companies=json.dumps(gap.get("affected_companies", [])),
+                affected_count=gap.get("affected_count", 0),
+                estimated_annual_spend=gap.get("estimated_annual_spend"),
+                suggested_sector=gap.get("suggested_sector"),
+                suggested_stage=gap.get("suggested_stage"),
+                urgency_score=gap.get("urgency_score", 0),
+                status=gap.get("status", "open"),
+                created_at=now,
+            ))
 
         await session.commit()

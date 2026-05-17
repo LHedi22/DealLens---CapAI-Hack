@@ -1,0 +1,358 @@
+{
+  "profiles": [
+    {
+      "company_name": "EduFlow",
+      "sector": "EdTech",
+      "stage": "Seed",
+      "geography": "MENA",
+      "profile_confidence": "HIGH",
+      "extraction_source": "seed",
+      "services_offered": [
+        "Online learning platform",
+        "Curriculum development tools",
+        "B2B LMS for schools and universities"
+      ],
+      "target_customers": [
+        "Schools",
+        "Universities",
+        "Corporate L&D departments"
+      ],
+      "operational_needs": [
+        "Payment processing for subscriptions",
+        "Logistics and delivery for physical learning kits",
+        "HR and payroll tools"
+      ],
+      "strategic_gaps": [
+        "Distribution network for physical products",
+        "B2B enterprise sales team",
+        "Health and education vertical partnerships"
+      ]
+    },
+    {
+      "company_name": "NovaPay",
+      "sector": "FinTech",
+      "stage": "Pre-seed",
+      "geography": "MENA",
+      "profile_confidence": "HIGH",
+      "extraction_source": "seed",
+      "services_offered": [
+        "B2B payment gateway",
+        "Invoicing and expense tracking",
+        "Payroll and financial reporting for SMEs"
+      ],
+      "target_customers": [
+        "SMEs",
+        "Startups",
+        "Retailers",
+        "Construction firms"
+      ],
+      "operational_needs": [
+        "Marketing and customer acquisition services",
+        "Legal compliance tooling"
+      ],
+      "strategic_gaps": [
+        "Health and education vertical partnerships",
+        "International expansion support"
+      ]
+    },
+    {
+      "company_name": "CargoZip",
+      "sector": "Logistics",
+      "stage": "Series A",
+      "geography": "MENA",
+      "profile_confidence": "HIGH",
+      "extraction_source": "seed",
+      "services_offered": [
+        "Last-mile delivery",
+        "Warehousing and inventory management",
+        "Route optimization for e-commerce and food brands"
+      ],
+      "target_customers": [
+        "E-commerce platforms",
+        "Retailers",
+        "Food and beverage brands",
+        "Medical supply companies"
+      ],
+      "operational_needs": [
+        "Fleet insurance",
+        "Driver HR and payroll",
+        "Customer support tooling"
+      ],
+      "strategic_gaps": [
+        "SaaS clients to expand B2B recurring revenue",
+        "Tech integration partners"
+      ]
+    },
+    {
+      "company_name": "HealthCore",
+      "sector": "HealthTech",
+      "stage": "Seed",
+      "geography": "MENA",
+      "profile_confidence": "HIGH",
+      "extraction_source": "seed",
+      "services_offered": [
+        "Patient management SaaS",
+        "Clinic analytics platform",
+        "Healthcare compliance reporting tools"
+      ],
+      "target_customers": [
+        "Clinics",
+        "Hospitals",
+        "Pharmacies"
+      ],
+      "operational_needs": [
+        "Payment processing for patient invoicing",
+        "Last-mile delivery for medical supplies",
+        "Staff training and onboarding platform"
+      ],
+      "strategic_gaps": [
+        "Data partnership with health authorities",
+        "Government contract support",
+        "Insurance billing integration"
+      ]
+    },
+    {
+      "company_name": "BuildSmart",
+      "sector": "Construction Tech",
+      "stage": "Seed",
+      "geography": "MENA",
+      "profile_confidence": "HIGH",
+      "extraction_source": "seed",
+      "services_offered": [
+        "Construction project management SaaS",
+        "Supplier network and procurement platform",
+        "Site compliance and safety tracking"
+      ],
+      "target_customers": [
+        "Construction firms",
+        "Real estate developers",
+        "Government infrastructure projects"
+      ],
+      "operational_needs": [
+        "HR and payroll tools for site workers",
+        "Financial reporting and bookkeeping",
+        "Marketing and lead generation services"
+      ],
+      "strategic_gaps": [
+        "International market entry support",
+        "Legal and regulatory compliance tooling"
+      ]
+    }
+  ],
+  "pairs": [
+    {
+      "company_a": "NovaPay",
+      "company_b": "EduFlow",
+      "service_bridge_score": 88,
+      "shared_customer_score": 45,
+      "co_dev_score": 30,
+      "composite_score": 65,
+      "synergy_types_triggered": ["SERVICE", "CO_DEV"],
+      "match_explanation": "NovaPay's payment gateway eliminates EduFlow's external Stripe dependency. Co-dev opportunity: embedded payment and subscription billing inside EduFlow's LMS.",
+      "value_creation_type": "cost_saving",
+      "value_estimate_label": "~180,000 TND annual savings",
+      "action_suggestion": "Introduce founders for payment integration pilot",
+      "confidence_level": "MEDIUM"
+    },
+    {
+      "company_a": "CargoZip",
+      "company_b": "EduFlow",
+      "service_bridge_score": 72,
+      "shared_customer_score": 20,
+      "co_dev_score": 15,
+      "composite_score": 44,
+      "synergy_types_triggered": ["SERVICE"],
+      "match_explanation": "CargoZip can handle physical kit delivery for EduFlow's blended-learning courses. EduFlow currently uses third-party couriers at a ~40% cost premium.",
+      "value_creation_type": "cost_saving",
+      "value_estimate_label": "~60,000 TND annual savings",
+      "action_suggestion": "Propose a pilot for physical kit delivery in one school district",
+      "confidence_level": "LOW"
+    },
+    {
+      "company_a": "NovaPay",
+      "company_b": "HealthCore",
+      "service_bridge_score": 85,
+      "shared_customer_score": 35,
+      "co_dev_score": 55,
+      "composite_score": 68,
+      "synergy_types_triggered": ["SERVICE", "CO_DEV"],
+      "match_explanation": "HealthCore needs payment processing for patient invoicing. NovaPay can serve this directly. Co-dev: a healthcare-compliant invoicing module built jointly.",
+      "value_creation_type": "revenue_expansion",
+      "value_estimate_label": "~240,000 TND new revenue potential",
+      "action_suggestion": "Draft co-development MOU for healthcare billing module",
+      "confidence_level": "MEDIUM"
+    },
+    {
+      "company_a": "CargoZip",
+      "company_b": "HealthCore",
+      "service_bridge_score": 70,
+      "shared_customer_score": 25,
+      "co_dev_score": 20,
+      "composite_score": 48,
+      "synergy_types_triggered": ["SERVICE"],
+      "match_explanation": "CargoZip's last-mile logistics can cover medical supply delivery for HealthCore's clinic clients, replacing their expensive cold-chain vendor.",
+      "value_creation_type": "cost_saving",
+      "value_estimate_label": "~90,000 TND annual savings",
+      "action_suggestion": "Introduce to HealthCore's clinic network for a cold-chain delivery trial",
+      "confidence_level": "LOW"
+    },
+    {
+      "company_a": "NovaPay",
+      "company_b": "BuildSmart",
+      "service_bridge_score": 60,
+      "shared_customer_score": 40,
+      "co_dev_score": 25,
+      "composite_score": 48,
+      "synergy_types_triggered": ["SERVICE", "CUSTOMER"],
+      "match_explanation": "BuildSmart's SME clients need payroll and financial reporting tools NovaPay already provides. Shared customer: construction SMEs.",
+      "value_creation_type": "new_market",
+      "value_estimate_label": "~120,000 TND addressable via shared clients",
+      "action_suggestion": "Introduce founders — NovaPay payroll module for BuildSmart's SME clients",
+      "confidence_level": "LOW"
+    },
+    {
+      "company_a": "EduFlow",
+      "company_b": "HealthCore",
+      "service_bridge_score": 30,
+      "shared_customer_score": 55,
+      "co_dev_score": 65,
+      "composite_score": 52,
+      "synergy_types_triggered": ["CUSTOMER", "CO_DEV"],
+      "match_explanation": "Both serve institutional B2B clients. Co-dev potential: a staff training and health compliance certification platform for clinic admin staff.",
+      "value_creation_type": "new_market",
+      "value_estimate_label": "~150,000 TND new market potential",
+      "action_suggestion": "Conduct joint feasibility study for healthcare compliance training module",
+      "confidence_level": "LOW"
+    },
+    {
+      "company_a": "EduFlow",
+      "company_b": "BuildSmart",
+      "service_bridge_score": 25,
+      "shared_customer_score": 45,
+      "co_dev_score": 50,
+      "composite_score": 40,
+      "synergy_types_triggered": ["CUSTOMER", "CO_DEV"],
+      "match_explanation": "Both target institutional buyers. Co-dev: safety and compliance training modules for construction firms, built on EduFlow's LMS.",
+      "value_creation_type": "new_market",
+      "value_estimate_label": "~80,000 TND new market potential",
+      "action_suggestion": "Co-develop safety training modules as a joint pilot with one shared construction client",
+      "confidence_level": "LOW"
+    }
+  ],
+  "gaps": [
+    {
+      "gap_label": "B2B Payment Infrastructure",
+      "need_description": "Multiple portfolio companies pay external payment processors for invoicing, subscriptions, and expense management — a need already covered by NovaPay.",
+      "affected_companies": ["EduFlow", "HealthCore", "BuildSmart"],
+      "affected_count": 3,
+      "estimated_annual_spend": "~180,000 TND/year",
+      "suggested_sector": "FinTech",
+      "suggested_stage": "Seed to Series A",
+      "urgency_score": 82,
+      "status": "open"
+    },
+    {
+      "gap_label": "Last-Mile Medical & Physical Delivery",
+      "need_description": "EduFlow needs kit delivery for blended learning; HealthCore needs reliable cold-chain delivery for medical supplies — both partially served by CargoZip.",
+      "affected_companies": ["EduFlow", "HealthCore"],
+      "affected_count": 2,
+      "estimated_annual_spend": "~120,000 TND/year",
+      "suggested_sector": "Logistics",
+      "suggested_stage": "Seed to Series A",
+      "urgency_score": 71,
+      "status": "open"
+    },
+    {
+      "gap_label": "HR & Payroll Tooling",
+      "need_description": "CargoZip, BuildSmart, and HealthCore all need HR and payroll solutions for their field workforces — a gap not currently filled by any portfolio company.",
+      "affected_companies": ["CargoZip", "BuildSmart", "HealthCore"],
+      "affected_count": 3,
+      "estimated_annual_spend": "~150,000 TND/year",
+      "suggested_sector": "HR Tech",
+      "suggested_stage": "Seed to Series A",
+      "urgency_score": 68,
+      "status": "open"
+    },
+    {
+      "gap_label": "Legal & Regulatory Compliance Tooling",
+      "need_description": "NovaPay, HealthCore, and BuildSmart all face sector-specific regulatory requirements (financial licensing, health data compliance, construction permits) with no shared tooling.",
+      "affected_companies": ["NovaPay", "HealthCore", "BuildSmart"],
+      "affected_count": 3,
+      "estimated_annual_spend": "~200,000 TND/year",
+      "suggested_sector": "LegalTech",
+      "suggested_stage": "Seed to Series A",
+      "urgency_score": 75,
+      "status": "open"
+    },
+    {
+      "gap_label": "B2B Marketing & Growth Services",
+      "need_description": "EduFlow, BuildSmart, and CargoZip all lack a structured marketing and demand-generation capability, relying on ad-hoc agency work or founder-led outreach.",
+      "affected_companies": ["EduFlow", "BuildSmart", "CargoZip"],
+      "affected_count": 3,
+      "estimated_annual_spend": "~90,000 TND/year",
+      "suggested_sector": "Marketing SaaS",
+      "suggested_stage": "Seed to Series A",
+      "urgency_score": 60,
+      "status": "open"
+    }
+  ],
+  "gap_shortlist_fallback": {
+    "HR & Payroll Tooling": [
+      {
+        "company_name": "Workpay",
+        "website": "https://workpay.africa",
+        "description": "Pan-African HR and payroll SaaS for SMEs and field workforces, with mobile-first design for gig and contract workers.",
+        "fit_score": 87,
+        "fit_reason": "Direct match for CargoZip's driver payroll and BuildSmart's site worker payroll — mobile-first design fits field teams.",
+        "flags": ["Foreign HQ (Kenya) — MENA expansion in progress", "Seed stage — limited enterprise traction"],
+        "source_url": "https://workpay.africa"
+      },
+      {
+        "company_name": "Bayzat",
+        "website": "https://bayzat.com",
+        "description": "UAE-based HR, payroll, and benefits platform designed for MENA SMEs with multi-country compliance built in.",
+        "fit_score": 79,
+        "fit_reason": "Strong MENA compliance coverage fits HealthCore's regulated workforce and NovaPay's financial reporting needs.",
+        "flags": ["Premium pricing — may be above SME budget", "UAE-centric — Tunisian market coverage unclear"],
+        "source_url": "https://bayzat.com"
+      },
+      {
+        "company_name": "Omni HR",
+        "website": "https://omnihr.co",
+        "description": "Modern HR software for distributed teams in Southeast Asia and MENA, covering onboarding, payroll, and compliance.",
+        "fit_score": 68,
+        "fit_reason": "Good fit for distributed teams like CargoZip's drivers; onboarding module relevant to HealthCore's clinic staff.",
+        "flags": ["Early stage — limited Tunisian market data", "MENA expansion not yet confirmed"]
+      }
+    ],
+    "Legal & Regulatory Compliance Tooling": [
+      {
+        "company_name": "Legislate",
+        "website": "https://legislate.tech",
+        "description": "AI-powered contract and legal compliance platform for SMEs, covering employment, supplier, and regulatory agreements.",
+        "fit_score": 82,
+        "fit_reason": "Strong fit for NovaPay's financial licensing requirements and BuildSmart's construction permit compliance.",
+        "flags": ["UK-based — MENA market entry not confirmed", "English-only documents — Arabic support unclear"],
+        "source_url": "https://legislate.tech"
+      },
+      {
+        "company_name": "Clio",
+        "website": "https://clio.com",
+        "description": "Cloud-based legal management platform used by law firms and compliance teams across 130 countries.",
+        "fit_score": 71,
+        "fit_reason": "Established compliance tooling for HealthCore's health data regulations and NovaPay's financial compliance needs.",
+        "flags": ["Enterprise pricing — overkill for Seed-stage startups", "Not purpose-built for MENA regulatory frameworks"],
+        "source_url": "https://clio.com"
+      },
+      {
+        "company_name": "Juro",
+        "website": "https://juro.com",
+        "description": "Contract automation and compliance tracking platform for fast-growing companies managing supplier and regulatory agreements.",
+        "fit_score": 65,
+        "fit_reason": "Useful for BuildSmart's supplier contracts and NovaPay's partner compliance tracking.",
+        "flags": ["Series B — may be too expensive for portfolio companies", "General-purpose — no sector-specific MENA compliance modules"],
+        "source_url": "https://juro.com"
+      }
+    ]
+  }
+}

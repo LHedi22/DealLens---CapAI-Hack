@@ -1,15 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import Evaluate from './pages/Evaluate'
 import Mandate from './pages/Mandate'
 import Monitor from './pages/Monitor'
+import Synergy from './pages/Synergy'
 import Debug from './pages/Debug'
+import { getSynergyStatus } from './lib/api'
+
+function usePendingSynergy() {
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    getSynergyStatus()
+      .then(s => setCount(s.pending_pairs ?? 0))
+      .catch(() => {})
+  }, [])
+  return count
+}
 
 const NAV_ITEMS = [
   { to: '/',         label: 'Dashboard',      end: true  },
   { to: '/evaluate', label: 'New Evaluation', end: false },
   { to: '/monitor',  label: 'Monitor',        end: false },
+  { to: '/synergy',  label: 'Synergy',        end: false },
   { to: '/mandate',  label: 'Fund Mandate',   end: false },
   { to: '/debug',    label: 'Debug',          end: false },
 ]
@@ -27,7 +40,7 @@ function LogoMark() {
   )
 }
 
-function Sidebar() {
+function Sidebar({ pendingSynergy = 0 }) {
   return (
     <aside
       className="fixed left-0 top-0 h-screen flex flex-col z-50 overflow-hidden"
@@ -53,7 +66,7 @@ function Sidebar() {
             lineHeight:    1,
           }}
         >
-          Convict<span style={{ color: '#6E56CF' }}>AI</span>
+          Deal<span style={{ color: '#6E56CF' }}>Lens</span>
         </span>
       </div>
 
@@ -79,7 +92,17 @@ function Sidebar() {
                     style={{ width: 2.5, height: 18, background: '#6E56CF' }}
                   />
                 )}
-                {label}
+                <span style={{ flex: 1 }}>{label}</span>
+                {to === '/synergy' && pendingSynergy > 0 && (
+                  <span style={{
+                    background: '#6E56CF', color: '#fff',
+                    borderRadius: 10, padding: '1px 6px',
+                    fontSize: 10, fontWeight: 700, lineHeight: 1.6,
+                    marginLeft: 4, flexShrink: 0,
+                  }}>
+                    {pendingSynergy}
+                  </span>
+                )}
               </>
             )}
           </NavLink>
@@ -107,10 +130,10 @@ function Sidebar() {
   )
 }
 
-function Layout({ children }) {
+function Layout({ children, pendingSynergy }) {
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      <Sidebar />
+      <Sidebar pendingSynergy={pendingSynergy} />
       <main style={{ marginLeft: 220, padding: '36px 44px', minHeight: '100vh' }}>
         {children}
       </main>
@@ -121,14 +144,16 @@ function Layout({ children }) {
 export default function App() {
   const [refreshKey, setRefreshKey] = useState(0)
   const triggerRefresh = () => setRefreshKey(k => k + 1)
+  const pendingSynergy = usePendingSynergy()
 
   return (
     <BrowserRouter>
-      <Layout>
+      <Layout pendingSynergy={pendingSynergy}>
         <Routes>
           <Route path="/"         element={<Dashboard refreshKey={refreshKey} />} />
           <Route path="/evaluate" element={<Evaluate onEvaluationComplete={triggerRefresh} />} />
           <Route path="/monitor"  element={<Monitor />} />
+          <Route path="/synergy"  element={<Synergy />} />
           <Route path="/mandate"  element={<Mandate onApplied={triggerRefresh} />} />
           <Route path="/debug"    element={<Debug />} />
         </Routes>

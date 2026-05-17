@@ -176,3 +176,67 @@ export async function markNoStatement(startupName, month) {
   if (!res.ok) throw new Error('Failed to mark no-statement')
   return res.json()
 }
+
+// ── Synergy API ───────────────────────────────────────────────────────────────
+
+export async function getSynergyStatus() {
+  const res = await fetch(`${BASE}/synergy/status`)
+  if (!res.ok) throw new Error('Failed to fetch synergy status')
+  return res.json()
+}
+
+export async function runSynergy() {
+  const res = await fetch(`${BASE}/synergy/run`, { method: 'POST' })
+  if (!res.ok) throw new Error('Failed to run synergy engine')
+  return res.json()
+}
+
+export async function getSynergyPairs({ type, decision } = {}) {
+  const params = new URLSearchParams()
+  if (type)     params.set('type', type)
+  if (decision) params.set('decision', decision)
+  const q = params.toString() ? `?${params}` : ''
+  const res = await fetch(`${BASE}/synergy/pairs${q}`)
+  if (!res.ok) throw new Error('Failed to fetch synergy pairs')
+  return res.json()
+}
+
+export async function getSynergyGraph() {
+  const res = await fetch(`${BASE}/synergy/graph`)
+  if (!res.ok) throw new Error('Failed to fetch synergy graph')
+  return res.json()
+}
+
+export async function decideSynergyPair(pairId, { decision, reason = '', snoozeDays = 0 }) {
+  const res = await fetch(`${BASE}/synergy/pairs/${pairId}/decide`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ decision, reason, snooze_days: snoozeDays }),
+  })
+  if (!res.ok) throw new Error('Failed to record synergy decision')
+  return res.json()
+}
+
+export async function undoSynergyDecision(pairId) {
+  const res = await fetch(`${BASE}/synergy/pairs/${pairId}/undo`, { method: 'POST' })
+  if (!res.ok) throw new Error('Failed to undo synergy decision')
+  return res.json()
+}
+
+export async function getSynergyGaps() {
+  const res = await fetch(`${BASE}/synergy/gaps`)
+  if (!res.ok) throw new Error('Failed to fetch synergy gaps')
+  return res.json()
+}
+
+export async function detectSynergyGaps(force = false) {
+  const res = await fetch(`${BASE}/synergy/gaps/detect?force=${force}`, { method: 'POST' })
+  if (!res.ok) throw new Error('Failed to detect synergy gaps')
+  return res.json()
+}
+
+export async function huntSynergyGap(gapId) {
+  const res = await fetch(`${BASE}/synergy/gaps/${gapId}/hunt`, { method: 'POST' })
+  if (!res.ok) throw new Error('Failed to hunt gap candidates')
+  return res.json()
+}

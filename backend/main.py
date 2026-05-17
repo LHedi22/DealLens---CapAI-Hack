@@ -9,6 +9,7 @@ from backend.routers.evaluate import router as evaluate_router
 from backend.routers.ocr import router as ocr_router
 from backend.routers.debug import router as debug_router
 from backend.monitor.routes.monitor_routes import router as monitor_router
+from backend.synergy.routes.synergy_routes import router as synergy_router
 from backend.agents.ollama_client import check_ollama_available
 
 
@@ -36,6 +37,7 @@ app.include_router(evaluate_router, prefix="/api")
 app.include_router(ocr_router, prefix="/api")
 app.include_router(debug_router, prefix="/api")
 app.include_router(monitor_router, prefix="/api")
+app.include_router(synergy_router, prefix="/api")
 
 
 @app.get("/api/health")

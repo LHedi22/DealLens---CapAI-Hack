@@ -170,3 +170,78 @@ class MonitorAlert(Base):
     resolved: Mapped[int] = mapped_column(Integer, default=0)
     resolved_at: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
     resolved_by_note: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+
+
+# ── Synergy Module ────────────────────────────────────────────────────────────
+
+class SynergyProfile(Base):
+    __tablename__ = "synergy_profiles"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    company_name: Mapped[str] = mapped_column(String(255))
+    deal_history_id: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    services_offered: Mapped[Optional[str]] = mapped_column(Text, nullable=True)    # JSON array
+    target_customers: Mapped[Optional[str]] = mapped_column(Text, nullable=True)    # JSON array
+    operational_needs: Mapped[Optional[str]] = mapped_column(Text, nullable=True)   # JSON array
+    strategic_gaps: Mapped[Optional[str]] = mapped_column(Text, nullable=True)      # JSON array
+    sector: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    geography: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    stage: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+    profile_confidence: Mapped[Optional[str]] = mapped_column(String(10), nullable=True)
+    last_extracted_at: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
+    extraction_source: Mapped[str] = mapped_column(String(30), default="deal_file")
+
+
+class SynergyPair(Base):
+    __tablename__ = "synergy_pairs"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    company_a: Mapped[str] = mapped_column(String(255))
+    company_b: Mapped[str] = mapped_column(String(255))
+    service_bridge_score: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    shared_customer_score: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    co_dev_score: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    composite_score: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    synergy_types_triggered: Mapped[Optional[str]] = mapped_column(Text, nullable=True)  # JSON array
+    match_explanation: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    value_creation_type: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
+    value_estimate_label: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    action_suggestion: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    confidence_level: Mapped[Optional[str]] = mapped_column(String(10), nullable=True)
+    analyst_decision: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
+    decision_reason: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    decision_at: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
+    snooze_until: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
+    created_at: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
+
+
+class SynergyGap(Base):
+    __tablename__ = "synergy_gaps"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    gap_label: Mapped[str] = mapped_column(String(255))
+    need_description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    affected_companies: Mapped[Optional[str]] = mapped_column(Text, nullable=True)  # JSON array
+    affected_count: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    estimated_annual_spend: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    suggested_sector: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
+    suggested_stage: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+    urgency_score: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    status: Mapped[str] = mapped_column(String(20), default="open")
+    created_at: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
+
+
+class GapShortlist(Base):
+    __tablename__ = "gap_shortlist"
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    gap_id: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    company_name: Mapped[str] = mapped_column(String(255))
+    website: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    fit_score: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    fit_reason: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    flags: Mapped[Optional[str]] = mapped_column(Text, nullable=True)   # JSON array
+    source_url: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    analyst_action: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
+    added_at: Mapped[Optional[str]] = mapped_column(String(30), nullable=True)
