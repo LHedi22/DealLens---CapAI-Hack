@@ -240,3 +240,25 @@ export async function huntSynergyGap(gapId) {
   if (!res.ok) throw new Error('Failed to hunt gap candidates')
   return res.json()
 }
+
+export async function shortlistAction(gapId, shortlistId, action) {
+  const res = await fetch(`${BASE}/synergy/gaps/${gapId}/shortlist/${shortlistId}/action`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action }),
+  })
+  if (!res.ok) throw new Error('Failed to perform shortlist action')
+  return res.json()
+}
+
+export async function dismissGap(gapId) {
+  const res = await fetch(`${BASE}/synergy/gaps/${gapId}/dismiss`, { method: 'POST' })
+  if (!res.ok) throw new Error('Failed to dismiss gap')
+  return res.json()
+}
+
+export async function getCompanySummary(companyName) {
+  const res = await fetch(`${BASE}/synergy/company/${encodeURIComponent(companyName)}/summary`)
+  if (!res.ok) throw new Error('Failed to fetch company synergy summary')
+  return res.json()
+}

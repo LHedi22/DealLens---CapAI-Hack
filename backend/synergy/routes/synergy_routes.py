@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 
 from backend.database import get_db
-from backend.models import SynergyProfile, SynergyPair, SynergyGap, GapShortlist
+from backend.models import DealHistory, SynergyProfile, SynergyPair, SynergyGap, GapShortlist
 from backend.synergy.engine.match_engine import run_full_pipeline, pair_to_dict, build_graph, profile_to_dict
 from backend.synergy.agents.gap_detector import detect_gaps
 from backend.synergy.agents.gap_hunter import hunt_gap
@@ -17,6 +17,10 @@ class DecisionBody(BaseModel):
     decision:    str
     reason:      str = ""
     snooze_days: int = 0
+
+
+class ShortlistActionBody(BaseModel):
+    action: str  # "add_to_pipeline" | "dismissed"
 
 router = APIRouter(prefix="/synergy")
 
@@ -185,16 +189,20 @@ def _gap_to_dict(gap: SynergyGap, shortlist: list) -> dict:
 @router.get("/gaps")
 async def get_gaps(db: AsyncSession = Depends(get_db)):
     gaps_result = await db.execute(
-        select(SynergyGap).order_by(SynergyGap.urgency_score.desc())
+        select(SynergyGap)
+        .where(SynergyGap.status != "dismissed")
+        .order_by(SynergyGap.urgency_score.desc())
     )
     gaps = gaps_result.scalars().all()
 
-    shortlists_result = await db.execute(select(GapShortlist))
-    shortlists = shortlists_result.scalars().all()
-
+    hunting_ids = {g.id for g in gaps if g.status == "hunting"}
     sl_by_gap: dict[int, list] = {}
-    for s in shortlists:
-        sl_by_gap.setdefault(s.gap_id, []).append(s)
+    if hunting_ids:
+        shortlists_result = await db.execute(
+            select(GapShortlist).where(GapShortlist.gap_id.in_(hunting_ids))
+        )
+        for s in shortlists_result.scalars().all():
+            sl_by_gap.setdefault(s.gap_id, []).append(s)
 
     return [_gap_to_dict(g, sl_by_gap.get(g.id, [])) for g in gaps]
 
@@ -208,36 +216,14 @@ async def detect_portfolio_gaps(
     if existing and existing > 0 and not force:
         return {"message": "Gaps already detected", "gaps_count": existing, "ran": False}
 
-    profiles_result = await db.execute(select(SynergyProfile))
-    profiles = [profile_to_dict(p) for p in profiles_result.scalars().all()]
-
-    if not profiles:
-        return {"message": "No profiles available", "gaps_count": 0, "ran": False}
-
-    gap_dicts = await detect_gaps(profiles)
-
     if force:
         existing_rows = await db.execute(select(SynergyGap))
         for row in existing_rows.scalars().all():
             await db.delete(row)
-        await db.flush()
+        await db.commit()
 
-    for g in gap_dicts:
-        db.add(SynergyGap(
-            gap_label=              g["gap_label"],
-            need_description=       g["need_description"],
-            affected_companies=     g["affected_companies"],
-            affected_count=         g["affected_count"],
-            estimated_annual_spend= g["estimated_annual_spend"],
-            suggested_sector=       g["suggested_sector"],
-            suggested_stage=        g["suggested_stage"],
-            urgency_score=          g["urgency_score"],
-            status=                 "open",
-        ))
-
-    await db.commit()
-    new_count = await db.scalar(select(func.count()).select_from(SynergyGap))
-    return {"message": "Gap detection complete", "gaps_count": new_count or 0, "ran": True}
+    results = await detect_gaps(db)
+    return {"message": "Gap detection complete", "gaps_count": len(results), "ran": True}
 
 
 @router.post("/gaps/{gap_id}/hunt")
@@ -247,8 +233,11 @@ async def hunt_gap_candidates(gap_id: int, db: AsyncSession = Depends(get_db)):
     if not gap:
         raise HTTPException(status_code=404, detail="Gap not found")
 
-    gap_dict = _gap_to_dict(gap, [])
+    # Mark as hunting before the external call so the UI can reflect loading state
+    gap.status = "hunting"
+    await db.commit()
 
+    gap_dict = _gap_to_dict(gap, [])
     candidates = await hunt_gap(gap_dict)
 
     # Replace existing shortlist for this gap
@@ -258,22 +247,113 @@ async def hunt_gap_candidates(gap_id: int, db: AsyncSession = Depends(get_db)):
     await db.flush()
 
     for c in candidates:
+        flags = c.get("flags", [])
         db.add(GapShortlist(
-            gap_id=       gap_id,
-            company_name= c["company_name"],
-            website=      c["website"],
-            description=  c["description"],
-            fit_score=    c["fit_score"],
-            fit_reason=   c["fit_reason"],
-            flags=        c["flags"],
-            source_url=   c["source_url"],
+            gap_id=         gap_id,
+            company_name=   c["company_name"],
+            website=        c.get("website"),
+            description=    c.get("description"),
+            fit_score=      c.get("fit_score", 50),
+            fit_reason=     c.get("fit_reason"),
+            flags=          json.dumps(flags) if isinstance(flags, list) else flags or "[]",
+            source_url=     c.get("source_url"),
             analyst_action= None,
         ))
 
-    gap.status = "shortlisted"
     await db.commit()
 
     shortlist_result = await db.execute(
         select(GapShortlist).where(GapShortlist.gap_id == gap_id)
     )
+    await db.refresh(gap)
     return _gap_to_dict(gap, shortlist_result.scalars().all())
+
+
+@router.post("/gaps/{gap_id}/shortlist/{shortlist_id}/action")
+async def shortlist_action(
+    gap_id: int,
+    shortlist_id: int,
+    body: ShortlistActionBody,
+    db: AsyncSession = Depends(get_db),
+):
+    valid_actions = {"add_to_pipeline", "dismissed"}
+    if body.action not in valid_actions:
+        raise HTTPException(status_code=422, detail=f"action must be one of {valid_actions}")
+
+    sl_result = await db.execute(
+        select(GapShortlist)
+        .where(GapShortlist.id == shortlist_id)
+        .where(GapShortlist.gap_id == gap_id)
+    )
+    item = sl_result.scalar_one_or_none()
+    if not item:
+        raise HTTPException(status_code=404, detail="Shortlist item not found")
+
+    item.analyst_action = body.action
+
+    if body.action == "add_to_pipeline":
+        existing = await db.scalar(
+            select(func.count()).select_from(DealHistory)
+            .where(DealHistory.startup_name == item.company_name)
+        )
+        if not existing:
+            db.add(DealHistory(
+                startup_name=    item.company_name,
+                sector=          "Unknown",
+                stage=           "Unknown",
+                geography=       "Unknown",
+                business_model_type= "Unknown",
+                business_score=  0,
+                esg_composite=   0,
+                data_completeness= 0,
+                confidence_level= "LOW",
+                conviction_delta= 0,
+                final_score=     0,
+                decision=        "watch",
+                decision_reason= "synergy_gap_hunt",
+                is_pipeline=     True,
+                is_seed_data=    False,
+            ))
+
+    await db.commit()
+    return {"shortlist_id": shortlist_id, "action": body.action, "company_name": item.company_name}
+
+
+@router.post("/gaps/{gap_id}/dismiss")
+async def dismiss_gap(gap_id: int, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(SynergyGap).where(SynergyGap.id == gap_id))
+    gap = result.scalar_one_or_none()
+    if not gap:
+        raise HTTPException(status_code=404, detail="Gap not found")
+    gap.status = "dismissed"
+    await db.commit()
+    return {"gap_id": gap_id, "status": "dismissed"}
+
+
+@router.get("/company/{company_name}/summary")
+async def company_summary(company_name: str, db: AsyncSession = Depends(get_db)):
+    approved_count = await db.scalar(
+        select(func.count()).select_from(SynergyPair)
+        .where(SynergyPair.analyst_decision == "approved")
+        .where(
+            (SynergyPair.company_a == company_name) | (SynergyPair.company_b == company_name)
+        )
+    )
+    pending_count = await db.scalar(
+        select(func.count()).select_from(SynergyPair)
+        .where(SynergyPair.analyst_decision.is_(None))
+        .where(
+            (SynergyPair.company_a == company_name) | (SynergyPair.company_b == company_name)
+        )
+    )
+    gap_count = await db.scalar(
+        select(func.count()).select_from(SynergyGap)
+        .where(SynergyGap.affected_companies.contains(company_name))
+        .where(SynergyGap.status != "dismissed")
+    )
+    return {
+        "company_name":  company_name,
+        "approved_count": approved_count or 0,
+        "pending_count":  pending_count or 0,
+        "gap_count":      gap_count or 0,
+    }

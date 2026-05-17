@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getPipeline } from '../lib/api'
+import { getPipeline, getCompanySummary } from '../lib/api'
 import ScorePill from '../components/shared/ScorePill'
 import VerdictBadge from '../components/shared/VerdictBadge'
 import ConfidenceBadge from '../components/shared/ConfidenceBadge'
@@ -16,7 +16,47 @@ const COLUMNS = [
   { key: 'final_score',     label: 'Score',       sortable: true  },
   { key: 'decision',        label: 'Verdict',     sortable: false },
   { key: 'confidence_level',label: 'Confidence',  sortable: false },
+  { key: 'synergy',         label: 'Synergy',     sortable: false },
 ]
+
+function SynergyChips({ summary, onClick }) {
+  if (!summary) return <span style={{ fontSize: 10, color: 'var(--tx-3)' }}>—</span>
+  const { approved_count, pending_count, gap_count } = summary
+  if (!approved_count && !pending_count && !gap_count) {
+    return <span style={{ fontSize: 10, color: 'var(--tx-3)' }}>—</span>
+  }
+  return (
+    <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }} onClick={e => { e.stopPropagation(); onClick() }}>
+      {approved_count > 0 && (
+        <span style={{
+          fontSize: 9, padding: '1px 6px', borderRadius: 4, fontWeight: 700, cursor: 'pointer',
+          background: 'rgba(34,197,94,0.1)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.25)',
+          fontFamily: 'JetBrains Mono, monospace',
+        }}>
+          ✓ {approved_count}
+        </span>
+      )}
+      {pending_count > 0 && (
+        <span style={{
+          fontSize: 9, padding: '1px 6px', borderRadius: 4, fontWeight: 700, cursor: 'pointer',
+          background: 'rgba(245,158,11,0.1)', color: '#f59e0b', border: '1px solid rgba(245,158,11,0.25)',
+          fontFamily: 'JetBrains Mono, monospace',
+        }}>
+          ~ {pending_count}
+        </span>
+      )}
+      {gap_count > 0 && (
+        <span style={{
+          fontSize: 9, padding: '1px 6px', borderRadius: 4, fontWeight: 700, cursor: 'pointer',
+          background: 'rgba(110,86,207,0.08)', color: '#6E56CF', border: '1px solid rgba(110,86,207,0.2)',
+          fontFamily: 'JetBrains Mono, monospace',
+        }}>
+          ⚡ {gap_count}
+        </span>
+      )}
+    </div>
+  )
+}
 
 const STATS = [
   { label: 'Total',   filter: () => true,                                      color: 'var(--tx-1)'    },
@@ -51,17 +91,30 @@ function SortArrow({ dir }) {
 }
 
 export default function Dashboard({ refreshKey = 0 }) {
-  const [deals, setDeals]         = useState([])
-  const [loading, setLoading]     = useState(true)
-  const [error, setError]         = useState(null)
-  const [sort, setSort]           = useState({ key: 'final_score', dir: 'desc' })
-  const [hoveredRow, setHoveredRow] = useState(null)
+  const [deals, setDeals]               = useState([])
+  const [loading, setLoading]           = useState(true)
+  const [error, setError]               = useState(null)
+  const [sort, setSort]                 = useState({ key: 'final_score', dir: 'desc' })
+  const [hoveredRow, setHoveredRow]     = useState(null)
+  const [synergySummaries, setSynergySummaries] = useState({})
   const navigate = useNavigate()
 
   useEffect(() => {
     setLoading(true)
     getPipeline()
-      .then(data => { setDeals(data); setLoading(false) })
+      .then(data => {
+        setDeals(data)
+        setLoading(false)
+        // Fetch synergy summaries in parallel — failures silently leave cell as "—"
+        Promise.allSettled(data.map(d => getCompanySummary(d.startup_name)))
+          .then(results => {
+            const map = {}
+            results.forEach((r, i) => {
+              if (r.status === 'fulfilled') map[data[i].startup_name] = r.value
+            })
+            setSynergySummaries(map)
+          })
+      })
       .catch(() => { setError('Backend not reachable — start uvicorn first.'); setLoading(false) })
   }, [refreshKey])
 
@@ -296,6 +349,12 @@ export default function Dashboard({ refreshKey = 0 }) {
                         <td style={{ padding: '14px 16px' }}><ScorePill score={deal.final_score} /></td>
                         <td style={{ padding: '14px 16px' }}><VerdictBadge decision={deal.decision} /></td>
                         <td style={{ padding: '14px 16px' }}><ConfidenceBadge level={deal.confidence_level} /></td>
+                        <td style={{ padding: '14px 16px' }}>
+                          <SynergyChips
+                            summary={synergySummaries[deal.startup_name]}
+                            onClick={() => navigate('/synergy')}
+                          />
+                        </td>
                       </tr>
                     )
                   })
