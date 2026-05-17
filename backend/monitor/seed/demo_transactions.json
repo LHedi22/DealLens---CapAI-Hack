@@ -1,0 +1,580 @@
+{
+  "NovaPay": {
+    "transactions": [
+      {
+        "statement_month": "2023-02",
+        "transaction_date": "2023-02-15",
+        "beneficiary": "Institut National de Recherche",
+        "amount_tnd": 20000.0,
+        "memo": "Contrat R&D Phase 1 - Convention universitaire",
+        "ai_category": "rd",
+        "ai_confidence": 0.95,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-05",
+        "transaction_date": "2023-05-20",
+        "beneficiary": "SFBT Equipment Leasing",
+        "amount_tnd": 72000.0,
+        "memo": "Location financière matériel informatique - 36 mois",
+        "ai_category": "equipment",
+        "ai_confidence": 0.91,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 1,
+        "alert_type": "ANOMALY"
+      },
+      {
+        "statement_month": "2023-06",
+        "transaction_date": "2023-06-15",
+        "beneficiary": "Paie Personnel NovaPay",
+        "amount_tnd": 11250.0,
+        "memo": "Virement salaires Janv-Mars 2023",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-08",
+        "transaction_date": "2023-08-10",
+        "beneficiary": "Bureau d'études InnoLab",
+        "amount_tnd": 18000.0,
+        "memo": "R&D Phase 2 - Développement prototype FinTech",
+        "ai_category": "rd",
+        "ai_confidence": 0.94,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-09",
+        "transaction_date": "2023-09-15",
+        "beneficiary": "Paie Personnel NovaPay",
+        "amount_tnd": 11250.0,
+        "memo": "Virement salaires Avr-Juin 2023",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-11",
+        "transaction_date": "2023-11-05",
+        "beneficiary": "Grossiste Fournitures IT",
+        "amount_tnd": 12000.0,
+        "memo": "Approvisionnement matières premières Q3 2023",
+        "ai_category": "working_capital",
+        "ai_confidence": 0.89,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-12",
+        "transaction_date": "2023-12-15",
+        "beneficiary": "Paie Personnel NovaPay",
+        "amount_tnd": 11250.0,
+        "memo": "Virement salaires Jul-Sep 2023",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-02",
+        "transaction_date": "2024-02-12",
+        "beneficiary": "Université de Tunis El Manar",
+        "amount_tnd": 22000.0,
+        "memo": "Convention R&D appliquée Phase 3 - algorithmes paiement",
+        "ai_category": "rd",
+        "ai_confidence": 0.96,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-03",
+        "transaction_date": "2024-03-15",
+        "beneficiary": "Paie Personnel NovaPay",
+        "amount_tnd": 11250.0,
+        "memo": "Virement salaires Oct-Déc 2023",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-06",
+        "transaction_date": "2024-06-20",
+        "beneficiary": "InnoTech Research Centre",
+        "amount_tnd": 30000.0,
+        "memo": "Développement algorithmes FinTech - module paiement mobile",
+        "ai_category": "rd",
+        "ai_confidence": 0.93,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-09",
+        "transaction_date": "2024-09-10",
+        "beneficiary": "Grossiste Supplies Pro",
+        "amount_tnd": 12000.0,
+        "memo": "Approvisionnement fournisseurs Q2 2024",
+        "ai_category": "working_capital",
+        "ai_confidence": 0.88,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      }
+    ],
+    "snapshot": {
+      "snapshot_month": "2025-05",
+      "months_elapsed": 28,
+      "category_totals": {
+        "rd":             { "planned_tnd": 200000, "spent_tnd": 90000, "planned_to_date_tnd": 93333, "variance_pct": -3.56, "status": "ON_TRACK" },
+        "equipment":      { "planned_tnd": 150000, "spent_tnd": 72000, "planned_to_date_tnd": 70000, "variance_pct":  2.86, "status": "ON_TRACK" },
+        "salaries":       { "planned_tnd": 100000, "spent_tnd": 45000, "planned_to_date_tnd": 46667, "variance_pct": -3.57, "status": "ON_TRACK" },
+        "working_capital":{ "planned_tnd":  50000, "spent_tnd": 24000, "planned_to_date_tnd": 23333, "variance_pct":  2.86, "status": "ON_TRACK" }
+      },
+      "total_spent_tnd": 231000.0,
+      "total_planned_to_date_tnd": 233333.0,
+      "unclassified_tnd": 0.0,
+      "compliance_health_score": 87,
+      "alert_count_active": 0,
+      "alert_count_total": 1
+    },
+    "alerts": [
+      {
+        "alert_type": "ANOMALY",
+        "severity": "WARNING",
+        "alert_summary": "Large equipment purchase of 72,000 TND from SFBT Equipment Leasing initially flagged as anomaly.",
+        "alert_detail": "The payment exceeded the 50,000 TND ROUND_LARGE threshold and was made to a previously unseen beneficiary. Invoice SFBT-2023-0612 was reviewed and confirmed as a standard 36-month leasing contract for servers. No compliance risk.",
+        "fired_at": "2023-05-21T09:15:00",
+        "resolved": 1,
+        "resolved_at": "2023-05-23T14:30:00",
+        "resolved_by_note": "Invoice SFBT-2023-0612 confirmed — standard 36-month leasing contract. Classified as equipment leasing. No compliance issue."
+      }
+    ]
+  },
+
+  "EduFlow": {
+    "transactions": [
+      {
+        "statement_month": "2023-07",
+        "transaction_date": "2023-07-10",
+        "beneficiary": "Bureau d'études Pédagogiques",
+        "amount_tnd": 14000.0,
+        "memo": "Conception curriculum numérique Phase 1 - modules e-learning",
+        "ai_category": "rd",
+        "ai_confidence": 0.94,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-09",
+        "transaction_date": "2023-09-15",
+        "beneficiary": "Paie Personnel EduFlow",
+        "amount_tnd": 3800.0,
+        "memo": "Virement salaires Jul-Août 2023",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-10",
+        "transaction_date": "2023-10-20",
+        "beneficiary": "Dell Technologies MENA",
+        "amount_tnd": 15000.0,
+        "memo": "Achat tablettes éducatives Lot 1 - 50 unités",
+        "ai_category": "equipment",
+        "ai_confidence": 0.92,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-12",
+        "transaction_date": "2023-12-05",
+        "beneficiary": "Centre Formation Sfax",
+        "amount_tnd": 8000.0,
+        "memo": "Programme formation enseignants Q4 2023",
+        "ai_category": "training",
+        "ai_confidence": 0.90,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-12",
+        "transaction_date": "2023-12-15",
+        "beneficiary": "Paie Personnel EduFlow",
+        "amount_tnd": 3800.0,
+        "memo": "Virement salaires Sep-Nov 2023",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-02",
+        "transaction_date": "2024-02-18",
+        "beneficiary": "Université Virtuelle de Tunis",
+        "amount_tnd": 13000.0,
+        "memo": "Développement modules e-learning Sprint 1",
+        "ai_category": "rd",
+        "ai_confidence": 0.93,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-03",
+        "transaction_date": "2024-03-15",
+        "beneficiary": "Paie Personnel EduFlow",
+        "amount_tnd": 3800.0,
+        "memo": "Virement salaires Déc 2023-Fév 2024",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-04",
+        "transaction_date": "2024-04-12",
+        "beneficiary": "HP Morocco IT Solutions",
+        "amount_tnd": 14200.0,
+        "memo": "Achat ordinateurs portables Lot 2 - 20 unités",
+        "ai_category": "equipment",
+        "ai_confidence": 0.91,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-05",
+        "transaction_date": "2024-05-08",
+        "beneficiary": "Formation Agile Consulting",
+        "amount_tnd": 6000.0,
+        "memo": "Séminaire renforcement capacités équipe pédagogique",
+        "ai_category": "training",
+        "ai_confidence": 0.88,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-06",
+        "transaction_date": "2024-06-10",
+        "beneficiary": "InnoTech MENA Solutions",
+        "amount_tnd": 12000.0,
+        "memo": "Développement plateforme LMS Sprint 3",
+        "ai_category": "rd",
+        "ai_confidence": 0.91,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-07",
+        "transaction_date": "2024-07-15",
+        "beneficiary": "Paie Personnel EduFlow",
+        "amount_tnd": 3800.0,
+        "memo": "Virement salaires Mar-Jun 2024",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-09",
+        "transaction_date": "2024-09-20",
+        "beneficiary": "ConseilPro RH Services",
+        "amount_tnd": 2800.0,
+        "memo": "Conseil recrutement développeur senior",
+        "ai_category": null,
+        "ai_confidence": 0.71,
+        "classification_status": "UNCLASSIFIED",
+        "alert_triggered": 1,
+        "alert_type": "UNCLASSIFIED"
+      }
+    ],
+    "snapshot": {
+      "snapshot_month": "2025-04",
+      "months_elapsed": 22,
+      "category_totals": {
+        "rd":       { "planned_tnd": 150000, "spent_tnd": 39000, "planned_to_date_tnd": 55000, "variance_pct": -29.09, "status": "WARNING"  },
+        "equipment":{ "planned_tnd":  80000, "spent_tnd": 29200, "planned_to_date_tnd": 29333, "variance_pct":  -0.45, "status": "ON_TRACK" },
+        "training": { "planned_tnd":  40000, "spent_tnd": 14000, "planned_to_date_tnd": 14667, "variance_pct":  -4.55, "status": "ON_TRACK" },
+        "salaries": { "planned_tnd":  30000, "spent_tnd": 15200, "planned_to_date_tnd": 11000, "variance_pct":  38.18, "status": "CRITICAL" }
+      },
+      "total_spent_tnd": 100000.0,
+      "total_planned_to_date_tnd": 110000.0,
+      "unclassified_tnd": 2800.0,
+      "compliance_health_score": 61,
+      "alert_count_active": 3,
+      "alert_count_total": 3
+    },
+    "alerts": [
+      {
+        "alert_type": "ANOMALY",
+        "severity": "CRITICAL",
+        "alert_summary": "Salary spending is 38% above plan at month 22 — allocation may be exhausted by month 43.",
+        "alert_detail": "Salary expenditures of 15,200 TND against an expected 11,000 TND represent a 38% overspend. At the current burn rate, the 30,000 TND salary allocation will be fully consumed by month 43, leaving 17 months of operations underfunded. Review headcount structure and renegotiate compensation timelines with the startup before the next statement cycle.",
+        "fired_at": "2025-04-15T10:00:00",
+        "resolved": 0
+      },
+      {
+        "alert_type": "ANOMALY",
+        "severity": "WARNING",
+        "alert_summary": "R&D spending is 29% below the expected pace — only 39,000 of 55,000 TND planned has been spent.",
+        "alert_detail": "Under-utilisation of R&D funds at month 22 may be viewed as non-fulfillment of the SICAR agreement at the year-5 government audit. Accelerate R&D project activities and ensure university partnerships and development sprints are on schedule to close the gap before year-end review.",
+        "fired_at": "2025-04-15T10:00:00",
+        "resolved": 0
+      },
+      {
+        "alert_type": "UNCLASSIFIED",
+        "severity": "WARNING",
+        "alert_summary": "1 transaction of 2,800 TND could not be automatically classified — confidence 71%.",
+        "alert_detail": "Payment to ConseilPro RH Services does not clearly match any agreed spending category. This may be a recruitment cost (salaries) or a consultancy fee (rd/other). Please review and manually reclassify this transaction to include it in compliance calculations.",
+        "fired_at": "2024-09-21T08:30:00",
+        "resolved": 0
+      }
+    ]
+  },
+
+  "BuildSmart": {
+    "transactions": [
+      {
+        "statement_month": "2022-12",
+        "transaction_date": "2022-12-15",
+        "beneficiary": "Chaabane Construction SARL",
+        "amount_tnd": 50000.0,
+        "memo": "Mobilisation chantier et fondations Phase 1",
+        "ai_category": "construction",
+        "ai_confidence": 0.96,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-02",
+        "transaction_date": "2023-02-10",
+        "beneficiary": "BTP Travaux Nord",
+        "amount_tnd": 75000.0,
+        "memo": "Gros oeuvre - structure béton Phase 1",
+        "ai_category": "construction",
+        "ai_confidence": 0.95,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-03",
+        "transaction_date": "2023-03-15",
+        "beneficiary": "Leasing Machines Maghreb",
+        "amount_tnd": 35000.0,
+        "memo": "Location matériel chantier - grues et pelleteuses",
+        "ai_category": "equipment",
+        "ai_confidence": 0.93,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-05",
+        "transaction_date": "2023-05-20",
+        "beneficiary": "Chaabane Construction SARL",
+        "amount_tnd": 85000.0,
+        "memo": "Charpente métallique et toiture Phase 2",
+        "ai_category": "construction",
+        "ai_confidence": 0.95,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-07",
+        "transaction_date": "2023-07-10",
+        "beneficiary": "Bureau Technique BT-Sols",
+        "amount_tnd": 12000.0,
+        "memo": "Études géotechniques et maquettes numériques",
+        "ai_category": "rd",
+        "ai_confidence": 0.91,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-09",
+        "transaction_date": "2023-09-15",
+        "beneficiary": "Chaabane Construction SARL",
+        "amount_tnd": 80000.0,
+        "memo": "Second oeuvre - cloisons et réseaux Phase 2",
+        "ai_category": "construction",
+        "ai_confidence": 0.94,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-10",
+        "transaction_date": "2023-10-15",
+        "beneficiary": "Paie Personnel BuildSmart",
+        "amount_tnd": 6000.0,
+        "memo": "Virement salaires Jan-Sep 2023",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-11",
+        "transaction_date": "2023-11-10",
+        "beneficiary": "Atlas Équipements Industriels",
+        "amount_tnd": 28000.0,
+        "memo": "Outillage de précision et matériel de mesure Lot 1",
+        "ai_category": "equipment",
+        "ai_confidence": 0.90,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-01",
+        "transaction_date": "2024-01-10",
+        "beneficiary": "BTP Finitions Pro",
+        "amount_tnd": 75000.0,
+        "memo": "Second oeuvre finitions Lot 1 - revêtements intérieurs",
+        "ai_category": "construction",
+        "ai_confidence": 0.94,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-02",
+        "transaction_date": "2024-02-15",
+        "beneficiary": "InnoMatériaux Lab",
+        "amount_tnd": 10000.0,
+        "memo": "Prototype matériaux composites légers - Phase 2",
+        "ai_category": "rd",
+        "ai_confidence": 0.89,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-04",
+        "transaction_date": "2024-04-05",
+        "beneficiary": "TechMesure SARL",
+        "amount_tnd": 22000.0,
+        "memo": "Matériel de mesure et contrôle qualité Lot 2",
+        "ai_category": "equipment",
+        "ai_confidence": 0.91,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-05",
+        "transaction_date": "2024-05-15",
+        "beneficiary": "Paie Personnel BuildSmart",
+        "amount_tnd": 6000.0,
+        "memo": "Virement salaires Oct 2023-Avr 2024",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-06",
+        "transaction_date": "2024-06-20",
+        "beneficiary": "Chaabane Construction SARL",
+        "amount_tnd": 60000.0,
+        "memo": "Finitions Lot 2 et aménagements extérieurs",
+        "ai_category": "construction",
+        "ai_confidence": 0.95,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-08",
+        "transaction_date": "2024-08-20",
+        "beneficiary": "MiniTech Fournitures",
+        "amount_tnd": 10000.0,
+        "memo": "Petits équipements atelier et sécurité",
+        "ai_category": "equipment",
+        "ai_confidence": 0.88,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-10",
+        "transaction_date": "2024-10-15",
+        "beneficiary": "Paie Personnel BuildSmart",
+        "amount_tnd": 6000.0,
+        "memo": "Virement salaires Mai-Sep 2024",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-11",
+        "transaction_date": "2024-11-01",
+        "beneficiary": "Paie Personnel BuildSmart",
+        "amount_tnd": 5000.0,
+        "memo": "Virement salaires Oct 2024",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-12",
+        "transaction_date": "2024-12-10",
+        "beneficiary": "Agence Com Pro",
+        "amount_tnd": 8500.0,
+        "memo": "Campagne communication et marketing digital",
+        "ai_category": "marketing",
+        "ai_confidence": 0.85,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 1,
+        "alert_type": "OFF_PLAN"
+      }
+    ],
+    "snapshot": {
+      "snapshot_month": "2025-05",
+      "months_elapsed": 30,
+      "category_totals": {
+        "construction":{ "planned_tnd": 400000, "spent_tnd": 425000, "planned_to_date_tnd": 200000, "variance_pct": 112.5,  "status": "OVER_BUDGET" },
+        "equipment":   { "planned_tnd": 200000, "spent_tnd":  95000, "planned_to_date_tnd": 100000, "variance_pct":  -5.0,  "status": "ON_TRACK"   },
+        "rd":          { "planned_tnd": 100000, "spent_tnd":  22000, "planned_to_date_tnd":  50000, "variance_pct": -56.0,  "status": "CRITICAL"   },
+        "salaries":    { "planned_tnd":  50000, "spent_tnd":  23000, "planned_to_date_tnd":  25000, "variance_pct":  -8.0,  "status": "ON_TRACK"   },
+        "marketing":   { "planned_tnd":      0, "spent_tnd":   8500, "planned_to_date_tnd":      0, "variance_pct": null,   "status": "OFF_PLAN"   }
+      },
+      "total_spent_tnd": 573500.0,
+      "total_planned_to_date_tnd": 375000.0,
+      "unclassified_tnd": 0.0,
+      "compliance_health_score": 34,
+      "alert_count_active": 4,
+      "alert_count_total": 4
+    },
+    "alerts": [
+      {
+        "alert_type": "OVER_BUDGET",
+        "severity": "CRITICAL",
+        "alert_summary": "Construction spending of 425,000 TND has exceeded the SICAR-agreed allocation of 400,000 TND by 6.25%.",
+        "alert_detail": "An over-budget violation on the construction category constitutes a direct breach of the signed investment agreement. Further construction payments should be frozen until written approval is obtained from the fund management and government supervisory bodies. Include a remediation plan in the next quarterly compliance report.",
+        "fired_at": "2025-01-11T09:00:00",
+        "resolved": 0
+      },
+      {
+        "alert_type": "OFF_PLAN",
+        "severity": "CRITICAL",
+        "alert_summary": "Payment of 8,500 TND to Agence Com Pro under 'marketing' has no allocation in the signed SICAR agreement.",
+        "alert_detail": "Off-plan expenditure is a potential SICAR compliance violation. Marketing was not included as a spending category in the investment agreement. Request a formal invoice and written justification from BuildSmart and escalate to legal counsel for assessment before the next statement upload.",
+        "fired_at": "2024-12-11T10:30:00",
+        "resolved": 0
+      },
+      {
+        "alert_type": "ANOMALY",
+        "severity": "WARNING",
+        "alert_summary": "R&D spending is 56% below the expected pace with 30 months remaining — non-fulfillment risk at audit.",
+        "alert_detail": "Only 22,000 TND of a 100,000 TND R&D allocation has been spent by month 30. This severe under-utilisation could be interpreted by government auditors as non-fulfillment of the investment plan. Engage the startup to present an updated R&D project timeline within 30 days and ensure planned activities are scheduled before month 48.",
+        "fired_at": "2025-05-01T08:00:00",
+        "resolved": 0
+      },
+      {
+        "alert_type": "NO_STATEMENT",
+        "severity": "WARNING",
+        "alert_summary": "No bank statement has been uploaded for May 2025 — a compliance monitoring gap has opened.",
+        "alert_detail": "Monthly bank statements are required within 10 days of month-end for SICAR compliance monitoring. The absence of the May 2025 statement prevents accurate compliance assessment for month 30 of the agreement. Contact BuildSmart to upload the statement immediately to avoid a lapse note in the annual fund report.",
+        "fired_at": "2025-05-11T07:00:00",
+        "resolved": 0
+      }
+    ]
+  }
+}

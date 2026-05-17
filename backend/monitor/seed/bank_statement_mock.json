@@ -1,0 +1,32 @@
+{
+  "startup_name": "NovaPay",
+  "statement_month": "2025-03",
+  "transactions": [
+    { "transaction_date": "2025-03-02", "beneficiary": "Université Tunis El Manar", "amount_tnd": 45000.0, "memo": "Convention de recherche Projet IA Phase 2" },
+    { "transaction_date": "2025-03-05", "beneficiary": "BIAT — Virement Salaires Mars", "amount_tnd": 28500.0, "memo": "Virement salaires personnel 03/2025" },
+    { "transaction_date": "2025-03-07", "beneficiary": "Tunisie Leasing SA", "amount_tnd": 12000.0, "memo": "Loyer financier serveurs Dell PowerEdge" },
+    { "transaction_date": "2025-03-10", "beneficiary": "CNSS", "amount_tnd": 4200.0, "memo": "Cotisations sociales T1 2025" },
+    { "transaction_date": "2025-03-12", "beneficiary": "Bureau d'études InfoSoft", "amount_tnd": 18000.0, "memo": "Étude faisabilité module paiement mobile" },
+    { "transaction_date": "2025-03-14", "beneficiary": "Divers Fournisseurs STB", "amount_tnd": 9800.0, "memo": "Achat marchandise et approvisionnement Q1" },
+    { "transaction_date": "2025-03-16", "beneficiary": "Matières Premières Agro SARL", "amount_tnd": 6300.0, "memo": "Crédit fournisseur matières premières stock" },
+    { "transaction_date": "2025-03-18", "beneficiary": "Delta Systems Informatique", "amount_tnd": 38000.0, "memo": "Acquisition serveurs NAS + switches réseau" },
+    { "transaction_date": "2025-03-20", "beneficiary": "IRPP — Direction Générale Impôts", "amount_tnd": 5750.0, "memo": "Retenue source salaires T1 2025" },
+    { "transaction_date": "2025-03-22", "beneficiary": "LabInno Tunis", "amount_tnd": 15000.0, "memo": "Prototype développement v2 — sprint 4" },
+    { "transaction_date": "2025-03-25", "beneficiary": "Al Baraka Consulting SARL", "amount_tnd": 22000.0, "memo": "Ref: OP-2025-0312" },
+    { "transaction_date": "2025-03-28", "beneficiary": "CompuSys Équipements", "amount_tnd": 8500.0, "memo": "Achat matériel bureau + mobilier informatique" }
+  ],
+  "review_transactions": [
+    { "transaction_date": "2025-03-02", "beneficiary": "Université Tunis El Manar",       "amount_tnd": 45000.0, "memo": "Convention de recherche Projet IA Phase 2",          "ai_category": "rd",             "ai_confidence": 0.93, "classification_status": "AUTO_CLASSIFIED" },
+    { "transaction_date": "2025-03-05", "beneficiary": "BIAT — Virement Salaires Mars",   "amount_tnd": 28500.0, "memo": "Virement salaires personnel 03/2025",               "ai_category": "salaries",       "ai_confidence": 0.97, "classification_status": "AUTO_CLASSIFIED" },
+    { "transaction_date": "2025-03-07", "beneficiary": "Tunisie Leasing SA",               "amount_tnd": 12000.0, "memo": "Loyer financier serveurs Dell PowerEdge",           "ai_category": "equipment",      "ai_confidence": 0.91, "classification_status": "AUTO_CLASSIFIED" },
+    { "transaction_date": "2025-03-10", "beneficiary": "CNSS",                             "amount_tnd":  4200.0, "memo": "Cotisations sociales T1 2025",                      "ai_category": "salaries",       "ai_confidence": 0.82, "classification_status": "AUTO_CLASSIFIED" },
+    { "transaction_date": "2025-03-12", "beneficiary": "Bureau d'études InfoSoft",         "amount_tnd": 18000.0, "memo": "Étude faisabilité module paiement mobile",           "ai_category": "rd",             "ai_confidence": 0.85, "classification_status": "AUTO_CLASSIFIED" },
+    { "transaction_date": "2025-03-14", "beneficiary": "Divers Fournisseurs STB",          "amount_tnd":  9800.0, "memo": "Achat marchandise et approvisionnement Q1",          "ai_category": "working_capital","ai_confidence": 0.94, "classification_status": "AUTO_CLASSIFIED" },
+    { "transaction_date": "2025-03-16", "beneficiary": "Matières Premières Agro SARL",    "amount_tnd":  6300.0, "memo": "Crédit fournisseur matières premières stock",         "ai_category": "working_capital","ai_confidence": 0.96, "classification_status": "AUTO_CLASSIFIED" },
+    { "transaction_date": "2025-03-18", "beneficiary": "Delta Systems Informatique",       "amount_tnd": 38000.0, "memo": "Acquisition serveurs NAS + switches réseau",          "ai_category": "equipment",      "ai_confidence": 0.93, "classification_status": "AUTO_CLASSIFIED" },
+    { "transaction_date": "2025-03-20", "beneficiary": "IRPP — Direction Générale Impôts","amount_tnd":  5750.0, "memo": "Retenue source salaires T1 2025",                    "ai_category": "salaries",       "ai_confidence": 0.95, "classification_status": "AUTO_CLASSIFIED" },
+    { "transaction_date": "2025-03-22", "beneficiary": "LabInno Tunis",                    "amount_tnd": 15000.0, "memo": "Prototype développement v2 — sprint 4",              "ai_category": "rd",             "ai_confidence": 0.90, "classification_status": "AUTO_CLASSIFIED" },
+    { "transaction_date": "2025-03-25", "beneficiary": "Al Baraka Consulting SARL",        "amount_tnd": 22000.0, "memo": "Ref: OP-2025-0312",                                  "ai_category": null,             "ai_confidence": 0.61, "classification_status": "UNCLASSIFIED" },
+    { "transaction_date": "2025-03-28", "beneficiary": "CompuSys Équipements",             "amount_tnd":  8500.0, "memo": "Achat matériel bureau + mobilier informatique",      "ai_category": "equipment",      "ai_confidence": 0.96, "classification_status": "AUTO_CLASSIFIED" }
+  ]
+}

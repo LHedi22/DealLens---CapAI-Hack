@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Knowledge Graph</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  background:#06060f;
+  color:#e0e0ff;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  overflow:hidden;
+  height:100vh;width:100vw;
+}
+
+svg{display:block;width:100vw;height:100vh;cursor:grab}
+svg:active{cursor:grabbing}
+
+/* ── Toolbar ─────────────────────────────────────────── */
+#toolbar{
+  position:fixed;top:16px;left:50%;
+  transform:translateX(-50%);
+  display:flex;gap:8px;align-items:center;z-index:100;
+}
+#search{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  color:#e0e0ff;font-size:13px;
+  padding:9px 20px;outline:none;width:260px;
+  backdrop-filter:blur(10px);
+  transition:border-color .2s,background .2s;
+}
+#search::placeholder{color:rgba(224,224,255,.3)}
+#search:focus{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.09)}
+
+.btn{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:999px;
+  color:rgba(224,224,255,.8);font-size:13px;
+  padding:9px 18px;cursor:pointer;
+  backdrop-filter:blur(10px);
+  transition:background .2s,border-color .2s,color .2s;
+  white-space:nowrap;
+}
+.btn:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.3);color:#fff}
+
+/* ── Title ───────────────────────────────────────────── */
+#title{
+  position:fixed;top:20px;left:20px;
+  font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(224,224,255,.35);user-select:none;z-index:100;
+}
+
+/* ── Legend ──────────────────────────────────────────── */
+#legend{
+  position:fixed;bottom:20px;left:20px;
+  background:rgba(6,6,18,.88);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;padding:14px 18px;
+  backdrop-filter:blur(14px);z-index:100;
+}
+#legend h4{
+  font-size:10px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(224,224,255,.3);margin-bottom:12px;
+}
+.li{display:flex;align-items:center;gap:10px;margin-bottom:8px;
+  font-size:12px;color:rgba(224,224,255,.75)}
+.li:last-child{margin-bottom:0}
+.ld{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* ── Stats ───────────────────────────────────────────── */
+#stats{
+  position:fixed;bottom:20px;right:20px;
+  font-size:11px;color:rgba(224,224,255,.2);z-index:100;user-select:none;
+}
+
+/* ── Sidebar ─────────────────────────────────────────── */
+#sidebar{
+  position:fixed;top:0;right:0;bottom:0;width:290px;
+  background:rgba(6,6,18,.95);
+  border-left:1px solid rgba(255,255,255,.07);
+  backdrop-filter:blur(16px);
+  transform:translateX(100%);
+  transition:transform .28s cubic-bezier(.4,0,.2,1);
+  z-index:200;display:flex;flex-direction:column;
+}
+#sidebar.open{transform:translateX(0)}
+
+#sb-head{padding:20px 20px 0;position:relative;flex-shrink:0}
+#sb-close{
+  position:absolute;top:14px;right:14px;
+  background:rgba(255,255,255,.06);border:none;
+  color:rgba(224,224,255,.45);font-size:18px;
+  width:30px;height:30px;border-radius:50%;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .2s,color .2s;
+}
+#sb-close:hover{background:rgba(255,255,255,.14);color:#fff}
+#sb-type{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
+#sb-name{font-size:20px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:16px}
+#sb-hr{height:1px;background:rgba(255,255,255,.07);margin-bottom:16px}
+#sb-body{padding:0 20px 20px;overflow-y:auto;flex:1}
+
+.sb-sec{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(224,224,255,.28);margin-bottom:12px}
+.ci{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.ci:last-child{border-bottom:none}
+.ci-rel{font-size:10px;color:rgba(224,224,255,.3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+.ci-name{font-size:14px;color:rgba(224,224,255,.9);font-weight:500}
+
+/* ── SVG graph elements ──────────────────────────────── */
+.glink{stroke:rgba(160,160,255,.1);stroke-width:1.5;transition:stroke .15s,stroke-opacity .15s,stroke-width .15s}
+.glink.hl{stroke:rgba(255,255,255,.65);stroke-width:2.5}
+.glink.dm{stroke-opacity:.03}
+
+.glbl{
+  fill:rgba(160,160,255,.28);font-size:10px;
+  font-family:'Segoe UI',system-ui,sans-serif;
+  text-anchor:middle;dominant-baseline:middle;
+  pointer-events:none;
+  transition:fill-opacity .15s;
+}
+.glbl.hl{fill:rgba(255,255,255,.88);font-size:11px}
+.glbl.dm{fill-opacity:.04}
+
+.gnd{cursor:pointer}
+
+.ghalo{transition:opacity .2s,r .2s}
+.ghalo.normal{opacity:.16}
+.ghalo.lit  {opacity:.52}
+.ghalo.dark {opacity:.03}
+
+.gbody{stroke:rgba(255,255,255,.18);stroke-width:1.5;transition:opacity .2s}
+.gbody.dark{opacity:.06}
+
+.glabel{
+  fill:rgba(255,255,255,.87);font-size:11px;
+  font-family:'Segoe UI',system-ui,sans-serif;font-weight:500;
+  text-anchor:middle;pointer-events:none;
+  transition:opacity .2s;
+}
+.glabel.dark{opacity:.06}
+</style>
+</head>
+<body>
+
+<div id="title">AI · Knowledge Graph</div>
+
+<div id="toolbar">
+  <input id="search" type="text" placeholder="Search nodes…" autocomplete="off">
+  <button class="btn" id="reset-btn">↺ Reset Layout</button>
+</div>
+
+<svg id="g"></svg>
+
+<div id="legend">
+  <h4>Node Types</h4>
+  <div class="li"><div class="ld" style="background:#ff6b9d;box-shadow:0 0 7px #ff6b9d90"></div>Person</div>
+  <div class="li"><div class="ld" style="background:#6b9dff;box-shadow:0 0 7px #6b9dff90"></div>Concept</div>
+  <div class="li"><div class="ld" style="background:#4dffa6;box-shadow:0 0 7px #4dffa690"></div>Place</div>
+  <div class="li"><div class="ld" style="background:#ffb86b;box-shadow:0 0 7px #ffb86b90"></div>Event</div>
+  <div class="li"><div class="ld" style="background:#c46bff;box-shadow:0 0 7px #c46bff90"></div>Technology</div>
+</div>
+
+<div id="stats"></div>
+
+<div id="sidebar">
+  <div id="sb-head">
+    <button id="sb-close">×</button>
+    <div id="sb-type"></div>
+    <div id="sb-name"></div>
+    <div id="sb-hr"></div>
+  </div>
+  <div id="sb-body"></div>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+// ── Palette ───────────────────────────────────────────────────────────────────
+const COL = {
+  Person:     '#ff6b9d',
+  Concept:    '#6b9dff',
+  Place:      '#4dffa6',
+  Event:      '#ffb86b',
+  Technology: '#c46bff',
+}
+
+// ── Graph data ────────────────────────────────────────────────────────────────
+const nodes = [
+  { id:'hinton',      label:'Geoffrey Hinton',   type:'Person' },
+  { id:'lecun',       label:'Yann LeCun',         type:'Person' },
+  { id:'bengio',      label:'Yoshua Bengio',      type:'Person' },
+  { id:'ng',          label:'Andrew Ng',          type:'Person' },
+  { id:'ml',          label:'Machine Learning',   type:'Concept' },
+  { id:'dl',          label:'Deep Learning',      type:'Concept' },
+  { id:'nn',          label:'Neural Network',     type:'Concept' },
+  { id:'bp',          label:'Backpropagation',    type:'Concept' },
+  { id:'nlp',         label:'NLP',                type:'Concept' },
+  { id:'cv',          label:'Computer Vision',    type:'Concept' },
+  { id:'toronto',     label:'U of Toronto',       type:'Place' },
+  { id:'stanford',    label:'Stanford',           type:'Place' },
+  { id:'gbrain',      label:'Google Brain',       type:'Place' },
+  { id:'imagenet',    label:'ImageNet',           type:'Event' },
+  { id:'alexnet',     label:'AlexNet (2012)',     type:'Event' },
+  { id:'turing18',    label:"Turing Award '18",   type:'Event' },
+  { id:'tf',          label:'TensorFlow',         type:'Technology' },
+  { id:'pytorch',     label:'PyTorch',            type:'Technology' },
+  { id:'gpt',         label:'GPT',                type:'Technology' },
+  { id:'transformer', label:'Transformer',        type:'Technology' },
+]
+
+const links = [
+  { source:'hinton',      target:'dl',          label:'pioneered' },
+  { source:'hinton',      target:'gbrain',       label:'works at' },
+  { source:'hinton',      target:'toronto',      label:'taught at' },
+  { source:'hinton',      target:'turing18',     label:'won' },
+  { source:'hinton',      target:'bp',           label:'developed' },
+  { source:'hinton',      target:'lecun',        label:'mentored' },
+  { source:'lecun',       target:'cv',           label:'pioneered' },
+  { source:'lecun',       target:'turing18',     label:'won' },
+  { source:'lecun',       target:'nn',           label:'advanced' },
+  { source:'bengio',      target:'nlp',          label:'advanced' },
+  { source:'bengio',      target:'turing18',     label:'won' },
+  { source:'ng',          target:'gbrain',       label:'co-founded' },
+  { source:'ng',          target:'stanford',     label:'teaches at' },
+  { source:'ng',          target:'ml',           label:'teaches' },
+  { source:'dl',          target:'ml',           label:'subset of' },
+  { source:'nn',          target:'dl',           label:'basis of' },
+  { source:'bp',          target:'nn',           label:'trains' },
+  { source:'cv',          target:'dl',           label:'uses' },
+  { source:'nlp',         target:'dl',           label:'uses' },
+  { source:'imagenet',    target:'cv',           label:'benchmarks' },
+  { source:'imagenet',    target:'dl',           label:'advanced' },
+  { source:'alexnet',     target:'imagenet',     label:'won' },
+  { source:'alexnet',     target:'nn',           label:'used' },
+  { source:'alexnet',     target:'hinton',       label:'created by' },
+  { source:'tf',          target:'gbrain',       label:'built by' },
+  { source:'tf',          target:'ml',           label:'implements' },
+  { source:'pytorch',     target:'dl',           label:'enables' },
+  { source:'gpt',         target:'transformer',  label:'uses' },
+  { source:'transformer', target:'nlp',          label:'transformed' },
+  { source:'transformer', target:'nn',           label:'is a' },
+]
+
+// ── SVG scaffold ──────────────────────────────────────────────────────────────
+const W = window.innerWidth
+const H = window.innerHeight
+const svg = d3.select('#g')
+
+// Defs — glow filter
+const defs = svg.append('defs')
+const filt = defs.append('filter')
+  .attr('id','glow')
+  .attr('x','-80%').attr('y','-80%')
+  .attr('width','260%').attr('height','260%')
+filt.append('feGaussianBlur').attr('in','SourceGraphic').attr('stdDeviation','8').attr('result','b')
+const fm = filt.append('feMerge')
+fm.append('feMergeNode').attr('in','b')
+fm.append('feMergeNode').attr('in','SourceGraphic')
+
+// Dot-grid pattern (pans with the graph)
+const pat = defs.append('pattern')
+  .attr('id','dots').attr('x',0).attr('y',0)
+  .attr('width',32).attr('height',32)
+  .attr('patternUnits','userSpaceOnUse')
+pat.append('circle').attr('cx',1).attr('cy',1).attr('r',0.9)
+  .attr('fill','rgba(255,255,255,.045)')
+
+// Zoom group
+const root = svg.append('g')
+
+// Background grid (inside zoom group so it pans)
+root.append('rect')
+  .attr('x',-W*3).attr('y',-H*3)
+  .attr('width',W*7).attr('height',H*7)
+  .attr('fill','url(#dots)')
+  .attr('pointer-events','none')
+
+// Zoom / pan
+const zoom = d3.zoom()
+  .scaleExtent([0.1, 6])
+  .on('zoom', ev => {
+    root.attr('transform', ev.transform)
+    // hide edge labels when very zoomed out
+    lblSel.style('display', ev.transform.k < 0.5 ? 'none' : null)
+  })
+svg.call(zoom)
+  .on('dblclick.zoom', null) // disable double-click zoom (keep it for click-to-close)
+
+// Layers
+const linkLayer = root.append('g')
+const lblLayer  = root.append('g')
+const ndLayer   = root.append('g')
+
+// ── Force simulation ──────────────────────────────────────────────────────────
+const sim = d3.forceSimulation(nodes)
+  .force('link',    d3.forceLink(links).id(d => d.id).distance(145).strength(0.38))
+  .force('charge',  d3.forceManyBody().strength(-580))
+  .force('center',  d3.forceCenter(W / 2, H / 2))
+  .force('collide', d3.forceCollide(50))
+
+// ── Draw links ────────────────────────────────────────────────────────────────
+const lnkSel = linkLayer.selectAll('line')
+  .data(links)
+  .join('line')
+  .attr('class', 'glink')
+
+// ── Edge labels ───────────────────────────────────────────────────────────────
+const lblSel = lblLayer.selectAll('text')
+  .data(links)
+  .join('text')
+  .attr('class', 'glbl')
+  .text(d => d.label)
+
+// ── Draw nodes ────────────────────────────────────────────────────────────────
+const ndSel = ndLayer.selectAll('g')
+  .data(nodes, d => d.id)
+  .join('g')
+  .attr('class', 'gnd')
+
+// Halo ring (glow)
+ndSel.append('circle')
+  .attr('class', 'ghalo normal')
+  .attr('r', 28)
+  .attr('fill', d => COL[d.type])
+  .attr('filter', 'url(#glow)')
+
+// Main body — spring in from r=0
+ndSel.append('circle')
+  .attr('class', 'gbody')
+  .attr('r', 0)
+  .attr('fill', d => COL[d.type])
+  .transition()
+  .delay((_, i) => i * 45)
+  .duration(750)
+  .ease(d3.easeElastic.amplitude(1).period(0.5))
+  .attr('r', 15)
+
+// Label
+ndSel.append('text')
+  .attr('class', 'glabel')
+  .attr('dy', 32)
+  .text(d => d.label)
+  .attr('opacity', 0)
+  .transition()
+  .delay((_, i) => i * 45 + 280)
+  .duration(450)
+  .attr('opacity', 1)
+
+// ── Drag ──────────────────────────────────────────────────────────────────────
+const drag = d3.drag()
+  .on('start', (e, d) => { if (!e.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y })
+  .on('drag',  (e, d) => { d.fx=e.x; d.fy=e.y })
+  .on('end',   (e, d) => { if (!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null })
+ndSel.call(drag)
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+let searchMode = false
+
+function neighbours(d) {
+  const nids = new Set([d.id])
+  const lidxs = new Set()
+  links.forEach((l, i) => {
+    if (l.source.id === d.id || l.target.id === d.id) {
+      nids.add(l.source.id); nids.add(l.target.id); lidxs.add(i)
+    }
+  })
+  return { nids, lidxs }
+}
+
+function applyFocus(nids, lidxs, focusId) {
+  ndSel.select('.ghalo')
+    .classed('normal', n => nids.has(n.id))
+    .classed('lit',    n => n.id === focusId)
+    .classed('dark',   n => !nids.has(n.id))
+  ndSel.select('.gbody').classed('dark', n => !nids.has(n.id))
+  ndSel.select('.glabel').classed('dark', n => !nids.has(n.id))
+  lnkSel
+    .classed('hl', (_, i) => lidxs.has(i))
+    .classed('dm', (_, i) => !lidxs.has(i))
+  lblSel
+    .classed('hl', (_, i) => lidxs.has(i))
+    .classed('dm', (_, i) => !lidxs.has(i))
+}
+
+function clearFocus() {
+  ndSel.select('.ghalo').classed('normal',true).classed('lit',false).classed('dark',false)
+  ndSel.select('.gbody').classed('dark', false)
+  ndSel.select('.glabel').classed('dark', false)
+  lnkSel.classed('hl',false).classed('dm',false)
+  lblSel.classed('hl',false).classed('dm',false)
+}
+
+// ── Hover (mouseenter/mouseleave to avoid child-bubble noise) ─────────────────
+ndSel
+  .on('mouseenter', (_, d) => {
+    if (searchMode) return
+    const { nids, lidxs } = neighbours(d)
+    applyFocus(nids, lidxs, d.id)
+  })
+  .on('mouseleave', () => {
+    if (searchMode) return
+    clearFocus()
+  })
+  .on('click', (e, d) => {
+    e.stopPropagation()
+    openSidebar(d)
+  })
+
+// ── Tick ──────────────────────────────────────────────────────────────────────
+sim.on('tick', () => {
+  lnkSel
+    .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+    .attr('x2', d => d.target.x).attr('y2', d => d.target.y)
+  lblSel
+    .attr('x', d => (d.source.x + d.target.x) / 2)
+    .attr('y', d => (d.source.y + d.target.y) / 2 - 7)
+  ndSel.attr('transform', d => `translate(${d.x},${d.y})`)
+})
+
+// ── Search ────────────────────────────────────────────────────────────────────
+document.getElementById('search').addEventListener('input', function () {
+  const q = this.value.toLowerCase().trim()
+  searchMode = !!q
+  if (!q) { clearFocus(); return }
+
+  const matched = new Set(nodes.filter(n => n.label.toLowerCase().includes(q)).map(n => n.id))
+  const lidxs   = new Set()
+  links.forEach((l, i) => {
+    if (matched.has(l.source.id) || matched.has(l.target.id)) lidxs.add(i)
+  })
+
+  ndSel.select('.ghalo')
+    .classed('normal', n => matched.has(n.id))
+    .classed('lit',    n => matched.has(n.id))
+    .classed('dark',   n => !matched.has(n.id))
+  ndSel.select('.gbody').classed('dark', n => !matched.has(n.id))
+  ndSel.select('.glabel').classed('dark', n => !matched.has(n.id))
+  lnkSel.classed('hl', (_, i) => lidxs.has(i)).classed('dm', (_, i) => !lidxs.has(i))
+  lblSel.classed('hl',  (_, i) => lidxs.has(i)).classed('dm', (_, i) => !lidxs.has(i))
+})
+
+// ── Sidebar ───────────────────────────────────────────────────────────────────
+function openSidebar(d) {
+  const color = COL[d.type]
+  const conns = links
+    .filter(l => l.source.id === d.id || l.target.id === d.id)
+    .map(l => l.source.id === d.id
+      ? { rel: l.label, name: l.target.label, dir: 'out' }
+      : { rel: l.label, name: l.source.label, dir: 'in'  })
+
+  document.getElementById('sb-type').textContent = d.type
+  document.getElementById('sb-type').style.color  = color
+  document.getElementById('sb-name').textContent  = d.label
+
+  const body = document.getElementById('sb-body')
+  body.textContent = ''
+
+  const sec = document.createElement('div')
+  sec.className = 'sb-sec'
+  sec.textContent = `${conns.length} Connection${conns.length !== 1 ? 's' : ''}`
+  body.appendChild(sec)
+
+  conns.forEach(c => {
+    const item = document.createElement('div')
+    item.className = 'ci'
+
+    const rel = document.createElement('div')
+    rel.className = 'ci-rel'
+    rel.textContent = c.dir === 'out' ? `→ ${c.rel}` : `← ${c.rel}`
+
+    const name = document.createElement('div')
+    name.className = 'ci-name'
+    name.textContent = c.name
+
+    item.appendChild(rel)
+    item.appendChild(name)
+    body.appendChild(item)
+  })
+
+  document.getElementById('sidebar').classList.add('open')
+}
+
+document.getElementById('sb-close').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open')
+})
+
+// Click background → close sidebar + clear highlights
+svg.on('click', () => {
+  document.getElementById('sidebar').classList.remove('open')
+  if (!searchMode) clearFocus()
+})
+
+// ── Reset layout ──────────────────────────────────────────────────────────────
+document.getElementById('reset-btn').addEventListener('click', () => {
+  nodes.forEach(n => { n.fx = null; n.fy = null })
+  sim.alpha(1).restart()
+  svg.transition().duration(650)
+    .call(zoom.transform, d3.zoomIdentity.translate(0,0).scale(1))
+})
+
+// ── Stats ─────────────────────────────────────────────────────────────────────
+document.getElementById('stats').textContent = `${nodes.length} nodes · ${links.length} edges`
+
+// ── Resize ────────────────────────────────────────────────────────────────────
+window.addEventListener('resize', () => {
+  sim.force('center', d3.forceCenter(window.innerWidth/2, window.innerHeight/2)).restart()
+})
+</script>
+</body>
+</html>

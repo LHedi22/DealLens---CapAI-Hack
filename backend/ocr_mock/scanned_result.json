@@ -1,0 +1,113 @@
+{
+  "parsed_document": {
+    "startup_name": "EduTech Tunisia",
+    "founder_names": ["Amira Belhaj", "Karim Mansour"],
+    "team_size": 4,
+    "domain_expertise": "K-12 digital education, curriculum design, mobile-first learning",
+    "prior_exits": null,
+    "tam_stated": "$2.4B MENA EdTech market by 2027",
+    "tam_source": "RedSeer 2023 report",
+    "growth_rate": "28% CAGR",
+    "revenue_model": "B2B SaaS — annual school licenses + per-student seat fees",
+    "current_revenue": "$18,000 ARR (3 pilot schools)",
+    "projected_revenue_y1": "$240,000",
+    "unit_economics": "CAC $1,200 per school / LTV $8,400 over 3 years",
+    "user_count": "1,400 students across 3 schools",
+    "customer_count": 3,
+    "traction_evidence": "3 paid pilots, 2 LOIs signed, Ministry of Education exploratory meeting",
+    "competitors_named": ["Edraak", "Noon Academy", "Google Classroom"],
+    "differentiation": "Arabic-first curriculum aligned to Tunisian national syllabus — competitors are generic",
+    "ip_mentioned": null,
+    "labor_model": "Full-time employees — 4 staff",
+    "env_claims": null,
+    "governance_docs": null,
+    "board_named": null,
+    "diversity_claimed": "50% female founding team",
+    "funding_ask": "$400,000 pre-seed",
+    "inconsistencies": ["Projected revenue of $240K not explained given 3 current customers at $1,200 CAC"],
+    "data_completeness": 68,
+    "confidence_level": "MEDIUM",
+    "blind_spots": [
+      {
+        "field": "governance_structure",
+        "risk": "Founder concentration risk — no independent oversight",
+        "question": "Who advises you on strategy and governance today, and are you open to appointing independent board members before close?"
+      },
+      {
+        "field": "revenue_projection_assumptions",
+        "risk": "Projection may be unreliable — inconsistency flagged between CAC and customer count",
+        "question": "Walk me through how you get from 3 schools today to the revenue figure in your projection — what is your sales motion?"
+      },
+      {
+        "field": "ip_and_technology_defensibility",
+        "risk": "Competitors could replicate the product without meaningful switching costs",
+        "question": "What makes your platform technically difficult to copy — do you have any proprietary content, algorithms, or data advantages?"
+      }
+    ]
+  },
+  "parsing_metadata": {
+    "source_type": "PHYSICAL_SCAN",
+    "ocr_confidence": 0.71,
+    "quality_score": 0.74,
+    "document_type": "PRINTED_TYPED",
+    "pages_processed": 6,
+    "unclear_words_count": 12,
+    "visual_content_flagged": [
+      "Slide 4 — bar chart not extractable",
+      "Slide 6 — team photo not extractable"
+    ],
+    "corrections_made": 0,
+    "human_verified": false
+  },
+  "review_sections": [
+    {
+      "section_name": "Team",
+      "content": "Amira Belhaj (CEO) — curriculum designer, 6 years. Karim Mansour (CTO) — mobile developer, 4 years.",
+      "confidence": "high",
+      "source": "PRINTED",
+      "unclear_count": 0
+    },
+    {
+      "section_name": "Market",
+      "content": "$2.4B MENA EdTech market by 2027. 28% CAGR. Source: RedSeer 2023.",
+      "confidence": "high",
+      "source": "PRINTED",
+      "unclear_count": 0
+    },
+    {
+      "section_name": "Revenue Model",
+      "content": "B2B SaaS. Annual school licenses + per-student seat fees. CAC $1,200 / LTV $8,400.",
+      "confidence": "medium",
+      "source": "PRINTED",
+      "unclear_count": 2
+    },
+    {
+      "section_name": "Traction",
+      "content": "3 paid pilots. 1,400 students. 2 LOIs signed. Ministry of Education meeting confirmed.",
+      "confidence": "high",
+      "source": "PRINTED",
+      "unclear_count": 0
+    },
+    {
+      "section_name": "Financials",
+      "content": "$18,000 ARR current. $240,000 projected year 1. $400,000 funding ask.",
+      "confidence": "medium",
+      "source": "MIXED",
+      "unclear_count": 4
+    },
+    {
+      "section_name": "ESG / Governance",
+      "content": "50% female founding team. No board disclosed. No governance documents provided.",
+      "confidence": "low",
+      "source": "HANDWRITTEN_UNVERIFIED",
+      "unclear_count": 6
+    },
+    {
+      "section_name": "Competition",
+      "content": "Competitors: Edraak, Noon Academy, Google Classroom. Differentiation: Arabic-first, Tunisian syllabus.",
+      "confidence": "high",
+      "source": "PRINTED",
+      "unclear_count": 0
+    }
+  ]
+}

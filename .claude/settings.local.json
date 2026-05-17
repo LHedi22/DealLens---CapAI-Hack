@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install *)",
+      "Bash(python -c \"from backend.main import app; print\\('Backend imports OK'\\)\")",
+      "Bash(python -c ' *)",
+      "Bash(dir node_modules /b)",
+      "Bash(python -c \"from backend.main import app; from backend.routers.evaluate import router; from backend.agents.extraction import run_extraction; from backend.agents.business import run_business_scoring; from backend.agents.esg import run_esg_scoring; from backend.engine.aggregator import aggregate_scores; from backend.engine.recommendation import generate_verdict; from backend.parsers import merge_documents; print\\('All Phase 2 imports OK'\\)\")",
+      "Bash(pip uninstall *)",
+      "Bash(python -c \"import fitz; print\\('PyMuPDF OK, version:', fitz.version\\)\")",
+      "PowerShell(pip uninstall *)",
+      "PowerShell(Test-Path *)",
+      "PowerShell(pip install *)",
+      "PowerShell(Get-ChildItem \"C:\\\\Python311\\\\Lib\\\\site-packages\\\\pymupdf\" -Filter \"*.pyd\" | Select-Object Name; Get-ChildItem \"C:\\\\Python311\\\\Lib\\\\site-packages\\\\pymupdf\" -Filter \"*.dll\" | Select-Object Name; python -c \"import pymupdf; print\\('pymupdf OK'\\)\" 2>&1)",
+      "PowerShell(python -c \"import fitz; print\\('fitz OK, version:', fitz.version\\)\" 2>&1)",
+      "Bash(python3 -c \"import sys,json; lines=sys.stdin.readlines\\(\\); [print\\(json.loads\\(l\\).get\\('content',''\\)[:500] if isinstance\\(json.loads\\(l\\).get\\('content',''\\),str\\) else ''\\) for l in lines[-20:]]\")",
+      "Bash(Get-ChildItem *)",
+      "Bash(dir \"C:\\\\Hedi\\\\Personal\\\\SMU_SCHOLARSHIP\\\\CAPAIHACK\" /s /b)",
+      "Bash(findstr -i \"monitor\")",
+      "Skill(frontend-design:frontend-design)"
+    ]
+  }
+}

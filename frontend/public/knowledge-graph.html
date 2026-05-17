@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ConvictAI · Memory Architecture</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f172a;color:#e0e0ff;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;overflow:hidden;height:100vh;width:100vw;}
+svg{display:block;width:100vw;height:100vh;cursor:grab}
+svg:active{cursor:grabbing}
+
+#toolbar{position:fixed;top:12px;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;z-index:100;}
+#search{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:999px;color:#e0e0ff;font-size:12px;padding:7px 18px;outline:none;width:220px;backdrop-filter:blur(10px);transition:border-color .2s,background .2s;}
+#search::placeholder{color:rgba(224,224,255,.3)}
+#search:focus{border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.09)}
+.btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:999px;color:rgba(224,224,255,.8);font-size:12px;padding:7px 16px;cursor:pointer;backdrop-filter:blur(10px);transition:background .2s,color .2s;white-space:nowrap;}
+.btn:hover{background:rgba(255,255,255,.13);color:#fff}
+
+#title{position:fixed;top:16px;left:16px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(99,102,241,.7);user-select:none;z-index:100;}
+
+#legend{position:fixed;bottom:16px;left:16px;background:rgba(15,23,42,.92);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:12px 16px;backdrop-filter:blur(14px);z-index:100;}
+#legend h4{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(224,224,255,.3);margin-bottom:10px;}
+.li{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:11px;color:rgba(224,224,255,.7)}
+.li:last-child{margin-bottom:0}
+.ld{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+#stats{position:fixed;bottom:16px;right:16px;font-size:10px;color:rgba(224,224,255,.2);z-index:100;user-select:none;}
+
+#sidebar{position:fixed;top:0;right:0;bottom:0;width:260px;background:rgba(15,23,42,.97);border-left:1px solid rgba(255,255,255,.07);backdrop-filter:blur(16px);transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);z-index:200;display:flex;flex-direction:column;}
+#sidebar.open{transform:translateX(0)}
+#sb-head{padding:18px 18px 0;position:relative;flex-shrink:0}
+#sb-close{position:absolute;top:12px;right:12px;background:rgba(255,255,255,.06);border:none;color:rgba(224,224,255,.45);font-size:17px;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s;}
+#sb-close:hover{background:rgba(255,255,255,.14);color:#fff}
+#sb-type{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+#sb-name{font-size:17px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:14px}
+#sb-hr{height:1px;background:rgba(255,255,255,.07);margin-bottom:14px}
+#sb-body{padding:0 18px 18px;overflow-y:auto;flex:1}
+.sb-sec{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(224,224,255,.28);margin-bottom:10px}
+.ci{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.ci:last-child{border-bottom:none}
+.ci-rel{font-size:9px;color:rgba(224,224,255,.3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}
+.ci-name{font-size:13px;color:rgba(224,224,255,.9);font-weight:500}
+
+.glink{stroke:rgba(99,102,241,.18);stroke-width:1.5;transition:stroke .15s,stroke-opacity .15s,stroke-width .15s}
+.glink.hl{stroke:rgba(255,255,255,.6);stroke-width:2.5}
+.glink.dm{stroke-opacity:.04}
+.glbl{fill:rgba(160,160,255,.25);font-size:9px;font-family:'Segoe UI',system-ui,sans-serif;text-anchor:middle;dominant-baseline:middle;pointer-events:none;transition:fill-opacity .15s;}
+.glbl.hl{fill:rgba(255,255,255,.8);font-size:10px}
+.glbl.dm{fill-opacity:.04}
+.gnd{cursor:pointer}
+.ghalo{transition:opacity .2s,r .2s}
+.ghalo.normal{opacity:.14}
+.ghalo.lit{opacity:.45}
+.ghalo.dark{opacity:.02}
+.gbody{stroke:rgba(255,255,255,.2);stroke-width:1.5;transition:opacity .2s}
+.gbody.dark{opacity:.06}
+.glabel{fill:rgba(255,255,255,.85);font-size:10px;font-family:'Segoe UI',system-ui,sans-serif;font-weight:500;text-anchor:middle;pointer-events:none;transition:opacity .2s;}
+.glabel.dark{opacity:.06}
+</style>
+</head>
+<body>
+
+<div id="title">ConvictAI · Memory Architecture</div>
+
+<div id="toolbar">
+  <input id="search" type="text" placeholder="Search nodes…" autocomplete="off">
+  <button class="btn" id="reset-btn">↺ Reset</button>
+</div>
+
+<svg id="g"></svg>
+
+<div id="legend">
+  <h4>Node Types</h4>
+  <div class="li"><div class="ld" style="background:#6366f1;box-shadow:0 0 6px #6366f190"></div>DB Table</div>
+  <div class="li"><div class="ld" style="background:#22c55e;box-shadow:0 0 6px #22c55e90"></div>AI Agent</div>
+  <div class="li"><div class="ld" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b90"></div>Process</div>
+  <div class="li"><div class="ld" style="background:#a78bfa;box-shadow:0 0 6px #a78bfa90"></div>Concept</div>
+</div>
+
+<div id="stats"></div>
+
+<div id="sidebar">
+  <div id="sb-head">
+    <button id="sb-close">×</button>
+    <div id="sb-type"></div>
+    <div id="sb-name"></div>
+    <div id="sb-hr"></div>
+  </div>
+  <div id="sb-body"></div>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+const COL = {
+  'DB Table': '#6366f1',
+  'AI Agent': '#22c55e',
+  'Process':  '#f59e0b',
+  'Concept':  '#a78bfa',
+}
+
+const nodes = [
+  // DB Tables
+  { id:'deal_history',        label:'deal_history',        type:'DB Table' },
+  { id:'entity_sectors',      label:'entity_sectors',      type:'DB Table' },
+  { id:'portfolio_companies', label:'portfolio_companies',  type:'DB Table' },
+  { id:'esg_red_flags',       label:'esg_red_flags',       type:'DB Table' },
+  { id:'entity_founders',     label:'entity_founders',     type:'DB Table' },
+  { id:'cached_evals',        label:'cached_evaluations',  type:'DB Table' },
+  { id:'mandate_config',      label:'mandate_config',      type:'DB Table' },
+  // AI Agents
+  { id:'extraction',          label:'Extraction Agent',    type:'AI Agent' },
+  { id:'business',            label:'Business Agent',      type:'AI Agent' },
+  { id:'esg',                 label:'ESG Agent',           type:'AI Agent' },
+  { id:'memory',              label:'Memory Agent',        type:'AI Agent' },
+  { id:'forecasting',         label:'Forecasting Agent',   type:'AI Agent' },
+  { id:'fix_analysis',        label:'Fix Analysis Agent',  type:'AI Agent' },
+  { id:'portfolio',           label:'Portfolio Agent',     type:'AI Agent' },
+  // Processes
+  { id:'aggregator',          label:'Score Aggregator',    type:'Process'  },
+  { id:'feedback_loop',       label:'Feedback Loop',       type:'Process'  },
+  // Concepts
+  { id:'conviction_delta',    label:'Conviction Δ',        type:'Concept'  },
+  { id:'final_score',         label:'Final Score',         type:'Concept'  },
+  { id:'verdict',             label:'Verdict',             type:'Concept'  },
+  { id:'blind_spots',         label:'Blind Spots',         type:'Concept'  },
+]
+
+const links = [
+  // Extraction feeds downstream agents
+  { source:'extraction',       target:'business',          label:'feeds' },
+  { source:'extraction',       target:'esg',               label:'feeds' },
+  { source:'extraction',       target:'memory',            label:'feeds' },
+  { source:'extraction',       target:'forecasting',       label:'feeds' },
+  { source:'extraction',       target:'fix_analysis',      label:'feeds' },
+  { source:'extraction',       target:'blind_spots',       label:'produces' },
+  // Agents → aggregator
+  { source:'business',         target:'aggregator',        label:'scores' },
+  { source:'esg',              target:'aggregator',        label:'scores' },
+  { source:'conviction_delta', target:'aggregator',        label:'adjusts' },
+  // Memory layer
+  { source:'memory',           target:'deal_history',      label:'reads' },
+  { source:'memory',           target:'entity_sectors',    label:'reads' },
+  { source:'memory',           target:'entity_founders',   label:'reads' },
+  { source:'memory',           target:'conviction_delta',  label:'produces' },
+  // ESG checks red flags
+  { source:'esg',              target:'esg_red_flags',     label:'checks' },
+  // Aggregator → score → verdict
+  { source:'aggregator',       target:'final_score',       label:'computes' },
+  { source:'final_score',      target:'verdict',           label:'maps to' },
+  { source:'mandate_config',   target:'verdict',           label:'overrides' },
+  // Portfolio reads companies
+  { source:'portfolio',        target:'portfolio_companies',label:'reads' },
+  { source:'portfolio',        target:'deal_history',      label:'reads' },
+  // Feedback loop writes back
+  { source:'feedback_loop',    target:'deal_history',      label:'writes' },
+  { source:'feedback_loop',    target:'entity_sectors',    label:'updates' },
+  { source:'verdict',          target:'feedback_loop',     label:'triggers' },
+  { source:'verdict',          target:'cached_evals',      label:'stored in' },
+]
+
+const W = window.innerWidth
+const H = window.innerHeight
+const svg = d3.select('#g')
+
+// Glow filter
+const defs = svg.append('defs')
+const filt = defs.append('filter').attr('id','glow').attr('x','-80%').attr('y','-80%').attr('width','260%').attr('height','260%')
+filt.append('feGaussianBlur').attr('in','SourceGraphic').attr('stdDeviation','7').attr('result','b')
+const fm = filt.append('feMerge')
+fm.append('feMergeNode').attr('in','b')
+fm.append('feMergeNode').attr('in','SourceGraphic')
+
+// Dot-grid pattern
+const pat = defs.append('pattern').attr('id','dots').attr('width',28).attr('height',28).attr('patternUnits','userSpaceOnUse')
+pat.append('circle').attr('cx',1).attr('cy',1).attr('r',0.8).attr('fill','rgba(99,102,241,.06)')
+
+// Arrow marker
+defs.append('marker').attr('id','arr').attr('markerWidth',8).attr('markerHeight',8).attr('refX',22).attr('refY',3).attr('orient','auto')
+  .append('path').attr('d','M0,0 L0,6 L8,3 z').attr('fill','rgba(99,102,241,.35)')
+
+const root = svg.append('g')
+root.append('rect').attr('x',-W*4).attr('y',-H*4).attr('width',W*9).attr('height',H*9).attr('fill','url(#dots)').attr('pointer-events','none')
+
+const zoom = d3.zoom().scaleExtent([0.1,5]).on('zoom', ev => {
+  root.attr('transform', ev.transform)
+  lblSel.style('display', ev.transform.k < 0.45 ? 'none' : null)
+})
+svg.call(zoom).on('dblclick.zoom', null)
+
+const linkLayer = root.append('g')
+const lblLayer  = root.append('g')
+const ndLayer   = root.append('g')
+
+const sim = d3.forceSimulation(nodes)
+  .force('link',    d3.forceLink(links).id(d => d.id).distance(130).strength(0.35))
+  .force('charge',  d3.forceManyBody().strength(-520))
+  .force('center',  d3.forceCenter(W / 2, H / 2))
+  .force('collide', d3.forceCollide(48))
+
+const lnkSel = linkLayer.selectAll('line')
+  .data(links).join('line')
+  .attr('class','glink')
+  .attr('marker-end','url(#arr)')
+
+const lblSel = lblLayer.selectAll('text')
+  .data(links).join('text')
+  .attr('class','glbl')
+  .text(d => d.label)
+
+const ndSel = ndLayer.selectAll('g')
+  .data(nodes, d => d.id).join('g')
+  .attr('class','gnd')
+
+ndSel.append('circle').attr('class','ghalo normal').attr('r',26).attr('fill', d => COL[d.type]).attr('filter','url(#glow)')
+ndSel.append('circle').attr('class','gbody').attr('r',0).attr('fill', d => COL[d.type])
+  .transition().delay((_,i) => i*40).duration(700).ease(d3.easeElastic.amplitude(1).period(0.5)).attr('r',14)
+ndSel.append('text').attr('class','glabel').attr('dy',30).text(d => d.label).attr('opacity',0)
+  .transition().delay((_,i) => i*40+260).duration(400).attr('opacity',1)
+
+const drag = d3.drag()
+  .on('start',(e,d) => { if(!e.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y })
+  .on('drag', (e,d) => { d.fx=e.x; d.fy=e.y })
+  .on('end',  (e,d) => { if(!e.active) sim.alphaTarget(0); d.fx=null; d.fy=null })
+ndSel.call(drag)
+
+let searchMode = false
+function neighbours(d) {
+  const nids = new Set([d.id]), lidxs = new Set()
+  links.forEach((l,i) => {
+    if(l.source.id===d.id||l.target.id===d.id){nids.add(l.source.id);nids.add(l.target.id);lidxs.add(i)}
+  })
+  return {nids,lidxs}
+}
+function applyFocus(nids,lidxs,focusId){
+  ndSel.select('.ghalo').classed('normal',n=>nids.has(n.id)).classed('lit',n=>n.id===focusId).classed('dark',n=>!nids.has(n.id))
+  ndSel.select('.gbody').classed('dark',n=>!nids.has(n.id))
+  ndSel.select('.glabel').classed('dark',n=>!nids.has(n.id))
+  lnkSel.classed('hl',(_,i)=>lidxs.has(i)).classed('dm',(_,i)=>!lidxs.has(i))
+  lblSel.classed('hl',(_,i)=>lidxs.has(i)).classed('dm',(_,i)=>!lidxs.has(i))
+}
+function clearFocus(){
+  ndSel.select('.ghalo').classed('normal',true).classed('lit',false).classed('dark',false)
+  ndSel.select('.gbody').classed('dark',false)
+  ndSel.select('.glabel').classed('dark',false)
+  lnkSel.classed('hl',false).classed('dm',false)
+  lblSel.classed('hl',false).classed('dm',false)
+}
+
+ndSel
+  .on('mouseenter',(_,d)=>{ if(searchMode)return; const{nids,lidxs}=neighbours(d); applyFocus(nids,lidxs,d.id) })
+  .on('mouseleave',()=>{ if(searchMode)return; clearFocus() })
+  .on('click',(e,d)=>{ e.stopPropagation(); openSidebar(d) })
+
+sim.on('tick',()=>{
+  lnkSel.attr('x1',d=>d.source.x).attr('y1',d=>d.source.y).attr('x2',d=>d.target.x).attr('y2',d=>d.target.y)
+  lblSel.attr('x',d=>(d.source.x+d.target.x)/2).attr('y',d=>(d.source.y+d.target.y)/2-6)
+  ndSel.attr('transform',d=>`translate(${d.x},${d.y})`)
+})
+
+document.getElementById('search').addEventListener('input',function(){
+  const q=this.value.toLowerCase().trim()
+  searchMode=!!q
+  if(!q){clearFocus();return}
+  const matched=new Set(nodes.filter(n=>n.label.toLowerCase().includes(q)).map(n=>n.id))
+  const lidxs=new Set()
+  links.forEach((l,i)=>{ if(matched.has(l.source.id)||matched.has(l.target.id)) lidxs.add(i) })
+  ndSel.select('.ghalo').classed('normal',n=>matched.has(n.id)).classed('lit',n=>matched.has(n.id)).classed('dark',n=>!matched.has(n.id))
+  ndSel.select('.gbody').classed('dark',n=>!matched.has(n.id))
+  ndSel.select('.glabel').classed('dark',n=>!matched.has(n.id))
+  lnkSel.classed('hl',(_,i)=>lidxs.has(i)).classed('dm',(_,i)=>!lidxs.has(i))
+  lblSel.classed('hl',(_,i)=>lidxs.has(i)).classed('dm',(_,i)=>!lidxs.has(i))
+})
+
+function openSidebar(d){
+  const color=COL[d.type]
+  const conns=links
+    .filter(l=>l.source.id===d.id||l.target.id===d.id)
+    .map(l=>l.source.id===d.id
+      ?{rel:l.label,name:l.target.label,dir:'out'}
+      :{rel:l.label,name:l.source.label,dir:'in'})
+  document.getElementById('sb-type').textContent=d.type
+  document.getElementById('sb-type').style.color=color
+  document.getElementById('sb-name').textContent=d.label
+  const body=document.getElementById('sb-body')
+  body.textContent=''
+  const sec=document.createElement('div')
+  sec.className='sb-sec'
+  sec.textContent=`${conns.length} Connection${conns.length!==1?'s':''}`
+  body.appendChild(sec)
+  conns.forEach(c=>{
+    const item=document.createElement('div');item.className='ci'
+    const rel=document.createElement('div');rel.className='ci-rel';rel.textContent=c.dir==='out'?`→ ${c.rel}`:`← ${c.rel}`
+    const name=document.createElement('div');name.className='ci-name';name.textContent=c.name
+    item.appendChild(rel);item.appendChild(name);body.appendChild(item)
+  })
+  document.getElementById('sidebar').classList.add('open')
+}
+
+document.getElementById('sb-close').addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open'))
+svg.on('click',()=>{ document.getElementById('sidebar').classList.remove('open'); if(!searchMode)clearFocus() })
+document.getElementById('reset-btn').addEventListener('click',()=>{
+  nodes.forEach(n=>{n.fx=null;n.fy=null})
+  sim.alpha(1).restart()
+  svg.transition().duration(600).call(zoom.transform,d3.zoomIdentity)
+})
+window.addEventListener('resize',()=>{ sim.force('center',d3.forceCenter(window.innerWidth/2,window.innerHeight/2)).restart() })
+document.getElementById('stats').textContent=`${nodes.length} nodes · ${links.length} edges`
+</script>
+</body>
+</html>

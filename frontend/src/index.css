@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* ── Surfaces ── */
+  --bg:        #FAFAFB;
+  --surface-1: #FFFFFF;
+  --surface-2: #F4F5F7;
+  --surface-3: #EDEEF2;
+
+  /* ── Borders ── */
+  --border:     #E7E9EE;
+  --border-med: #D0D4DC;
+  --border-hi:  #B4BAC8;
+
+  /* ── Text ── */
+  --tx-1: #111318;
+  --tx-2: #3D4754;
+  --tx-3: #64748B;
+
+  /* ── Brand purple ── */
+  --primary:        #6E56CF;
+  --primary-soft:   #8B7CFF;
+  --primary-glow:   #B8A9FF;
+  --primary-bg:     rgba(110, 86, 207, 0.08);
+  --primary-border: rgba(110, 86, 207, 0.20);
+
+  /* ── Gold alias → primary purple (cascades all legacy var(--gold) uses) ── */
+  --gold:    #6E56CF;
+  --gold-bg: rgba(110, 86, 207, 0.08);
+
+  /* ── Score palette — calibrated for light backgrounds ── */
+  --s-green:  #12B76A;
+  --s-amber:  #F5A524;
+  --s-orange: #EF6820;
+  --s-red:    #F04438;
+
+  /* ── Legacy aliases ── */
+  --score-green:  #12B76A;
+  --score-amber:  #F5A524;
+  --score-orange: #EF6820;
+  --score-red:    #F04438;
+  --accent:       #6E56CF;
+  --bg-primary:   #FAFAFB;
+  --bg-card:      #FFFFFF;
+  --bg-border:    #E7E9EE;
+  --text-primary: #111318;
+  --text-muted:   #3D4754;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--tx-1);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar — minimal, light theme */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.22); }
+
+/* Font utilities */
+.font-display { font-family: 'Outfit', 'Inter', system-ui, sans-serif; }
+.font-data    { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+
+/* Skeleton pulse — light theme */
+@keyframes shimmer {
+  0%   { opacity: 0.45; }
+  50%  { opacity: 0.85; }
+  100% { opacity: 0.45; }
+}
+.skeleton { animation: shimmer 1.8s ease-in-out infinite; }
+
+/* Score bar fill */
+@keyframes fillBar { from { width: 0; } }
+
+/* Input base styles */
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  color: var(--tx-1);
+  font-family: 'Inter', system-ui, sans-serif;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-bg);
+}
+
+input::placeholder, textarea::placeholder { color: var(--tx-3); }
+select option { background: var(--surface-1); color: var(--tx-1); }
