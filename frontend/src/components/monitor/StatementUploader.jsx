@@ -11,9 +11,9 @@ function currentMonth() {
 }
 
 export default function StatementUploader({ startupName, onUploaded }) {
-  const [phase, setPhase]       = useState('idle')   // idle | uploading | ocr | done | error | no-statement
-  const [result, setResult]     = useState(null)
-  const [error, setError]       = useState(null)
+  const [phase, setPhase]           = useState('idle')
+  const [result, setResult]         = useState(null)
+  const [error, setError]           = useState(null)
   const [pendingFile, setPendingFile] = useState(null)
 
   const onDrop = useCallback(async (files) => {
@@ -82,34 +82,55 @@ export default function StatementUploader({ startupName, onUploaded }) {
     )
   }
 
+  const dropBorder = isDragActive
+    ? '2px dashed #6E56CF'
+    : phase === 'uploading'
+    ? '2px dashed #D0D4DC'
+    : '2px dashed #D0D4DC'
+
+  const dropBg = isDragActive
+    ? 'rgba(110,86,207,0.06)'
+    : 'var(--surface-2)'
+
   return (
-    <div className="flex flex-col gap-3">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
       <div
         {...getRootProps()}
-        className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors ${
-          isDragActive          ? 'border-indigo-500 bg-indigo-950/30 cursor-copy' :
-          phase === 'uploading' ? 'border-slate-600 bg-slate-800/20 cursor-not-allowed opacity-60' :
-                                  'border-slate-600 bg-slate-800/20 hover:border-slate-500 cursor-pointer'
-        }`}
+        style={{
+          border: dropBorder, borderRadius: 14, padding: '24px',
+          textAlign: 'center', cursor: phase === 'uploading' ? 'not-allowed' : 'pointer',
+          background: dropBg, transition: 'all 0.15s',
+          opacity: phase === 'uploading' ? 0.6 : 1,
+        }}
       >
         <input {...getInputProps()} />
 
         {phase === 'uploading' ? (
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-5 h-5 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
-            <p className="text-slate-400 text-sm">Parsing statement and classifying transactions…</p>
-            <p className="text-slate-600 text-xs">This may take a moment if Ollama is resolving ambiguous transactions.</p>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+            <div style={{
+              width: 20, height: 20, border: '2px solid #6E56CF',
+              borderTopColor: 'transparent', borderRadius: '50%',
+              animation: 'spin 0.75s linear infinite',
+            }} />
+            <p style={{ fontSize: 13, color: 'var(--tx-2)', margin: 0 }}>
+              Parsing statement and classifying transactions…
+            </p>
+            <p style={{ fontSize: 11, color: 'var(--tx-3)', margin: 0 }}>
+              This may take a moment if Ollama is resolving ambiguous transactions.
+            </p>
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-1">
-            <svg className="w-6 h-6 text-slate-500 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: isDragActive ? '#6E56CF' : 'var(--tx-3)', marginBottom: 4 }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
                 d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
             </svg>
-            <p className="text-slate-300 text-sm font-medium">
+            <p style={{ fontSize: 13, fontWeight: 600, color: isDragActive ? '#6E56CF' : 'var(--tx-1)', margin: 0 }}>
               {isDragActive ? 'Drop bank statement here' : 'Upload monthly bank statement'}
             </p>
-            <p className="text-slate-500 text-xs">PDF or image (JPG, PNG) — drag & drop or click to browse</p>
+            <p style={{ fontSize: 11, color: 'var(--tx-3)', margin: 0 }}>
+              PDF or image (JPG, PNG) — drag & drop or click to browse
+            </p>
           </div>
         )}
       </div>
@@ -117,7 +138,11 @@ export default function StatementUploader({ startupName, onUploaded }) {
       {phase === 'idle' && (
         <button
           onClick={handleNoStatement}
-          className="text-xs text-slate-500 hover:text-amber-400 transition-colors self-start underline underline-offset-2"
+          style={{
+            fontSize: 12, color: 'var(--tx-3)', background: 'none',
+            border: 'none', cursor: 'pointer', alignSelf: 'flex-start',
+            textDecoration: 'underline', textUnderlineOffset: 2, transition: 'color 0.15s',
+          }}
         >
           No statement received this month?
         </button>
@@ -126,61 +151,64 @@ export default function StatementUploader({ startupName, onUploaded }) {
       <AnimatePresence>
         {phase === 'done' && result && (
           <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className={`border rounded-lg px-4 py-3 flex flex-col gap-2 ${
-              result._no_statement
-                ? 'bg-amber-950/40 border-amber-700'
-                : 'bg-green-950/40 border-green-700'
-            }`}
+            initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+            style={{
+              border: `1px solid ${result._no_statement ? 'rgba(245,165,36,0.22)' : 'rgba(18,183,106,0.22)'}`,
+              background: result._no_statement ? 'rgba(245,165,36,0.06)' : 'rgba(18,183,106,0.06)',
+              borderRadius: 12, padding: '14px 16px',
+              display: 'flex', flexDirection: 'column', gap: 8,
+            }}
           >
-            <p className={`font-semibold text-sm ${result._no_statement ? 'text-amber-300' : 'text-green-300'}`}>
+            <p style={{
+              fontSize: 13, fontWeight: 600, margin: 0,
+              color: result._no_statement ? '#92400E' : '#065F46',
+            }}>
               {result._no_statement ? 'No-statement alert raised' : 'Statement processed'}
             </p>
 
             {!result._no_statement && (
-              <div className="flex flex-wrap gap-5 text-xs text-slate-300">
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 16, fontSize: 12, color: 'var(--tx-2)' }}>
+                <span><span style={{ color: 'var(--tx-3)' }}>Transactions: </span>{result.transaction_count}</span>
                 <span>
-                  <span className="text-slate-500">Transactions: </span>
-                  {result.transaction_count}
-                </span>
-                <span>
-                  <span className="text-slate-500">Auto-classified: </span>
-                  <span className="text-blue-300">{result.auto_classified}</span>
+                  <span style={{ color: 'var(--tx-3)' }}>Auto-classified: </span>
+                  <span style={{ color: '#1E40AF', fontWeight: 600 }}>{result.auto_classified}</span>
                 </span>
                 {result.unclassified > 0 && (
                   <span>
-                    <span className="text-slate-500">Needs review: </span>
-                    <span className="text-red-300 font-medium">{result.unclassified}</span>
+                    <span style={{ color: 'var(--tx-3)' }}>Needs review: </span>
+                    <span style={{ color: '#991B1B', fontWeight: 700 }}>{result.unclassified}</span>
                   </span>
                 )}
                 {result.compliance_health_score != null && (
                   <span>
-                    <span className="text-slate-500">New health score: </span>
-                    <span className="font-bold text-white">{result.compliance_health_score}</span>
+                    <span style={{ color: 'var(--tx-3)' }}>New health score: </span>
+                    <span style={{ fontWeight: 700, color: 'var(--tx-1)' }}>{result.compliance_health_score}</span>
                   </span>
                 )}
               </div>
             )}
 
             {result._no_statement && result.compliance_health_score != null && (
-              <p className="text-xs text-slate-300">
+              <p style={{ fontSize: 12, color: 'var(--tx-2)', margin: 0 }}>
                 Health score updated to{' '}
-                <span className="font-bold text-white">{result.compliance_health_score}</span>
+                <span style={{ fontWeight: 700, color: 'var(--tx-1)' }}>{result.compliance_health_score}</span>
                 {' '}— a NO_STATEMENT alert has been logged.
               </p>
             )}
 
             {!result._no_statement && result.unclassified > 0 && (
-              <p className="text-amber-400 text-xs">
+              <p style={{ fontSize: 12, color: '#D97706', margin: 0 }}>
                 ↓ {result.unclassified} transaction{result.unclassified > 1 ? 's require' : ' requires'} manual review — click the red badge below to reclassify.
               </p>
             )}
 
             <button
               onClick={() => { setPhase('idle'); setResult(null) }}
-              className="text-xs text-slate-500 hover:text-slate-300 self-end transition-colors"
+              style={{
+                fontSize: 12, color: 'var(--tx-3)', background: 'none',
+                border: 'none', cursor: 'pointer', alignSelf: 'flex-end',
+                transition: 'color 0.15s',
+              }}
             >
               Upload another
             </button>
@@ -189,22 +217,30 @@ export default function StatementUploader({ startupName, onUploaded }) {
 
         {phase === 'error' && (
           <motion.div
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="bg-red-950/40 border border-red-700 rounded-lg px-4 py-3 flex flex-col gap-2"
+            initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+            style={{
+              background: 'rgba(240,68,56,0.06)', border: '1px solid rgba(240,68,56,0.22)',
+              borderRadius: 12, padding: '14px 16px',
+              display: 'flex', flexDirection: 'column', gap: 6,
+            }}
           >
-            <p className="text-red-300 text-sm font-medium">Upload failed</p>
-            <p className="text-red-400 text-xs">{error}</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#DC2626', margin: 0 }}>Upload failed</p>
+            <p style={{ fontSize: 12, color: '#EF4444', margin: 0 }}>{error}</p>
             <button
               onClick={() => { setPhase('idle'); setError(null) }}
-              className="text-xs text-slate-400 hover:text-white self-start transition-colors"
+              style={{
+                fontSize: 12, color: 'var(--tx-3)', background: 'none',
+                border: 'none', cursor: 'pointer', alignSelf: 'flex-start',
+                transition: 'color 0.15s',
+              }}
             >
               Try again
             </button>
           </motion.div>
         )}
       </AnimatePresence>
+
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   )
 }
