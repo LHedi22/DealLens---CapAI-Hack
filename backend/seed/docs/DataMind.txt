@@ -1,0 +1,77 @@
+DATAMIND — INVESTOR PITCH DECK
+Series: Seed Round | Ask: $2,500,000 | Sector: AI/ML | Geography: North America
+
+COMPANY OVERVIEW
+DataMind is an AI-powered business intelligence platform for mid-market companies (500-5,000 employees) that transforms raw operational data into executive-ready strategic insights — without a data science team. We connect to a company's existing data sources (CRM, ERP, marketing tools, databases), apply our proprietary analytical models, and surface the 10 most important strategic signals a CEO or CFO should act on each week, in plain English with drill-down evidence.
+
+Founded: 2023 | Headquarters: San Francisco, California, USA | Team Size: 15
+
+PROBLEM
+Data has never been more abundant — but strategic clarity has never been more scarce. Mid-market companies run on 7-12 different SaaS tools, each generating siloed data. 71% of mid-market CEOs say they make major decisions based on gut feeling rather than data (Gartner 2024) — not because they don't want to use data, but because the gap between raw data and a clear recommendation requires a data science team they cannot afford. Enterprise BI tools (Tableau, Looker, Power BI) require months of implementation, data engineering staff, and produce dashboards — not decisions.
+
+SOLUTION
+DataMind delivers:
+- Zero-configuration connectivity: connect to Salesforce, HubSpot, NetSuite, Shopify, Google Analytics, and 80+ other tools with OAuth in 15 minutes
+- AI strategic signals: our models identify revenue risk, churn patterns, operational inefficiencies, and growth opportunities — surfaced as weekly "signals" with plain-English explanations and supporting data
+- Executive narrative: DataMind generates a weekly 1-page board-ready summary of the company's most important strategic insights
+- Scenario modeling: CEOs test "what if" scenarios — "what if we reduce CAC by 20%?" — and see modeled impact across connected data sources
+- Collaborative decisions: signals can be assigned to team members with tracked resolution status
+- API access: enterprise clients embed DataMind signals in their internal tools via REST API
+
+TEAM
+Co-Founder & CEO: Alexandra Reeves — 7 years in enterprise software product management, former VP Product at Sisense (BI analytics, $1B valuation), responsible for mid-market product line growing from 0 to $28M ARR. LinkedIn: linkedin.com/in/alexandrareeves-datamind
+Co-Founder & CTO: Dr. Raj Gupta — PhD Statistics (UC Berkeley), former Principal Data Scientist at Palantir (5 years, worked on commercial analytics products for F500 clients). LinkedIn: linkedin.com/in/rajguptaphd
+VP Customer Success: Linda Nakamura — 9 years in B2B SaaS customer success, former Director at Gainsight, managed $85M ARR customer portfolio. LinkedIn: linkedin.com/in/lindanakamura-cs
+
+Advisory Board:
+- David Heller — former CEO, GoodData (enterprise analytics, acquired by Veritas Capital)
+- Dr. Timnit Gebru — AI ethics researcher, founder of Distributed AI Research Institute (DAIR) — advisory role focused on DataMind's model bias and fairness protocols
+- Marcus Yam — venture partner at a tier-1 Silicon Valley fund, 6 AI/ML exits as operator
+
+Board of Directors: 4-member board (2 founders, 2 independent directors). Full corporate governance in place. Shareholder agreement, formal audit process, and board-level oversight of major decisions. No single founder holds veto rights.
+
+MARKET
+Total Addressable Market: $78 billion (global business intelligence and analytics software market, source: IDC 2024)
+Serviceable market: $14 billion (North American mid-market BI and AI analytics, 500-5,000 employee segment)
+Growing at 26% CAGR driven by AI analytics adoption, data democratization, and SaaS proliferation requiring cross-tool intelligence.
+
+REVENUE MODEL
+Annual SaaS subscription per company:
+- Essentials (up to 5 data sources, 1 executive dashboard): $36,000/year
+- Professional (up to 20 data sources, 5 users): $72,000/year
+- Enterprise (unlimited sources, unlimited users, API): $144,000/year
+Average Contract Value: $58,000 ARR
+Current ARR: $1.16M (20 enterprise clients)
+Projected ARR Year 1 (post-raise): $4.8M (80 clients)
+CAC: $9,200 (inbound-led: content marketing + CFO referral network)
+LTV at 3-year retention: $174,000
+LTV:CAC ratio: 18.9x
+Net Revenue Retention: 134% (strong upsell from Essentials to Professional as clients add data sources)
+
+TRACTION
+- 20 enterprise clients generating $1.16M ARR across B2B SaaS (8), healthcare (4), manufacturing (5), and retail (3)
+- 4 Fortune 1000 companies in active pilots (non-paying — terms under negotiation)
+- Average time-to-insight after onboarding: 4 business days (vs. 6-18 months for traditional BI implementation)
+- Client NPS: 78
+- 134% NRR — clients expand consistently as they connect more data sources
+- Reference client CEO testimonials available (documented and video)
+- SOC 2 Type II certified (issued October 2024)
+
+COMPETITION
+Main competitors: Tableau (visualization, requires data team), Looker (Google, enterprise complexity), ThoughtSpot (search-first BI, no generative signals), new entrant AI BI tools from Snowflake/Databricks (developer-focused, not executive-ready)
+Differentiation: DataMind is the only platform that produces executive-ready strategic signals (not dashboards, not self-service queries) for mid-market companies without requiring a data science team. Our "decision-ready" positioning is unique in the market.
+IP: DataMind's strategic signal detection algorithm is proprietary (patent application filed USPTO, November 2024). Our model training methodology is a documented trade secret. We employ a team of PhD data scientists continuously improving our signal detection accuracy.
+
+FINANCIALS
+Monthly burn rate: $194,000
+Runway: 10 months (pre-raise)
+Funding ask: $2,500,000 USD
+Use of funds: 40% product (new data source connectors, scenario modeling engine), 35% enterprise sales expansion, 25% ML research and model improvement
+
+ESG PROFILE
+AI ethics and bias: DataMind's models analyze company operational data and surface recommendations that affect business decisions — including decisions that could affect employees (workforce planning, performance signals). We take AI model bias seriously. Dr. Timnit Gebru serves as an independent AI ethics advisor with explicit responsibility to review our models for potential discriminatory outputs. We conduct quarterly bias audits on all DataMind analytical models and publish the results internally to our board. We are developing a public AI bias audit report to be released in 2025.
+Data handling: DataMind processes company-proprietary business data including revenue figures, customer data summaries, and operational metrics. This data is processed under enterprise data processing agreements with each client. DataMind's privacy policy is published at datamind.ai/privacy. We do not use client data to train models without explicit written consent (currently: no client data used in model training — models trained on synthetic datasets). SOC 2 Type II certified. All data encrypted at rest (AES-256) and in transit (TLS 1.3). Data residency options available (US-East or US-West AWS regions).
+Governance: DataMind has a full governance structure: 4-member board with 2 independent directors, formal audit process, and shareholder agreement. Financial projections in this document are based on documented assumptions (pipeline conversion rate of 15% from Fortune 1000 pilots, 3-year retention based on existing cohort, NRR of 134% from 20-client data set). Full assumptions document and data room available upon execution of NDA.
+Environmental: Cloud-hosted on AWS (100% renewable energy commitment). ML model inference and training are compute-intensive — we have calculated our annual compute carbon footprint at 42 tonnes CO2e (2024 estimate) and purchase Verified Carbon Units (VCUs) from a REDD+ forest conservation project to offset. We publish our annual carbon accounting report.
+Diversity: DataMind's founding team includes a female CEO (Alexandra Reeves) and an Indian-American CTO (Dr. Raj Gupta). Our 15-person team is 40% female and 33% underrepresented minorities. Named diverse leaders: Alexandra Reeves (CEO, woman), Linda Nakamura (VP CS, Japanese-American woman), Dr. Raj Gupta (CTO, South Asian man). Formal DEI hiring policy in place and enforced in every hiring process. Our AI ethics advisory program is led by Dr. Timnit Gebru, a leading voice in AI fairness and diversity.
+Labour: All DataMind employees are full-time staff with comprehensive benefits: health, dental, vision, 401(k) with 5% match, equity for all employees, 16 weeks parental leave (all genders), and mental health support stipend.

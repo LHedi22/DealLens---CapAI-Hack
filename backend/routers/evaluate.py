@@ -64,6 +64,18 @@ def _default_forecast():
     }
 
 
+def _esg_tier(score):
+    if score is None:
+        return "Adequate"
+    if score >= 80:
+        return "Strong"
+    if score >= 60:
+        return "Adequate"
+    if score >= 40:
+        return "Weak"
+    return "Critical Risk"
+
+
 def _default_fix():
     return {
         "problems_found": 0, "fixable_problems": [], "structural_problems": [],
@@ -97,8 +109,8 @@ async def evaluate_startup(
         raise HTTPException(
             status_code=503,
             detail=(
-                "Ollama is not running. Start it with: ollama serve  "
-                "then pull the model: ollama pull mistral"
+                "Ollama is not running or the 'mistral' model is not pulled. "
+                "Run: ollama serve  then: ollama pull mistral"
             ),
         )
 
@@ -131,7 +143,10 @@ async def evaluate_startup(
         )
 
     # Step 1: Extraction
-    extraction_result = await run_extraction(document_text)
+    try:
+        extraction_result = await run_extraction(document_text)
+    except RuntimeError as exc:
+        raise HTTPException(status_code=422, detail=str(exc))
     extracted         = extraction_result["extracted"]
     data_completeness = extraction_result["data_completeness"]
     confidence_level  = extraction_result["confidence_level"]
@@ -286,6 +301,7 @@ async def evaluate_startup(
             "red_flags_triggered": esg_result.get("red_flags_triggered", []),
             "blind_spots":         blind_spots,
             "fix_verdict":         fix_result.get("fix_verdict"),
+            "document_text":       document_text,
         })
     )
 
@@ -365,6 +381,15 @@ async def evaluate_startup(
         "final_score": aggregated["final_score"],
         "verdict": recommendation["verdict"],
     })
+
+    from datetime import date
+    await db.merge(CachedEvaluation(
+        startup_name=request.startup_name,
+        evaluation_json=json.dumps(response_payload),
+        cached_at=date.today().isoformat(),
+    ))
+    await db.commit()
+
     return response_payload
 
 
@@ -376,6 +401,57 @@ async def get_cached_evaluation(
     record = await db.scalar(
         select(CachedEvaluation).where(CachedEvaluation.startup_name == startup_name)
     )
-    if not record:
+    if record:
+        return json.loads(record.evaluation_json)
+
+    # Fallback: reconstruct a partial response from deal_history
+    deal = await db.scalar(
+        select(DealHistory).where(
+            DealHistory.startup_name == startup_name,
+            DealHistory.is_pipeline == True,
+        )
+    )
+    if not deal:
         raise HTTPException(status_code=404, detail=f"No cached evaluation for '{startup_name}'")
-    return json.loads(record.evaluation_json)
+
+    red_flags = json.loads(deal.red_flags) if deal.red_flags else []
+    blind_spots = json.loads(deal.blind_spots) if deal.blind_spots else []
+
+    return {
+        "startup_name": deal.startup_name,
+        "sector": deal.sector,
+        "stage": deal.stage,
+        "business_score": deal.business_score,
+        "esg_composite": deal.esg_composite,
+        "esg_e": deal.esg_e,
+        "esg_s": deal.esg_s,
+        "esg_g": deal.esg_g,
+        "esg_tier": _esg_tier(deal.esg_composite),
+        "esg_verifiability": "Medium",
+        "final_score": deal.final_score,
+        "conviction_delta": deal.conviction_delta or 0,
+        "data_completeness": deal.data_completeness or 70,
+        "confidence_level": deal.confidence_level or "MEDIUM",
+        "verdict": deal.decision.upper() if deal.decision else "WATCH",
+        "verdict_label": (deal.decision or "watch").replace("_", " ").upper(),
+        "decision_reason": deal.decision_reason or "",
+        "red_flags_triggered": red_flags,
+        "red_flag_details": [],
+        "most_critical_esg_flag": red_flags[0] if red_flags else None,
+        "blind_spots": blind_spots,
+        "dimension_scores": {"team": None, "market": None, "revenue": None,
+                              "traction": None, "moat": None, "scalability": None},
+        "top_strengths": [],
+        "top_risks": [],
+        "delta_explanation": None,
+        "top_memory_matches": [],
+        "sector_conviction": {},
+        "forecast": _default_forecast(),
+        "fix_analysis": _default_fix(),
+        "portfolio": _default_portfolio(),
+        "mandate_breach": False,
+        "mandate_flags": [],
+        "source_type": "HISTORY",
+        "files_analysed": 0,
+        "is_partial": True,
+    }

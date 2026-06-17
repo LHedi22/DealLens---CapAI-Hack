@@ -17,10 +17,9 @@ from backend.models import (
     MonitorAgreement,
     MonitorLedgerSnapshot,
     MonitorAlert,
-    DealHistory,
-    PortfolioCompany,
 )
 from backend.monitor.agents.compliance_agent import compute_compliance, compute_health_score
+from backend.monitor.engine.monitor_feedback import run_monitor_feedback
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -136,6 +135,7 @@ async def compute_and_write_snapshot(
     )
     all_alerts = alert_result.scalars().all()
     active_count = sum(1 for a in all_alerts if not a.resolved)
+    active_critical_count = sum(1 for a in all_alerts if not a.resolved and a.severity == "CRITICAL")
     total_count = len(all_alerts)
 
     health_score = compute_health_score(
@@ -161,25 +161,15 @@ async def compute_and_write_snapshot(
     )
     db.add(snapshot)
 
-    # ── Portfolio feedback loop ───────────────────────────────────────────────
-    # Propagate compliance health score back to the main deal record and
-    # portfolio company table so the comparison dashboard stays in sync.
-    deal_res = await db.execute(
-        select(DealHistory).where(DealHistory.startup_name == startup_name)
-    )
-    deal = deal_res.scalar_one_or_none()
-    if deal:
-        deal.compliance_health_score = health_score
-
-    pc_res = await db.execute(
-        select(PortfolioCompany).where(PortfolioCompany.company_name == startup_name)
-    )
-    pc = pc_res.scalar_one_or_none()
-    if pc:
-        pc.compliance_health_score = health_score
-
     await db.commit()
     await db.refresh(snapshot)
+
+    await run_monitor_feedback(
+        db=db,
+        startup_name=startup_name,
+        compliance_health_score=health_score,
+        critical_alert_count=active_critical_count,
+    )
     return snapshot
 
 

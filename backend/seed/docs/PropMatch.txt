@@ -1,0 +1,69 @@
+PROPMATCH — INVESTOR PITCH DECK
+Series: Series A Round | Ask: $2,500,000 | Sector: PropTech | Geography: MENA
+
+COMPANY OVERVIEW
+PropMatch is an AI-powered real estate transaction marketplace for the MENA region, connecting property buyers, sellers, and renters with verified agents and developers through a data-driven matching engine. Unlike traditional listing portals (Bayut, Property Finder) that show all listings to all buyers, PropMatch uses behavioral AI to surface only the 5-8 listings most likely to match each buyer's actual preferences — reducing search time from weeks to days and improving agent conversion rates.
+
+Founded: 2022 | Headquarters: Dubai, UAE (registered) | Operations: Tunis, Casablanca, Amman | Team Size: 18
+
+PROBLEM
+MENA real estate transactions are broken at multiple levels. Property portals have 2-3 million listings in the UAE alone — buyers spend an average of 67 days searching before transacting. 78% of buyer-agent meetings result in no match, wasting both parties' time. Agents spend 14 hours per week responding to unqualified inquiries. Developers have no direct channel to pre-qualified buyers beyond portal advertising. Transaction fraud — fake listings, ghost agencies — costs MENA buyers an estimated $380M annually.
+
+SOLUTION
+PropMatch delivers:
+- AI matching engine: buyer completes a 6-minute preference profile; our algorithm matches them to the top 5-8 listings from a verified inventory database of 85,000 properties
+- Verified listing and agent certification: all listings verified by PropMatch field team before publication; agents complete a PropMatch certification process (background check + training)
+- Buyer-agent introduction: PropMatch matches buyers with the single best agent for their profile, reducing mis-matched meetings
+- Developer direct channel: developers list new development projects and receive pre-qualified buyer leads
+- Transaction support: PropMatch escrow service for secure deposit handling (UAE regulatory license applied for)
+
+TEAM
+Co-Founder & CEO: Rami Khalil — 10 years in MENA real estate, former Director of Residential Sales at Emaar Properties (Dubai). LinkedIn: linkedin.com/in/ramikhalil-propmatch
+Co-Founder & CTO: Layla Hassan — 8 years in machine learning, former Senior Data Scientist at Property Finder. LinkedIn: linkedin.com/in/laylahassan-ml
+VP Operations: Tariq El-Amin — 7 years at Bayut (UAE property portal), led market expansion to Kuwait and Bahrain. LinkedIn: linkedin.com/in/tariqelamin
+
+Advisory Board:
+- Walid Akawi — former CEO, Property Finder Group
+- Zeynep Ergul — PropTech investor and former VP Emerging Markets, Zillow
+
+Board: 3-member board (2 founders, 1 independent advisor). Formal shareholder agreement in place.
+
+MARKET
+Total Addressable Market: $22 billion (MENA real estate brokerage commissions and digital services, source: JLL MENA 2024)
+Serviceable market: $4.1 billion (UAE, Morocco, Jordan online-influenced real estate transactions)
+Market growing at 14% CAGR, driven by digitization mandates (UAE PropTech 2025 strategy) and cross-border investor activity.
+
+REVENUE MODEL
+Lead generation / transaction model:
+- Agent subscription: $280/month per agent for PropMatch Certified status and lead access
+- Developer lead package: $850/qualified buyer lead for new development projects
+- Transaction success fee: 0.5% of transaction value for PropMatch-escrow-facilitated deals (UAE pending license)
+Current ARR: $310,000 (89 certified agents, 4 developer partnerships)
+Projected Year 1 post-raise: $1.2M ARR
+Revenue model assumptions are based on continued growth in certified agent base (targeting 350 agents in UAE, Morocco, Jordan), 3% conversion from buyer profile to completed transaction, and developer lead pricing benchmarked against Property Finder's existing packages. Full assumption set available in data room.
+
+TRACTION
+- 89 certified agents (UAE: 52, Morocco: 24, Jordan: 13)
+- 8,400 buyer profiles completed in last 6 months
+- 1,240 buyer-agent introductions facilitated
+- 47 completed property transactions attributed to PropMatch matching (USD value: $23.8M)
+- 4 developer partnerships signed (residential developers in Dubai and Casablanca)
+- Average time from buyer profile to transaction: 19 days vs. market average 67 days
+
+COMPETITION
+Main competitors: Bayut (listing portal, no matching), Property Finder (portal, no verification), Huspy (mortgage-first, limited listing coverage)
+Differentiation: PropMatch is the only MENA proptech platform combining verified listings, AI behavioral matching, and agent certification — addressing fraud, search fatigue, and conversion failure simultaneously.
+IP: AI matching algorithm is proprietary (patent application filed UAE Patent Office, November 2024). Verification methodology documented as trade secret.
+
+FINANCIALS
+Monthly burn rate: $198,000
+Runway: 8 months (pre-raise)
+Funding ask: $2,500,000 USD
+Use of funds: 40% technology (matching algorithm v2, escrow platform), 35% market expansion (Saudi Arabia, Egypt), 25% sales and agent certification
+
+ESG PROFILE
+Governance: PropMatch maintains a formal board with independent advisor representation. A shareholder agreement is in place governing major decisions. Revenue projections in this document are based on stated assumptions (agent conversion, transaction rates, developer lead pricing) benchmarked against comparable portals. Full financial model with assumptions available on request.
+Social: PropMatch reduces transaction fraud — a direct harm to buyers in MENA real estate markets. Our verification process has flagged and removed 340 fraudulent listings since launch. We are creating economic opportunities for smaller independent agents who are currently crowded out by large agency networks on traditional portals. Our certified agent program is accessible to individual agents without agency affiliation.
+Environmental: Software and data platform — no hardware, no logistics. We host on UAE-based cloud infrastructure (Alibaba Cloud UAE Zone 1). We have not conducted a formal carbon assessment at this stage.
+Diversity: Our team is 28% female. Named diverse leader: Layla Hassan (CTO, woman). We have a diversity commitment in our hiring practices but have not yet formalized a written diversity policy.
+Data: PropMatch collects buyer preference data, property transaction data, and agent performance data. We are operating in compliance with UAE PDPL (Personal Data Protection Law, effective 2023). Buyer data is used exclusively for matching and is not shared with third parties beyond the matched agent and developer, with explicit buyer consent. Privacy policy available at propmatch.ae/privacy.

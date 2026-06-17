@@ -1,13 +1,32 @@
 import httpx
 import json
 import logging
+import os
+import re
 import time
 
 logger = logging.getLogger(__name__)
 
-OLLAMA_BASE = "http://localhost:11434"
+OLLAMA_BASE = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 MODEL_A = "mistral"
-MODEL_B = "llama3.2:3b"
+MODEL_B = "qwen2.5:3b"
+
+
+def _extract_json(content: str) -> str:
+    """Extract a JSON object from a string that may contain prose or markdown."""
+    content = content.strip()
+    # Strip markdown code fences
+    if content.startswith("```"):
+        content = re.sub(r'^```(?:json)?\s*', '', content)
+        content = re.sub(r'\s*```$', '', content).strip()
+    # If it's already valid JSON, return as-is
+    if content.startswith("{"):
+        return content
+    # Try to extract the first {...} block from surrounding prose
+    match = re.search(r'\{.*\}', content, re.DOTALL)
+    if match:
+        return match.group()
+    return content
 
 
 async def call_ollama(model: str, system_prompt: str, user_content: str,
@@ -36,15 +55,15 @@ async def call_ollama(model: str, system_prompt: str, user_content: str,
     start = time.time()
 
     async def _attempt() -> tuple[dict, str]:
-        async with httpx.AsyncClient(timeout=90.0) as client:
+        async with httpx.AsyncClient(timeout=180.0) as client:
             response = await client.post(f"{OLLAMA_BASE}/api/chat", json=payload)
             response.raise_for_status()
-            content = response.json()["message"]["content"].strip()
-            if content.startswith("```"):
-                content = content.split("```")[1]
-                if content.startswith("json"):
-                    content = content[4:]
-            return json.loads(content.strip()), content.strip()
+            resp_json = response.json()
+            # Ollama returns {"error": "..."} when the model is not found or unavailable
+            if "error" in resp_json:
+                raise RuntimeError(f"Ollama model error: {resp_json['error']}")
+            content = _extract_json(resp_json["message"]["content"])
+            return json.loads(content), content
 
     try:
         result, raw = await _attempt()
@@ -85,7 +104,7 @@ async def call_ollama(model: str, system_prompt: str, user_content: str,
             return {}
     except Exception as e:
         duration = int((time.time() - start) * 1000)
-        emit_log("ERROR", "ollama", "Ollama unreachable", {
+        emit_log("ERROR", "ollama", "Ollama unreachable or model error", {
             "agent": agent,
             "error": str(e),
         })
@@ -99,6 +118,11 @@ async def check_ollama_available() -> bool:
     try:
         async with httpx.AsyncClient(timeout=5.0) as client:
             r = await client.get(f"{OLLAMA_BASE}/api/tags")
-            return r.status_code == 200
+            if r.status_code != 200:
+                return False
+            # Verify that MODEL_A (mistral) is actually pulled, not just that the server runs
+            models = r.json().get("models", [])
+            model_names = [m.get("name", "") for m in models]
+            return any(MODEL_A in name for name in model_names)
     except Exception:
         return False

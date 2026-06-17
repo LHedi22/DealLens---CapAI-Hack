@@ -1,0 +1,62 @@
+ECOCHARGE — INVESTOR PITCH DECK
+Series: Pre-seed Round | Ask: $400,000 | Sector: CleanTech | Geography: Europe
+
+COMPANY OVERVIEW
+EcoCharge is developing a modular, second-life battery energy storage system for commercial and industrial buildings in Western Europe. We take lithium-ion battery packs from electric vehicles that have reached end-of-automotive-life (typically at 75-80% capacity), repackage them into grid-connected building energy storage units, and sell them as a service to commercial property owners who want to reduce peak demand charges and integrate solar generation.
+
+Founded: 2024 | Headquarters: Amsterdam, Netherlands | Team Size: 4
+
+PROBLEM
+Commercial buildings account for 36% of EU energy consumption and 40% of CO2 emissions. Peak demand charges can account for 30-45% of a commercial building's electricity bill. Meanwhile, 3.2 million EV battery packs will reach end-of-automotive-life in Europe by 2027 (BloombergNEF 2023). These batteries, while no longer viable for vehicles, retain 75-80% of original storage capacity — enough for stationary energy storage. Today they are mostly shredded, wasting embodied energy and creating lithium mining demand for new storage systems.
+
+SOLUTION
+EcoCharge delivers:
+- Second-life battery packs: EV battery modules tested, graded, and repackaged into EcoCharge Storage Units (ESUs)
+- Building energy management software: EcoCharge OS monitors building load profile, solar generation, and grid pricing to optimize charge/discharge cycles
+- Battery-as-a-Service: commercial clients pay monthly fee rather than capex — EcoCharge owns and maintains the hardware
+- Grid services: EcoCharge aggregates building storage capacity and participates in grid balancing markets (EPEX SPOT) to generate additional revenue shared with building owners
+- Installation and maintenance: EcoCharge handles installation, monitoring, and battery health tracking for the client
+
+TEAM
+Founder & CEO: Erik van den Berg — MSc Sustainable Energy Technology (TU Delft), 3 years at a Dutch EV fleet charging operator as project engineer. LinkedIn: (profile pending setup — will be provided before investor meeting)
+Co-Founder & CTO: Sofia Chen — electronic engineer, 5 years in battery management systems at a German automotive supplier. LinkedIn: (profile creation in progress)
+Advisor: Frans de Boer — senior engineer, formerly at Nuon Energy (now Vattenfall Netherlands), grid storage specialist with 20 years of experience. Contact references available.
+
+No formal board of directors in place at pre-seed stage. EcoCharge is planning to formalize governance structure following this funding round.
+
+MARKET
+Total Addressable Market: €84 billion (European commercial building energy storage and flexibility market, source: Wood Mackenzie 2024)
+Serviceable market: €6.2 billion (Netherlands, Belgium, Germany — commercial buildings with suitable solar + storage economics)
+Growing at 31% CAGR driven by EU REPowerEU policy, rising electricity prices, and mandatory energy performance certificate requirements for commercial buildings.
+
+REVENUE MODEL
+Battery-as-a-Service subscription:
+- Standard ESU (50 kWh capacity): €890/month, covering hardware, monitoring, maintenance, and grid services
+- Large ESU (150 kWh): €2,100/month
+- Revenue share on grid balancing: 30% of grid service revenue returned to building owner
+Current revenue: €0 (pre-revenue, first pilot installation in progress)
+Projected Year 1 post-raise: €180,000 ARR (target: 2 pilot installations completed, 3 additional signed)
+Projected Year 2: €720,000 ARR
+
+TRACTION
+- Letter of Intent from a 12-unit commercial property complex in Utrecht for first pilot installation
+- Partnership discussion underway with a Dutch EV fleet operator for battery supply agreement
+- Technical validation of second-life repackaging process completed in TU Delft lab setting
+- Application submitted for EU Horizon Clean Energy grant (€250,000 — decision pending Q1 2025)
+
+COMPETITION
+Main competitors: Leclanché (new battery storage, capex-heavy), Nuvve (V2G, not second-life), SNAM (Italy, battery recycling not reuse)
+Differentiation: EcoCharge is the only company combining second-life battery reuse, commercial building BaaS, and grid service aggregation in a single offering in the Netherlands market. Second-life batteries cost 40-60% less than new batteries — enabling economics new-battery competitors cannot match.
+IP: EcoCharge's battery grading and repackaging methodology is proprietary. Patent application in preparation (not yet filed).
+
+FINANCIALS
+Monthly burn rate: €28,000
+Runway: 8 months at current burn (pre-raise)
+Funding ask: $400,000 USD (~€370,000)
+Use of funds: 50% first pilot hardware procurement and installation, 30% software platform development, 20% team expansion
+
+ESG PROFILE
+Environmental: EcoCharge's entire business model is built on environmental impact. We divert EV battery packs from shredding — each 60 kWh battery pack we reuse avoids approximately 8 tonnes of CO2 equivalent from new battery manufacturing (based on Argonne National Laboratory LCA data, 2022). Our battery-as-a-service model enables commercial buildings to reduce peak grid electricity consumption by an estimated 25-40%, directly reducing carbon emissions. We are currently developing a formal carbon impact quantification methodology for each installation, which we will publish by our first commercial deployment. Our EU Horizon grant application includes a full lifecycle assessment framework.
+Social: EcoCharge creates skilled technical jobs in the Netherlands. Our second-life model reduces the need for new lithium and cobalt mining — materials often extracted under poor labor conditions in DRC and Bolivia. By extending battery life, we reduce upstream social and environmental harm. We are also exploring partnerships with vocational training programs for battery technicians.
+Governance: EcoCharge is currently a 4-person founding team. We operate with consensus-based decision making between co-founders. A formal governance structure will be established as part of this pre-seed fundraising process. We will appoint at least 2 independent advisors with defined roles before Series A.
+Data: EcoCharge's building energy management software collects building energy consumption data. This data is used exclusively for optimization and grid services and is never sold or shared beyond the building owner and grid operator as required.

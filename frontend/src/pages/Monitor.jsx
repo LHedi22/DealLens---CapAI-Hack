@@ -149,7 +149,7 @@ export default function Monitor() {
               {criticalAlerts.length} Critical Alert{criticalAlerts.length > 1 ? 's' : ''}
             </p>
             {criticalAlerts.map((a, i) => (
-              <p key={i} style={{ fontSize: 12, color: '#EF4444', lineHeight: 1.5, margin: 0 }}>
+              <p key={i} style={{ fontSize: 12, color: '#F04438', lineHeight: 1.5, margin: 0 }}>
                 {a.alert_summary}
               </p>
             ))}

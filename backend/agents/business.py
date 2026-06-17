@@ -49,6 +49,9 @@ Scalability: Labor model: {extracted.get('labor_model')}"""
             agent="business",
         )
 
+        if not raw:
+            raise RuntimeError("Business scoring: Ollama returned empty response — model may not be pulled or is failing")
+
         result = _normalize_business(raw)
         step_completed("business", f"Score: {result.get('composite_score')}")
         return result

@@ -225,7 +225,7 @@ export default function StatementUploader({ startupName, onUploaded }) {
             }}
           >
             <p style={{ fontSize: 13, fontWeight: 600, color: '#DC2626', margin: 0 }}>Upload failed</p>
-            <p style={{ fontSize: 12, color: '#EF4444', margin: 0 }}>{error}</p>
+            <p style={{ fontSize: 12, color: '#F04438', margin: 0 }}>{error}</p>
             <button
               onClick={() => { setPhase('idle'); setError(null) }}
               style={{

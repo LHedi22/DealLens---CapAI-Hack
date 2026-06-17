@@ -179,6 +179,9 @@ Additional context from documents:
         agent="esg",
     )
 
+    if not raw:
+        raise RuntimeError("ESG scoring: Ollama returned empty response — model may not be pulled or is failing")
+
     def clamp(v, default=50):
         if isinstance(v, (int, float)):
             return max(0, min(100, int(v)))

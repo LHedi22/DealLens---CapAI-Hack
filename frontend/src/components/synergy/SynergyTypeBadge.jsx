@@ -1,7 +1,7 @@
 const TYPE_META = {
   SERVICE:  { label: 'Service Bridge',  bg: 'rgba(59,130,246,0.1)',  color: '#3b82f6', border: 'rgba(59,130,246,0.25)'  },
-  CUSTOMER: { label: 'Shared Customer', bg: 'rgba(34,197,94,0.1)',   color: '#22c55e', border: 'rgba(34,197,94,0.25)'   },
-  CO_DEV:   { label: 'Co-Development',  bg: 'rgba(249,115,22,0.1)',  color: '#f97316', border: 'rgba(249,115,22,0.25)'  },
+  CUSTOMER: { label: 'Shared Customer', bg: 'rgba(34,197,94,0.1)',   color: '#12B76A', border: 'rgba(34,197,94,0.25)'   },
+  CO_DEV:   { label: 'Co-Development',  bg: 'rgba(249,115,22,0.1)',  color: '#EF6820', border: 'rgba(249,115,22,0.25)'  },
 }
 
 export default function SynergyTypeBadge({ type, small = false }) {

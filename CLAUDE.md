@@ -5,6 +5,40 @@
 
 ---
 
+## Current Status — ALL PHASES COMPLETE (2026-05-17) | Bug fixes 2026-06-12 | Refactor 2026-06-17
+
+All 6 core phases + Monitor module + Synergy module are fully implemented and demo-ready.
+Do not re-implement anything. Read existing code before adding new logic.
+
+### Refactor Applied 2026-06-17
+- **database.py** — `seed_monitor_database()` and `seed_synergy_database()` replaced with
+  `sync_monitor_from_pipeline()` and `sync_synergy_from_pipeline()`. Monitor and Synergy now
+  derive all data from real `DealHistory` evaluations (pursue/watch only). Hardcoded seed JSON
+  files (`demo_agreements.json`, `demo_transactions.json`, `demo_synergy_seed.json`) are no
+  longer loaded on startup — they remain on disk but are bypassed.
+- **feedback_loop.py** — `write_deal_record()` now auto-enrolls every new pursue/watch verdict
+  into Monitor (`_enroll_in_monitor`) and Synergy (`_create_synergy_profile`) immediately after
+  the main deal commit. Both helpers are idempotent and wrapped in try/except so failures never
+  affect the primary deal write.
+- **evaluate.py** — `"document_text"` added to the `write_deal_record()` dict so the feedback
+  loop can pass raw document text to the Synergy Ollama extractor (`extract_synergy_profile`).
+- **database.py (synergy customer heuristic)** — `sync_synergy_from_pipeline()` previously
+  tried `ev.get("revenue_model")` which is not in `response_payload` (it lives in `extracted`
+  only). Now derives the second customer segment from `company.stage` instead:
+  seed/pre-seed → "Early adopters"; all other stages → "Enterprise buyers".
+
+### Bug Fixes Applied 2026-06-12
+- **monitor_routes.py** — `scalar_one_or_none()` → `.scalars().first()` in both `get_dashboard`
+  and `get_portfolio_health`. `MonitorLedgerSnapshot` accumulates one row per statement upload;
+  the strict "exactly one row" assertion crashed after any re-run.
+- **evaluate.py** — `POST /evaluate` now upserts the full response into `cached_evaluations`
+  via `db.merge()` immediately after every successful evaluation.
+- **evaluate.py** — `GET /evaluate/cached/{name}` falls back to `deal_history` (is_pipeline=True)
+  when no cache entry exists, returning a partial response with stored scores instead of 404.
+  Partial responses carry `"is_partial": true`. `_esg_tier()` helper added to derive tier label.
+
+---
+
 ## What You Are Building
 
 **ConvictAI** — an AI-powered pre-investment screening engine for startup investors.
@@ -45,28 +79,30 @@ fixable problems, maps portfolio fit, and delivers 8 structured output cards.
 
 ### Frontend
 - **React 18 + Vite**
-- **Tailwind CSS**
-- **shadcn/ui** — cards, tables, badges, progress bars, tabs
+- **All inline CSS** — CSS custom properties via `index.css`, NO Tailwind utility classes in components
 - **Recharts** — ESG bar charts, sector pie chart, score gauges
 - **React Dropzone** — multi-file upload
 - **Framer Motion** — OCR animation sequence
+- **Radix UI** — dialog, select, tabs, toast primitives
 
 ### LLM
-- **Ollama** at `http://localhost:11434`
+- **Ollama** at `http://localhost:11434` (overridable via `OLLAMA_BASE_URL` env var)
 - **Model A** (`mistral` or `phi3:mini`): Extraction + Business scoring + ESG scoring
 - **Model B** (`llama3.2:3b` or `tinyllama`): Memory explanations + Blind spot questions + Fix analysis text
 - All responses must be **structured JSON** — enforced via system prompts
 - Wrap every Ollama call: if JSON parse fails, retry once, then return a safe default
 
-### File Structure
+### File Structure (Actual — as of 2026-05-17)
 ```
 convictai/
 ├── backend/
-│   ├── main.py                  # FastAPI app entry point
-│   ├── database.py              # SQLAlchemy setup + seed loader
-│   ├── models.py                # SQLAlchemy ORM models
+│   ├── main.py                  # FastAPI app entry point — 8 routers registered
+│   ├── database.py              # SQLAlchemy setup + seed loader (all 3 seed functions)
+│   ├── models.py                # 13 SQLAlchemy ORM models
 │   ├── schemas.py               # Pydantic schemas (all of them)
+│   ├── debug_state.py           # Pipeline state emitter for debug page
 │   ├── agents/
+│   │   ├── ollama_client.py     # httpx client, 90s timeout, retry, JSON parse
 │   │   ├── extraction.py        # Layer 3 Step 1
 │   │   ├── business.py          # Layer 3 Step 2A
 │   │   ├── esg.py               # Layer 3 Step 2B
@@ -77,15 +113,35 @@ convictai/
 │   ├── engine/
 │   │   ├── aggregator.py        # Layer 3 Step 6
 │   │   ├── recommendation.py    # Layer 3 Step 7
-│   │   └── feedback_loop.py     # Writes back to Layer 2
+│   │   └── feedback_loop.py     # Writes back to Layer 2 (is_pipeline=True)
 │   ├── parsers/
+│   │   ├── __init__.py          # exports merge_documents()
 │   │   ├── pdf_parser.py        # PyMuPDF
 │   │   ├── docx_parser.py       # python-docx
 │   │   └── xlsx_parser.py       # openpyxl
+│   ├── routers/
+│   │   ├── upload.py            # POST /api/upload
+│   │   ├── startup.py           # GET /api/pipeline (is_pipeline=True only)
+│   │   ├── mandate.py           # GET/POST /api/mandate + POST /api/mandate/apply
+│   │   ├── evaluate.py          # POST /api/evaluate (full 6-step pipeline)
+│   │   ├── ocr.py               # GET /api/ocr-mock + POST /api/ocr-confirm
+│   │   └── debug.py             # Pipeline state streaming
+│   ├── monitor/
+│   │   ├── routes/monitor_routes.py
+│   │   ├── agents/              # agreement_parser, statement_parser, category_agent,
+│   │   │                        # compliance_agent, anomaly_agent
+│   │   ├── engine/              # ledger.py, alert_engine.py
+│   │   └── seed/                # demo_agreements.json, demo_transactions.json,
+│   │                            # bank_statement_mock.json
+│   ├── synergy/
+│   │   ├── routes/synergy_routes.py
+│   │   ├── agents/              # profile_extractor, pair_scorer, gap_detector, gap_hunter
+│   │   ├── engine/match_engine.py
+│   │   └── seed/demo_synergy_seed.json
 │   ├── seed/
-│   │   └── demo_deals.json      # 6 pre-loaded deals + 5 pipeline startups
+│   │   └── demo_deals.json      # 6 history deals + 5 pipeline startups
 │   └── ocr_mock/
-│       └── scanned_result.json  # Pre-parsed physical doc for OCR demo
+│       └── scanned_result.json  # Pre-parsed EduTech Tunisia data
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
@@ -93,28 +149,41 @@ convictai/
 │   │   │   │   ├── ScorecardCard.jsx
 │   │   │   │   ├── ESGCard.jsx
 │   │   │   │   ├── MemoryInsightCard.jsx
-│   │   │   │   ├── ComparisonTable.jsx
 │   │   │   │   ├── PortfolioFitCard.jsx
 │   │   │   │   ├── ForecastCard.jsx
 │   │   │   │   ├── FixAnalysisCard.jsx
 │   │   │   │   └── BlindSpotCard.jsx
+│   │   │   │   # NOTE: ComparisonTable.jsx does NOT exist — Dashboard.jsx
+│   │   │   │   # builds its pipeline table inline (native HTML table)
 │   │   │   ├── upload/
 │   │   │   │   ├── FileUploader.jsx
 │   │   │   │   └── OCRAnimationGate.jsx
 │   │   │   ├── forms/
 │   │   │   │   ├── StartupProfileForm.jsx
 │   │   │   │   └── MandateConfigForm.jsx
-│   │   │   └── shared/
-│   │   │       ├── ScoreGauge.jsx
-│   │   │       ├── ConfidenceBadge.jsx
-│   │   │       ├── ESGBar.jsx
-│   │   │       └── LoadingCards.jsx
+│   │   │   ├── shared/
+│   │   │   │   ├── ScoreGauge.jsx
+│   │   │   │   ├── ConfidenceBadge.jsx
+│   │   │   │   ├── ESGBar.jsx
+│   │   │   │   ├── LoadingCards.jsx
+│   │   │   │   ├── ScorePill.jsx     # scoreColor() + scoreBg() helpers
+│   │   │   │   ├── VerdictBadge.jsx
+│   │   │   │   └── DeltaBadge.jsx
+│   │   │   ├── monitor/             # AlertPanel, BudgetTracker, ComplianceDashboard,
+│   │   │   │                        # ComplianceHealthBadge, MonitorOCRAnimationGate,
+│   │   │   │                        # StatementUploader, TimelineChart, TransactionLog
+│   │   │   └── synergy/             # ExternalStartupCard, GapCard, GapPanel,
+│   │   │                            # PortfolioGraph, SynergyCard, SynergyPairTable,
+│   │   │                            # SynergyScoreBar, SynergyTypeBadge
 │   │   ├── pages/
-│   │   │   ├── Dashboard.jsx    # Comparison table + pipeline overview
-│   │   │   ├── Evaluate.jsx     # Upload + form + results
-│   │   │   └── Mandate.jsx      # Fund config
+│   │   │   ├── Dashboard.jsx    # Pipeline table (inline) + stat cards + synergy chips
+│   │   │   ├── Evaluate.jsx     # Upload + form + 8 result cards + OCR gate
+│   │   │   ├── Mandate.jsx      # Fund config + apply to pipeline
+│   │   │   ├── Monitor.jsx      # Compliance monitoring hub
+│   │   │   ├── Synergy.jsx      # Portfolio synergy map
+│   │   │   └── Debug.jsx        # Pipeline state inspector
 │   │   ├── lib/
-│   │   │   └── api.js           # All fetch calls to FastAPI
+│   │   │   └── api.js           # All fetch calls to FastAPI (28+ functions)
 │   │   └── App.jsx
 │   └── package.json
 ├── uploads/                     # Temp file storage (gitignored)
@@ -132,8 +201,12 @@ id, startup_name, sector, stage, geography, business_model_type,
 date_evaluated, business_score, esg_composite, esg_e, esg_s, esg_g,
 data_completeness, confidence_level, conviction_delta, final_score,
 decision, decision_reason, red_flags (JSON), blind_spots (JSON),
-fix_verdict, outcome, outcome_notes, is_seed_data
+fix_verdict, outcome, outcome_notes, compliance_health_score,
+is_seed_data, is_pipeline
 ```
+- `is_pipeline=True` → shows in Dashboard pipeline table
+- `is_pipeline=False` → history-only (used by memory agent, not shown in Dashboard)
+- `is_seed_data=True` → both history deals AND pre-seeded pipeline deals
 
 ### Table: entity_sectors
 ```sql
@@ -149,19 +222,34 @@ name, deals_seen_in (JSON), sectors (JSON), prior_outcomes (JSON)
 ### Table: portfolio_companies
 ```sql
 company_name, sector, stage, geography, business_model_type,
-esg_tier, current_status
+esg_tier, current_status, compliance_health_score
 ```
 
-### Table: esg_red_flags
+### Table: cached_evaluations
 ```sql
-code, description, axis, point_deduction, is_custom
+startup_name (PK), evaluation_json, cached_at
+```
+EduFlow is pre-cached for instant demo render.
+Every successful `POST /evaluate` upserts a row here via `db.merge()` (overwrites on re-eval).
+`GET /evaluate/cached/{name}` falls back to `deal_history` when no cache row exists, returning
+a partial response (`is_partial=true`) instead of 404. Never call `.scalar_one_or_none()` on
+snapshot/ledger tables — use `.scalars().first()` since these tables accumulate rows over time.
+
+### Monitor Tables
+```sql
+monitor_agreements, monitor_transactions, monitor_ledger_snapshots, monitor_alerts
+```
+
+### Synergy Tables
+```sql
+synergy_profiles, synergy_pairs, synergy_gaps, gap_shortlist
 ```
 
 ---
 
 ## Seed Data — Load on Startup
 
-Pre-load these 6 deals into `deal_history` on first run (is_seed_data = true):
+Pre-load these 6 deals into `deal_history` on first run (is_seed_data=True, is_pipeline=False):
 
 | startup_name | sector | stage | business_score | esg_composite | decision | outcome |
 |---|---|---|---|---|---|---|
@@ -172,7 +260,7 @@ Pre-load these 6 deals into `deal_history` on first run (is_seed_data = true):
 | BuildBot | Construction Tech | Pre-seed | 58 | 61 | pass | Unknown — still operating |
 | DataVault | SaaS | Seed | 83 | 71 | pursue | Invested — acquired |
 
-Also pre-load 5 pipeline startups (already evaluated, shown in comparison table on load):
+Also pre-load 5 pipeline startups (is_seed_data=True, is_pipeline=True):
 
 | startup_name | sector | stage | business_score | esg_composite | conviction_delta | final_score | decision |
 |---|---|---|---|---|---|---|---|
@@ -274,7 +362,7 @@ The pre-loaded `scanned_result.json` is for **"EduTech Tunisia"** — a fictiona
 ## Demo Flow (8 Minutes — Rehearse This)
 
 1. **(0:30)** Open dashboard — show comparison table with 5 pre-loaded startups
-2. **(0:45)** Click EduFlow — show all 8 cards rendered
+2. **(0:45)** Click EduFlow — show all 8 cards rendered (instant — pre-cached)
 3. **(0:30)** Point to conviction delta card — explain -6 from AlphaLearn match
 4. **(0:30)** Show forecast card — 52% success probability, sector trend
 5. **(0:45)** Show fix analysis — conditional score jump from 72 → 81 with 3 fixes
@@ -293,13 +381,14 @@ The pre-loaded `scanned_result.json` is for **"EduTech Tunisia"** — a fictiona
 ```python
 import httpx
 import json
+import os
 
-OLLAMA_BASE = "http://localhost:11434"
+OLLAMA_BASE = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 MODEL_A = "mistral"   # or phi3:mini
 MODEL_B = "llama3.2:3b"  # or tinyllama
 
 async def call_ollama(model: str, system: str, user: str) -> dict:
-    async with httpx.AsyncClient(timeout=60.0) as client:
+    async with httpx.AsyncClient(timeout=90.0) as client:
         response = await client.post(
             f"{OLLAMA_BASE}/api/chat",
             json={
@@ -361,14 +450,15 @@ Pattern: SSE (Server-Sent Events) or polling.
 
 Loading sequence visible to judges:
 ```
-[Extracting documents...]     → skeleton cards appear
-[Scoring business...]         → Scorecard card snaps in (partial)
-[Analysing ESG...]            → ESG card snaps in
-[Checking memory...]          → Memory Insight card snaps in
-[Forecasting trajectory...]   → Forecast card snaps in
-[Analysing fix worthiness...] → Fix Analysis card snaps in
-[Mapping portfolio fit...]    → Portfolio Fit card snaps in
-[Generating blind spots...]   → Blind Spot card snaps in
+[Extracting documents...]        → skeleton cards appear
+[Scoring business...]            → Scorecard card snaps in (partial)
+[Analysing ESG...]               → ESG card snaps in
+[Checking memory...]             → Memory Insight card snaps in
+[Forecasting trajectory...]      → Forecast card snaps in
+[Analysing fix worthiness...]    → Fix Analysis card snaps in
+[Mapping portfolio fit...]       → Portfolio Fit card snaps in
+[Generating blind spots...]      → Blind Spot card snaps in
+[Generating recommendation...]   → verdict finalised
 ```
 
 ---
@@ -377,138 +467,126 @@ Loading sequence visible to judges:
 
 ---
 
-### PHASE 1 — Foundation
+### PHASE 1 — Foundation ✅ COMPLETE (2026-05-16)
 **Goal:** Running app skeleton, file upload works, SQLite seeded, forms functional.
-**Done when:** You can upload files, fill the startup form, and the database has all 11 records loaded.
 
 Tasks:
-- [ ] Initialize FastAPI app with CORS, static files, health check endpoint
-- [ ] SQLAlchemy models + SQLite setup + auto-create tables on startup
-- [ ] Seed loader: runs once on startup, inserts 6 history + 5 pipeline records
-- [ ] Multi-file upload endpoint: `/api/upload` → saves to `/uploads/{startup_id}/`
-- [ ] Startup profile form endpoint: `/api/startup/profile`
-- [ ] Mandate config endpoint: `/api/mandate` (GET + POST, persists to SQLite)
-- [ ] React + Vite + Tailwind + shadcn setup
-- [ ] `FileUploader.jsx` — drag-drop, multiple files, progress bar
-- [ ] `StartupProfileForm.jsx` — 6 fields, dropdown selects
-- [ ] `MandateConfigForm.jsx` — fund config, persists
-- [ ] `Dashboard.jsx` — skeleton comparison table, loads 5 pre-seeded pipeline startups
-- [ ] `api.js` — all fetch wrapper functions
-
-**End state:** App runs. Dashboard shows 5 startup rows. Upload works. Form submits.
+- [x] Initialize FastAPI app with CORS, static files, health check endpoint
+- [x] SQLAlchemy models + SQLite setup + auto-create tables on startup
+- [x] Seed loader: runs once on startup, inserts 6 history + 5 pipeline records
+- [x] Multi-file upload endpoint: `/api/upload` → saves to `/uploads/{startup_id}/`
+- [x] Startup profile form endpoint: `/api/startup/profile`
+- [x] Mandate config endpoint: `/api/mandate` (GET + POST, persists to SQLite)
+- [x] React + Vite + Tailwind + shadcn setup
+- [x] `FileUploader.jsx` — drag-drop, multiple files, progress bar
+- [x] `StartupProfileForm.jsx` — 6 fields, dropdown selects
+- [x] `MandateConfigForm.jsx` — fund config, persists
+- [x] `Dashboard.jsx` — pipeline table (inline), loads 5 pre-seeded pipeline startups
+- [x] `api.js` — all fetch wrapper functions
 
 ---
 
-### PHASE 2 — AI Engine Core
+### PHASE 2 — AI Engine Core ✅ COMPLETE (2026-05-16)
 **Goal:** Extraction + Business + ESG agents working. First scorecard renders.
-**Done when:** Upload a PDF → get a scorecard with a real score, real strengths, real ESG tier.
 
 Tasks:
-- [ ] `parsers/pdf_parser.py` — PyMuPDF text extraction
-- [ ] `parsers/docx_parser.py` — python-docx extraction
-- [ ] `parsers/xlsx_parser.py` — openpyxl extraction
-- [ ] Document merger: combine text from all uploaded files for one startup
-- [ ] `agents/extraction.py` — Ollama call → normalized JSON schema + completeness score + blind spots
-- [ ] `agents/business.py` — 6 dimensions → weighted score + strengths + risks
-- [ ] `agents/esg.py` — E/S/G scoring + red flag scan + tier + verifiability
-- [ ] `engine/aggregator.py` — partial aggregation (business + ESG only, no delta yet)
-- [ ] `engine/recommendation.py` — verdict + reasoning (without memory delta for now)
-- [ ] `/api/evaluate` endpoint — orchestrates extraction + business + ESG → returns partial result
-- [ ] `ScorecardCard.jsx` — overall score gauge, confidence badge, verdict, strengths, risks
-- [ ] `ESGCard.jsx` — E/S/G bars, tier badge, red flags list, verifiability
-- [ ] `LoadingCards.jsx` — skeleton pulsing state
-- [ ] `ConfidenceBadge.jsx` + `ScoreGauge.jsx` + `ESGBar.jsx` shared components
-- [ ] `Evaluate.jsx` page — upload → form → loading → 2 cards rendered
-
-**End state:** Upload real PDF → 2 cards (Scorecard + ESG) render with actual AI output.
+- [x] `parsers/pdf_parser.py` — PyMuPDF text extraction
+- [x] `parsers/docx_parser.py` — python-docx extraction
+- [x] `parsers/xlsx_parser.py` — openpyxl extraction
+- [x] Document merger: combine text from all uploaded files for one startup
+- [x] `agents/extraction.py` — Ollama call → normalized JSON schema + completeness score + blind spots
+- [x] `agents/business.py` — 6 dimensions → weighted score + strengths + risks
+- [x] `agents/esg.py` — E/S/G scoring + red flag scan + tier + verifiability
+- [x] `engine/aggregator.py` — partial aggregation (business + ESG only, no delta yet)
+- [x] `engine/recommendation.py` — verdict + reasoning
+- [x] `/api/evaluate` endpoint — orchestrates full pipeline
+- [x] `ScorecardCard.jsx`, `ESGCard.jsx`, shared components
+- [x] `Evaluate.jsx` page — upload → form → loading → cards rendered
 
 ---
 
-### PHASE 3 — Memory Layer
+### PHASE 3 — Memory Layer ✅ COMPLETE (2026-05-16)
 **Goal:** Memory matching works. Conviction delta shows on scorecard. Feedback loop writes to DB.
-**Done when:** Scorecard shows conviction delta with a real explanation tied to past deals.
 
 Tasks:
-- [ ] `agents/memory.py` — similarity computation against deal_history + conviction delta calculation
-- [ ] Sector conviction signal from `entity_sectors` table
-- [ ] Update `engine/aggregator.py` — apply conviction delta to final score formula
-- [ ] `engine/feedback_loop.py` — write complete deal record to SQLite after eval
-- [ ] Update `entity_sectors` table after each evaluation
-- [ ] `MemoryInsightCard.jsx` — delta number, top 3 similar deals, sector conviction
-- [ ] `ComparisonTable.jsx` — sortable/filterable table, all columns, loads from DB
-- [ ] Update `Dashboard.jsx` — live comparison table with newly evaluated startups appearing
-
-**End state:** Submit a startup → conviction delta shows. ComparisonTable updates. Record saved to DB.
+- [x] `agents/memory.py` — similarity computation + conviction delta calculation
+- [x] Sector conviction signal from `entity_sectors` table
+- [x] Update `engine/aggregator.py` — apply conviction delta to final score formula
+- [x] `engine/feedback_loop.py` — write complete deal record to SQLite after eval (is_pipeline=True)
+- [x] Update `entity_sectors` table after each evaluation
+- [x] `MemoryInsightCard.jsx` — delta number, top 3 similar deals, sector conviction
+- [x] `Dashboard.jsx` — live comparison table with newly evaluated startups appearing
 
 ---
 
-### PHASE 4 — Forecasting + Fix Analysis
+### PHASE 4 — Forecasting + Fix Analysis ✅ COMPLETE (2026-05-16)
 **Goal:** Forecast card and Fix Analysis card fully rendered with AI-generated content.
-**Done when:** Both cards show on the results page with real numbers and AI reasoning.
 
 Tasks:
-- [ ] `agents/forecasting.py` — revenue trajectory (3 scenarios) + success probability + ROI + sector trend
-- [ ] `agents/fix_analysis.py` — problem detection + fix scores + conditional score + prioritized actions + verdict
-- [ ] Update parallel `asyncio.gather` call to include forecasting + fix agents
-- [ ] `ForecastCard.jsx` — 3 revenue scenarios, probability %, ROI estimate, disclaimer banner
-- [ ] `FixAnalysisCard.jsx` — current vs conditional score, verdict badge, 3 priority actions
-- [ ] Forecast disclaimer: "AI-reasoned estimates. Not a financial model. Use for directional comparison only."
-
-**End state:** All 4 AI-heavy cards render (Scorecard, ESG, Memory, Forecast, Fix = 5 cards).
+- [x] `agents/forecasting.py` — revenue trajectory (3 scenarios) + success probability + ROI + sector trend
+- [x] `agents/fix_analysis.py` — problem detection + fix scores + conditional score + prioritized actions + verdict
+- [x] Update parallel `asyncio.gather` call to include forecasting + fix agents
+- [x] `ForecastCard.jsx` — 3 revenue scenarios, probability %, ROI estimate, disclaimer banner
+- [x] `FixAnalysisCard.jsx` — current vs conditional score, verdict badge, 3 priority actions
 
 ---
 
-### PHASE 5 — Portfolio Engine + Remaining Cards
+### PHASE 5 — Portfolio Engine + Remaining Cards ✅ COMPLETE (2026-05-16)
 **Goal:** All 8 output cards rendered. Portfolio fit works. Blind spot report complete.
-**Done when:** Full 8-card layout visible after evaluation.
 
 Tasks:
-- [ ] `agents/portfolio.py` — sector concentration + stage balance + ESG shift + risk correlation + fit verdict
-- [ ] Pipeline optimizer (if ≥2 pursue/watch in DB)
-- [ ] Update `/api/evaluate` to include portfolio agent in parallel gather
-- [ ] `PortfolioFitCard.jsx` — concentration chart (Recharts pie), stage map, ESG shift, warnings
-- [ ] `BlindSpotCard.jsx` — numbered list, risk per blind spot, meeting question per blind spot
-- [ ] Mandate filter: apply hard-pass conditions in aggregator
-- [ ] Mandate change → re-evaluate existing pipeline startups → update table (or flag for re-eval)
-- [ ] All 8 cards assembled in `Evaluate.jsx` with tab or scroll layout
-
-**End state:** Full 8-card output. Portfolio fit map shows. Blind spots show. Mandate filter works.
+- [x] `agents/portfolio.py` — sector concentration + stage balance + ESG shift + risk correlation + fit verdict
+- [x] Pipeline optimizer (if ≥2 pursue/watch in DB)
+- [x] `PortfolioFitCard.jsx` — concentration chart (Recharts pie), stage map, ESG shift, warnings
+- [x] `BlindSpotCard.jsx` — numbered list, risk per blind spot, meeting question per blind spot
+- [x] Mandate filter: apply hard-pass conditions in aggregator
+- [x] POST `/api/mandate/apply` — re-checks all pipeline startups against new mandate
 
 ---
 
-### PHASE 6 — OCR Animation + Demo Prep
+### PHASE 6 — OCR Animation + Demo Prep ✅ COMPLETE (2026-05-17)
 **Goal:** OCR demo sequence works. App is demo-ready. All edge cases handled.
-**Done when:** Upload an image → OCR animation plays → investor review gate appears → confirm → 8 cards render.
 
 Tasks:
-- [ ] `ocr_mock/scanned_result.json` — pre-parsed EduTech Tunisia startup data
-- [ ] `/api/ocr-mock` endpoint — returns scanned_result.json + triggers normal eval pipeline
-- [ ] `OCRAnimationGate.jsx` — 5-step animated sequence (Framer Motion)
-  - Quality check progress bar (1.5s)
-  - Pre-processing steps appear one by one
-  - OCR text lines appear with cursor effect
-  - Section headers structure rebuild
-  - Investor review gate (editable fields, confidence badges, UNCLEAR markers)
-- [ ] "Confirm and Analyse" → sends confirmed data to evaluation pipeline
-- [ ] Physical scan notice on scorecard when source = PHYSICAL_SCAN
-- [ ] Pre-cache EduFlow result for instant render in demo (hard-code result in DB)
-- [ ] Mandate change demo: lower ESG threshold → NovaPay flips to PASS live
-- [ ] Streaming / progressive card reveal (Framer Motion stagger)
-- [ ] Error states: Ollama not running → show friendly error, not crash
-- [ ] Final visual polish: color coding (green/amber/orange/red scores), typography, spacing
-- [ ] Rehearse full 8-minute demo flow end to end
+- [x] `ocr_mock/scanned_result.json` — pre-parsed EduTech Tunisia startup data
+- [x] `/api/ocr-mock` + `/api/ocr-confirm` endpoints
+- [x] `OCRAnimationGate.jsx` — 5-step animated sequence (Framer Motion)
+- [x] Physical scan notice on scorecard when source = PHYSICAL_SCAN
+- [x] Pre-cached EduFlow result for instant demo render
+- [x] Mandate change demo: lower ESG threshold → NovaPay flips to PASS live
+- [x] Framer Motion stagger card reveal
+- [x] Ollama offline detection → friendly error card, not crash
+- [x] 90s timeout warning in Evaluate.jsx
 
-**End state:** Demo-ready. Every step of the pitch flow works without surprises.
+---
+
+### MONITOR MODULE ✅ COMPLETE (2026-05-17)
+Post-investment compliance monitoring. Tracks fund agreements, classifies bank statements,
+detects off-plan spending, computes compliance health score per portfolio company.
+
+Key files: `backend/monitor/`, `frontend/src/components/monitor/`, `frontend/src/pages/Monitor.jsx`
+
+Pre-seeded: NovaPay (health=87), EduFlow (health=61), BuildSmart (health=34)
+
+---
+
+### SYNERGY MODULE ✅ COMPLETE (2026-05-17)
+Portfolio synergy detection. Extracts capability profiles from deal documents, scores
+company pairs on service bridge / shared customers / co-dev potential, detects portfolio gaps.
+
+Key files: `backend/synergy/`, `frontend/src/components/synergy/`, `frontend/src/pages/Synergy.jsx`
+
+Pre-seeded: 5 profiles, 7 pairs, 5 gaps.
 
 ---
 
 ## Score Color Coding — Use Everywhere
 
 ```
-75–100  →  green   (#22c55e)
-60–74   →  amber   (#f59e0b)
-45–59   →  orange  (#f97316)
-0–44    →  red     (#ef4444)
+75–100  →  green   (#22c55e)  var(--s-green)
+60–74   →  amber   (#f59e0b)  var(--s-amber)
+45–59   →  orange  (#f97316)  var(--s-orange)
+0–44    →  red     (#ef4444)  var(--s-red)
 ```
 
 Confidence badges:
@@ -583,6 +661,37 @@ Respond ONLY with a valid JSON object. No explanation. No markdown. No backticks
 - Never display a confidence of HIGH when data_completeness < 75%
 - Never show forecast numbers without the disclaimer
 - Never let the portfolio agent crash if portfolio_companies table is empty
+- Never query `DealHistory` for the pipeline without `WHERE is_pipeline = True` — the 6 history deals must stay hidden from the Dashboard
+
+---
+
+## How to Run
+
+### Prerequisites
+```powershell
+ollama pull mistral
+ollama pull llama3.2:3b
+```
+
+### Terminal 1 — Ollama
+```powershell
+ollama serve
+```
+
+### Terminal 2 — Backend (from project root)
+```powershell
+.venv\Scripts\python.exe -m uvicorn backend.main:app --reload --port 8000
+```
+
+### Terminal 3 — Frontend
+```powershell
+cd frontend
+npm run dev
+```
+
+Open `http://localhost:5173`. Health check: `http://localhost:8000/api/health`
+
+To force a clean re-seed, delete `convictai.db` before starting the backend.
 
 ---
 
@@ -604,5 +713,5 @@ aiosqlite==0.20.0
 ---
 
 *This file is the single source of truth for Claude Code.*
-*Do not improvise architecture. Follow the phases in order.*
+*All phases are complete. Do not re-implement. Read existing code before adding.*
 *Built for the CapAI Hackathon — pre-investment axis.*

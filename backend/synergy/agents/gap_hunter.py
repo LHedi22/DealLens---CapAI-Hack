@@ -1,7 +1,10 @@
 import json
+import logging
 import os
 
 import httpx
+
+logger = logging.getLogger(__name__)
 
 FALLBACK_COMPANIES = {
     "B2B Payment Infrastructure": [
@@ -119,6 +122,7 @@ async def hunt_gap(gap: dict) -> list[dict]:
     )
 
     if not api_key:
+        logger.warning("[gap_hunter] ANTHROPIC_API_KEY not set — using Ollama demo fallback.")
         return _fallback(gap_label)
 
     try:
@@ -126,8 +130,8 @@ async def hunt_gap(gap: dict) -> list[dict]:
             response = await client.post(
                 "https://api.anthropic.com/v1/messages",
                 headers={
-                    "Content-Type":    "application/json",
-                    "x-api-key":       api_key,
+                    "Content-Type":      "application/json",
+                    "x-api-key":         api_key,
                     "anthropic-version": "2023-06-01",
                 },
                 json={
@@ -151,9 +155,13 @@ async def hunt_gap(gap: dict) -> list[dict]:
         return results[:5]
 
     except Exception as e:
-        print(f"[gap_hunter] API failed ({e}) — using fallback.")
+        logger.error(f"[gap_hunter] API call failed ({e}) — using Ollama demo fallback.")
         return _fallback(gap_label)
 
 
 def _fallback(gap_label: str) -> list[dict]:
-    return FALLBACK_COMPANIES.get(gap_label, FALLBACK_COMPANIES["DEFAULT"])
+    companies = FALLBACK_COMPANIES.get(gap_label, FALLBACK_COMPANIES["DEFAULT"])
+    return [
+        {**c, "flags": c.get("flags", []) + ["Simulated — Ollama demo mode"]}
+        for c in companies
+    ]

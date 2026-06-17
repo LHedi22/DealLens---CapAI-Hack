@@ -1,10 +1,14 @@
 import json
 import logging
-from datetime import date
+from datetime import date, datetime
 from sqlalchemy import select
 
 from backend.database import AsyncSessionLocal
-from backend.models import DealHistory, EntitySector
+from backend.models import (
+    DealHistory, EntitySector,
+    MonitorAgreement, MonitorLedgerSnapshot,
+    SynergyProfile,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -54,6 +58,14 @@ async def write_deal_record(evaluation_result: dict) -> None:
             )
 
             await db.commit()
+
+            if evaluation_result.get("verdict") in ("pursue", "watch"):
+                await _enroll_in_monitor(db, deal)
+                await _create_synergy_profile(
+                    db, deal,
+                    evaluation_result.get("document_text", ""),
+                )
+
             logger.info(f"Deal saved: {evaluation_result['startup_name']}")
 
         except Exception as e:
@@ -102,3 +114,83 @@ async def _update_sector_entity(
         entity.trend_direction = "declining"
     else:
         entity.trend_direction = "stable"
+
+
+async def _enroll_in_monitor(db, deal: DealHistory) -> None:
+    """Create a minimal MonitorAgreement + initial snapshot seeded from ESG composite."""
+    try:
+        exists = await db.scalar(
+            select(MonitorAgreement).where(
+                MonitorAgreement.startup_name == deal.startup_name
+            )
+        )
+        if exists:
+            return
+
+        agreement = MonitorAgreement(
+            startup_name=deal.startup_name,
+            deal_history_id=deal.id,
+            agreement_date=deal.date_evaluated,
+            agreement_duration_months=60,
+            total_committed_tnd=0.0,
+            categories=json.dumps([]),
+            time_milestones=json.dumps([]),
+            source_type="AUTO",
+            is_seed_data=False,
+        )
+        db.add(agreement)
+        await db.flush()
+
+        health = deal.esg_composite or 50
+        db.add(MonitorLedgerSnapshot(
+            agreement_id=agreement.id,
+            startup_name=deal.startup_name,
+            snapshot_month=deal.date_evaluated[:7],
+            months_elapsed=0,
+            category_totals=json.dumps({}),
+            total_spent_tnd=0.0,
+            total_planned_to_date_tnd=0.0,
+            unclassified_tnd=0.0,
+            compliance_health_score=health,
+            alert_count_active=0,
+            alert_count_total=0,
+        ))
+        deal.compliance_health_score = health
+        await db.commit()
+    except Exception as e:
+        logger.error(f"Monitor enrollment failed for {deal.startup_name}: {e}")
+        await db.rollback()
+
+
+async def _create_synergy_profile(db, deal: DealHistory, document_text: str) -> None:
+    """Extract a SynergyProfile via Ollama and score all new pairs."""
+    try:
+        exists = await db.scalar(
+            select(SynergyProfile).where(
+                SynergyProfile.company_name == deal.startup_name
+            )
+        )
+        if exists:
+            return
+
+        from backend.synergy.agents.profile_extractor import extract_synergy_profile
+        profile_data = await extract_synergy_profile(
+            document_text=document_text,
+            company_name=deal.startup_name,
+            sector=deal.sector,
+            stage=deal.stage,
+            geography=deal.geography,
+            deal_history_id=deal.id,
+        )
+        profile_data["extraction_source"] = "live_evaluation"
+        db.add(SynergyProfile(**profile_data))
+        await db.commit()
+
+        from backend.synergy.engine.match_engine import run_full_pipeline
+        await run_full_pipeline(db)
+    except Exception as e:
+        logger.error(f"Synergy profile creation failed for {deal.startup_name}: {e}")
+        try:
+            await db.rollback()
+        except Exception:
+            pass

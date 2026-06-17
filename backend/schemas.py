@@ -41,6 +41,7 @@ class DealSummary(BaseModel):
     confidence_level: Optional[str] = None
     fix_verdict: Optional[str] = None
     is_pipeline: bool
+    compliance_health_score: Optional[int] = None
 
 
 class DealDetail(BaseModel):

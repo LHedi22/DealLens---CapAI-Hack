@@ -13,17 +13,17 @@ const FILTERS = [
 ]
 
 const DECISION_STYLE = {
-  approved: { color: '#22c55e', label: 'Approved' },
-  rejected: { color: '#ef4444', label: 'Rejected' },
+  approved: { color: '#12B76A', label: 'Approved' },
+  rejected: { color: '#F04438', label: 'Rejected' },
   snoozed:  { color: '#94a3b8', label: 'Snoozed'  },
 }
 
 function scoreColor(s) {
   if (!s) return 'var(--tx-3)'
-  if (s >= 75) return '#22c55e'
-  if (s >= 60) return '#f59e0b'
-  if (s >= 45) return '#f97316'
-  return '#ef4444'
+  if (s >= 75) return '#12B76A'
+  if (s >= 60) return '#F5A524'
+  if (s >= 45) return '#EF6820'
+  return '#F04438'
 }
 
 const TH = {

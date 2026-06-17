@@ -1,0 +1,68 @@
+INSURENOW — INVESTOR PITCH DECK
+Series: Seed Round | Ask: $750,000 | Sector: InsurTech | Geography: Europe
+
+COMPANY OVERVIEW
+InsureNow is an embedded insurance distribution platform for European gig economy platforms and HR SaaS providers. We enable platforms to offer white-labeled micro-insurance products (accident, income protection, equipment) to their end users — gig workers, freelancers, and SME employees — through a single API integration. Insurance is activated in seconds, billed monthly, and cancellable at any time.
+
+Founded: 2023 | Headquarters: Amsterdam, Netherlands | Team Size: 8
+
+PROBLEM
+32 million gig workers in Europe have no employer-provided insurance coverage. Existing insurance products require lengthy applications, medical checks, and annual commitments — completely unsuitable for workers with variable income and intermittent employment. Meanwhile, platforms that employ gig workers (delivery apps, freelance marketplaces, HR tools) have no convenient way to offer insurance as a value-added service. 67% of gig workers say access to portable insurance would make them more loyal to their platform (Eurofound 2023).
+
+SOLUTION
+InsureNow delivers:
+- Insurance API: single API endpoint that platforms integrate to offer micro-insurance to their users
+- Policy engine: instant policy issuance, real-time activation and deactivation, automated claims triggers
+- Insurance products: AccidentCover (€8/month), IncomeGuard (€22/month), EquipShield (€12/month) — all underwritten by established insurance partners
+- White-label UI: fully branded insurance module in the platform's own app
+- Claims management: digital claims portal with 72-hour settlement commitment
+
+TEAM
+Co-Founder & CEO: Nora van Dijk — 6 years at Accenture Insurance practice, specialized in digital insurance transformation. Previously led InsurTech partnership program at a major Dutch insurer. LinkedIn: linkedin.com/in/noravandijk-insurtech
+Co-Founder & CTO: Aleksander Nowak — software architect, 7 years in fintech API development, former senior engineer at Adyen. LinkedIn: linkedin.com/in/aleksandernowak-dev
+Head of Partnerships: Sophie Bernard — 4 years at a leading European gig platform (Temper), developed worker benefits program. LinkedIn: linkedin.com/in/sophiebernard-hr
+
+Advisory Board:
+- Jan Pieter Boon — former Chief Actuary, ASR Nederland
+- Katarzyna Wójtowicz — digital insurance strategist, former VP Product at Wakam
+
+No formal board of directors in place. The company is operated by the founding team. We plan to establish a formal board structure before our Series A.
+
+MARKET
+Total Addressable Market: €31 billion (European gig worker and SME employee insurance market, source: Swiss Re Institute 2024)
+Serviceable market: €4.2 billion (Netherlands, Germany, Poland — platform-embedded micro-insurance)
+Growing at 19% CAGR driven by EU Platform Work Directive, gig economy expansion, and insurtech API adoption.
+
+REVENUE MODEL
+Revenue share on premiums:
+- InsureNow earns 22-28% of monthly premium revenue as distribution fee
+- Per-integration setup fee: €8,000 per platform partner (one-time)
+Current ARR: €62,000 (3 platform partners, 840 active insured users)
+Projected Year 1 (post-raise): €380,000 ARR (12 platforms, 4,200 insured users)
+Revenue projections are based on assumptions of 4 new platform integrations per quarter at average of €18,000 ARR per platform, and 30% monthly user activation rate from each platform's user base. These assumptions have not yet been externally validated by market data and are based on current partner conversion rates which may not be representative at scale.
+
+TRACTION
+- 3 platform partner integrations live (a Dutch gig cleaning platform, a Polish freelance marketplace, a German HR tool)
+- 840 active insured gig workers
+- €62,000 ARR — 8 months from first integration
+- Zero claims disputes in first 8 months
+- 2 additional platform partnerships in final negotiation stage
+- Letter of intent from a French delivery platform (18,000 gig workers on platform)
+
+COMPETITION
+Main competitors: Qover (broader embedded insurance, enterprise-focused), Alan (employee benefits, not gig), Zego (fleet insurance, not micro)
+Differentiation: InsureNow is the only European embedded insurance platform focused exclusively on the gig worker segment, with API-first integration and monthly flexible products.
+IP: InsureNow's policy engine and claims trigger automation are proprietary software (trade secret). No patents filed.
+
+FINANCIALS
+Monthly burn rate: €58,000
+Runway: 9 months (pre-raise)
+Funding ask: $750,000 USD (~€690,000)
+Use of funds: 40% platform engineering (claims automation, new product types), 35% partnership development, 25% regulatory compliance
+
+ESG PROFILE
+Social: InsureNow's core social impact is extending insurance access to 32 million European gig workers who are currently unprotected. Each active policy on our platform represents a worker who, for the first time, has financial protection against accident or income loss. We track the number of insured workers and claims paid as our primary social impact metrics.
+Governance: The company is managed by the founding team without a formal board of directors at this stage. Financial projections in this document are based on internal model assumptions that have not been independently validated. Detailed assumptions are available on request. We commit to establishing a formal board structure before our Series A funding round.
+Environmental: SaaS platform. No hardware. Cloud-hosted on AWS Amsterdam (renewable energy commitment). We have not conducted a formal carbon impact assessment.
+Diversity: Founding team is 33% female (CEO Nora van Dijk). We are building a diverse team and have a commitment to inclusive hiring. No formal written diversity policy in place yet.
+Data: InsureNow processes personal health and financial data of insured workers. We are fully GDPR compliant (DPA registration confirmed). Our privacy policy is published at insurenow.eu/privacy. Worker data is used only for policy management and claims processing, and is shared with our underwriting insurance partner under formal data processing agreements.

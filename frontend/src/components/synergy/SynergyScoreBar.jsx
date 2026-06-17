@@ -1,8 +1,8 @@
 function scoreColor(score) {
-  if (score >= 75) return '#22c55e'
-  if (score >= 60) return '#f59e0b'
-  if (score >= 45) return '#f97316'
-  return '#ef4444'
+  if (score >= 75) return '#12B76A'
+  if (score >= 60) return '#F5A524'
+  if (score >= 45) return '#EF6820'
+  return '#F04438'
 }
 
 export default function SynergyScoreBar({ score, label, showNumber = true, height = 6 }) {

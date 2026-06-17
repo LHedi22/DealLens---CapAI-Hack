@@ -1,7 +1,8 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy import select, func, text
 import json
-from datetime import date
+from datetime import date, datetime
+from pathlib import Path
 
 from backend.models import (
     Base, DealHistory, EntitySector, MandateConfig, CachedEvaluation,
@@ -35,6 +36,8 @@ async def init_db():
     await seed_database()
     await seed_monitor_database()
     await seed_synergy_database()
+    await sync_monitor_from_pipeline()
+    await sync_synergy_from_pipeline()
 
 
 _EDUFLOW_CACHE = {
@@ -265,10 +268,19 @@ _ALL_SECTORS = [
 ]
 
 
+_SCORE_FIELDS = (
+    "business_score", "esg_composite", "esg_e", "esg_s", "esg_g",
+    "data_completeness", "confidence_level", "conviction_delta", "final_score",
+    "decision", "decision_reason", "fix_verdict",
+)
+
+
 async def seed_database():
+    from sqlalchemy import update as sa_update
+
     async with AsyncSessionLocal() as session:
         # ── Load JSON once ───────────────────────────────────────────────────
-        with open("backend/seed/demo_deals.json") as f:
+        with open("backend/seed/demo_deals.json", encoding="utf-8-sig") as f:
             data = json.load(f)
 
         # ── Discover which names already exist ───────────────────────────────
@@ -288,6 +300,27 @@ async def seed_database():
                 session.add(DealHistory(**deal, is_seed_data=True, is_pipeline=True))
                 added = True
 
+        if added or first_run:
+            await session.commit()
+
+        # ── Re-sync scores for existing seed records ─────────────────────────
+        # Keeps seed records authoritative regardless of how many times the
+        # server restarts. Only touches is_seed_data=True rows so live
+        # evaluations are never overwritten.
+        all_seed = data["history_deals"] + data["pipeline_deals"]
+        for deal in all_seed:
+            name = deal["startup_name"]
+            if name not in existing_names:
+                continue  # just inserted above; skip
+            patch = {k: deal[k] for k in _SCORE_FIELDS if k in deal}
+            if patch:
+                await session.execute(
+                    sa_update(DealHistory)
+                    .where(DealHistory.startup_name == name, DealHistory.is_seed_data == True)  # noqa: E712
+                    .values(**patch)
+                )
+        await session.commit()
+
         # ── Seed support tables only on true first run ───────────────────────
         if first_run:
             for s in _ALL_SECTORS:
@@ -302,88 +335,108 @@ async def seed_database():
             for s in _ALL_SECTORS:
                 if s not in existing_sectors:
                     session.add(EntitySector(sector_name=s))
-
-        if added or first_run:
             await session.commit()
 
         # ── Seed cached evaluations ──────────────────────────────────────────
-        cache_count = await session.scalar(select(func.count()).select_from(CachedEvaluation))
-        if cache_count == 0:
-            session.add(CachedEvaluation(
-                startup_name="EduFlow",
-                evaluation_json=json.dumps(_EDUFLOW_CACHE),
-                cached_at=date.today().isoformat(),
-            ))
+        # Primary: load all AI-generated eval JSONs from cached_evals/ directory.
+        # Fallback: if directory doesn't exist yet, pre-load the hardcoded EduFlow cache
+        # so the demo works immediately after cloning (before run_evaluations.py is run).
+        cached_evals_dir = Path("backend/seed/cached_evals")
+        if cached_evals_dir.is_dir():
+            for json_file in sorted(cached_evals_dir.glob("*.json")):
+                startup_name = json_file.stem
+                existing = await session.scalar(
+                    select(CachedEvaluation).where(CachedEvaluation.startup_name == startup_name)
+                )
+                if not existing:
+                    session.add(CachedEvaluation(
+                        startup_name=startup_name,
+                        evaluation_json=json_file.read_text(encoding="utf-8"),
+                        cached_at=date.today().isoformat(),
+                    ))
             await session.commit()
+        else:
+            cache_count = await session.scalar(select(func.count()).select_from(CachedEvaluation))
+            if cache_count == 0:
+                session.add(CachedEvaluation(
+                    startup_name="EduFlow",
+                    evaluation_json=json.dumps(_EDUFLOW_CACHE),
+                    cached_at=date.today().isoformat(),
+                ))
+                await session.commit()
 
 
 async def seed_monitor_database():
-    async with AsyncSessionLocal() as session:
-        # Skip if monitor data already exists
-        count = await session.scalar(
-            select(func.count()).select_from(MonitorAgreement)
-        )
-        if count and count > 0:
-            return
+    """Seed Monitor module with rich mock data for all 5 pipeline startups.
+    Reads demo_agreements.json + demo_transactions.json. Per-company idempotent —
+    skips any company that already has an is_seed_data=True MonitorAgreement.
+    """
+    from sqlalchemy import update as sa_update
 
-        seed_dir = "backend/monitor/seed"
-        with open(f"{seed_dir}/demo_agreements.json") as f:
-            ag_data = json.load(f)
-        with open(f"{seed_dir}/demo_transactions.json") as f:
+    try:
+        with open("backend/monitor/seed/demo_agreements.json", encoding="utf-8") as f:
+            agreements_data = json.load(f)
+        with open("backend/monitor/seed/demo_transactions.json", encoding="utf-8") as f:
             tx_data = json.load(f)
+    except FileNotFoundError:
+        return
 
-        # ── Insert agreements, capture IDs by startup_name ───────────────────
-        agreement_ids: dict[str, int] = {}
-        for ag in ag_data["agreements"]:
-            obj = MonitorAgreement(
-                startup_name=ag["startup_name"],
+    async with AsyncSessionLocal() as session:
+        now = datetime.utcnow().isoformat()
+
+        for ag in agreements_data["agreements"]:
+            name = ag["startup_name"]
+
+            exists = await session.scalar(
+                select(MonitorAgreement).where(
+                    MonitorAgreement.startup_name == name,
+                    MonitorAgreement.is_seed_data == True,  # noqa: E712
+                )
+            )
+            if exists:
+                continue
+
+            agreement = MonitorAgreement(
+                startup_name=name,
                 agreement_date=ag["agreement_date"],
                 agreement_duration_months=ag["agreement_duration_months"],
                 total_committed_tnd=ag["total_committed_tnd"],
                 categories=json.dumps(ag["categories"]),
-                time_milestones=json.dumps(ag["time_milestones"]),
-                uploaded_at=ag["agreement_date"] + "T00:00:00",
+                time_milestones=json.dumps(ag.get("time_milestones", [])),
                 source_type="DIGITAL",
+                uploaded_at=now,
                 is_seed_data=True,
             )
-            session.add(obj)
-            await session.flush()  # populate obj.id without committing
-            agreement_ids[ag["startup_name"]] = obj.id
+            session.add(agreement)
+            await session.flush()
 
-        # ── Insert transactions, snapshots, and alerts per startup ────────────
-        for startup_name, payload in tx_data.items():
-            ag_id = agreement_ids.get(startup_name)
-            if ag_id is None:
+            if name not in tx_data:
                 continue
 
-            # Transactions
-            tx_id_map: dict[int, int] = {}  # index → db id (for alert linking if needed)
-            for i, tx in enumerate(payload.get("transactions", [])):
-                tx_obj = MonitorTransaction(
-                    agreement_id=ag_id,
-                    startup_name=startup_name,
-                    statement_month=tx.get("statement_month"),
-                    transaction_date=tx.get("transaction_date"),
-                    beneficiary=tx.get("beneficiary"),
-                    amount_tnd=tx.get("amount_tnd"),
-                    memo=tx.get("memo"),
+            company_data = tx_data[name]
+
+            for tx in company_data.get("transactions", []):
+                session.add(MonitorTransaction(
+                    agreement_id=agreement.id,
+                    startup_name=name,
+                    statement_month=tx["statement_month"],
+                    transaction_date=tx["transaction_date"],
+                    beneficiary=tx["beneficiary"],
+                    amount_tnd=tx["amount_tnd"],
+                    memo=tx["memo"],
                     ai_category=tx.get("ai_category"),
                     ai_confidence=tx.get("ai_confidence"),
                     classification_status=tx.get("classification_status"),
                     alert_triggered=tx.get("alert_triggered", 0),
                     alert_type=tx.get("alert_type"),
-                    uploaded_at=tx.get("transaction_date"),
-                )
-                session.add(tx_obj)
-                await session.flush()
-                tx_id_map[i] = tx_obj.id
+                    uploaded_at=now,
+                ))
 
-            # Snapshot
-            snap = payload.get("snapshot")
+            snap = company_data.get("snapshot", {})
             if snap:
                 session.add(MonitorLedgerSnapshot(
-                    agreement_id=ag_id,
-                    startup_name=startup_name,
+                    agreement_id=agreement.id,
+                    startup_name=name,
                     snapshot_month=snap["snapshot_month"],
                     months_elapsed=snap["months_elapsed"],
                     category_totals=json.dumps(snap["category_totals"]),
@@ -393,19 +446,23 @@ async def seed_monitor_database():
                     compliance_health_score=snap["compliance_health_score"],
                     alert_count_active=snap["alert_count_active"],
                     alert_count_total=snap["alert_count_total"],
-                    created_at=snap["snapshot_month"] + "-28T00:00:00",
+                    created_at=now,
                 ))
+                await session.execute(
+                    sa_update(DealHistory)
+                    .where(DealHistory.startup_name == name)
+                    .values(compliance_health_score=snap["compliance_health_score"])
+                )
 
-            # Alerts
-            for alert in payload.get("alerts", []):
+            for alert in company_data.get("alerts", []):
                 session.add(MonitorAlert(
-                    agreement_id=ag_id,
-                    startup_name=startup_name,
+                    agreement_id=agreement.id,
+                    startup_name=name,
                     alert_type=alert["alert_type"],
                     severity=alert["severity"],
-                    alert_summary=alert["alert_summary"],
-                    alert_detail=alert["alert_detail"],
-                    fired_at=alert["fired_at"],
+                    alert_summary=alert.get("alert_summary"),
+                    alert_detail=alert.get("alert_detail"),
+                    fired_at=alert.get("fired_at"),
                     resolved=alert.get("resolved", 0),
                     resolved_at=alert.get("resolved_at"),
                     resolved_by_note=alert.get("resolved_by_note"),
@@ -415,46 +472,44 @@ async def seed_monitor_database():
 
 
 async def seed_synergy_database():
+    """Seed Synergy module with profiles, pairs, and gaps from demo_synergy_seed.json.
+    Idempotent — skips entirely if any extraction_source='seed' profiles already exist.
+    """
+    try:
+        with open("backend/synergy/seed/demo_synergy_seed.json", encoding="utf-8") as f:
+            data = json.load(f)
+    except FileNotFoundError:
+        return
+
     async with AsyncSessionLocal() as session:
-        count = await session.scalar(
-            select(func.count()).select_from(SynergyProfile)
+        existing = await session.scalar(
+            select(func.count()).select_from(SynergyProfile).where(
+                SynergyProfile.extraction_source == "seed"
+            )
         )
-        if count and count > 0:
+        if existing:
             return
 
-        seed_path = "backend/synergy/seed/demo_synergy_seed.json"
-        with open(seed_path) as f:
-            data = json.load(f)
+        now = datetime.utcnow().isoformat()
 
-        # Build company_name → deal_history_id lookup
-        names = [p["company_name"] for p in data["profiles"]]
-        result = await session.execute(
-            select(DealHistory.id, DealHistory.startup_name)
-            .where(DealHistory.startup_name.in_(names))
-        )
-        deal_id_by_name: dict[str, int] = {row[1]: row[0] for row in result.all()}
-
-        now = date.today().isoformat() + "T00:00:00"
-
-        # ── Profiles ─────────────────────────────────────────────────────────
-        for p in data["profiles"]:
+        for p in data.get("profiles", []):
             session.add(SynergyProfile(
                 company_name=p["company_name"],
-                deal_history_id=deal_id_by_name.get(p["company_name"]),
+                sector=p.get("sector"),
+                geography=p.get("geography"),
+                stage=p.get("stage"),
                 services_offered=json.dumps(p.get("services_offered", [])),
                 target_customers=json.dumps(p.get("target_customers", [])),
                 operational_needs=json.dumps(p.get("operational_needs", [])),
                 strategic_gaps=json.dumps(p.get("strategic_gaps", [])),
-                sector=p.get("sector"),
-                geography=p.get("geography"),
-                stage=p.get("stage"),
                 profile_confidence=p.get("profile_confidence", "MEDIUM"),
                 last_extracted_at=now,
-                extraction_source=p.get("extraction_source", "seed"),
+                extraction_source="seed",
             ))
 
-        # ── Pairs ─────────────────────────────────────────────────────────────
-        for pair in data["pairs"]:
+        await session.flush()
+
+        for pair in data.get("pairs", []):
             session.add(SynergyPair(
                 company_a=pair["company_a"],
                 company_b=pair["company_b"],
@@ -467,24 +522,139 @@ async def seed_synergy_database():
                 value_creation_type=pair.get("value_creation_type"),
                 value_estimate_label=pair.get("value_estimate_label"),
                 action_suggestion=pair.get("action_suggestion"),
-                confidence_level=pair.get("confidence_level", "MEDIUM"),
-                analyst_decision=None,
+                confidence_level=pair.get("confidence_level"),
                 created_at=now,
             ))
 
-        # ── Gaps ──────────────────────────────────────────────────────────────
-        for gap in data["gaps"]:
+        for gap in data.get("gaps", []):
             session.add(SynergyGap(
                 gap_label=gap["gap_label"],
                 need_description=gap.get("need_description"),
                 affected_companies=json.dumps(gap.get("affected_companies", [])),
-                affected_count=gap.get("affected_count", 0),
+                affected_count=gap.get("affected_count"),
                 estimated_annual_spend=gap.get("estimated_annual_spend"),
                 suggested_sector=gap.get("suggested_sector"),
                 suggested_stage=gap.get("suggested_stage"),
-                urgency_score=gap.get("urgency_score", 0),
+                urgency_score=gap.get("urgency_score"),
                 status=gap.get("status", "open"),
                 created_at=now,
+            ))
+
+        await session.commit()
+
+
+async def sync_monitor_from_pipeline():
+    """Auto-enroll pursue/watch/soft_pass pipeline companies into Monitor using ESG composite as initial health score."""
+    async with AsyncSessionLocal() as session:
+        result = await session.execute(
+            select(DealHistory).where(
+                DealHistory.is_pipeline == True,   # noqa: E712
+                DealHistory.decision.in_(["pursue", "watch", "soft_pass"]),
+            )
+        )
+        for company in result.scalars().all():
+            exists = await session.scalar(
+                select(MonitorAgreement).where(
+                    MonitorAgreement.startup_name == company.startup_name
+                )
+            )
+            if exists:
+                continue
+
+            agreement = MonitorAgreement(
+                startup_name=company.startup_name,
+                deal_history_id=company.id,
+                agreement_date=company.date_evaluated,
+                agreement_duration_months=60,
+                total_committed_tnd=0.0,
+                categories=json.dumps([]),
+                time_milestones=json.dumps([]),
+                source_type="AUTO",
+                is_seed_data=False,
+            )
+            session.add(agreement)
+            await session.flush()
+
+            health = company.esg_composite or 50
+            session.add(MonitorLedgerSnapshot(
+                agreement_id=agreement.id,
+                startup_name=company.startup_name,
+                snapshot_month=(company.date_evaluated or date.today().isoformat())[:7],
+                months_elapsed=0,
+                category_totals=json.dumps({}),
+                total_spent_tnd=0.0,
+                total_planned_to_date_tnd=0.0,
+                unclassified_tnd=0.0,
+                compliance_health_score=health,
+                alert_count_active=0,
+                alert_count_total=0,
+            ))
+            company.compliance_health_score = health
+
+        await session.commit()
+
+
+async def sync_synergy_from_pipeline():
+    """Build SynergyProfiles for pursue/watch/soft_pass pipeline companies that don't have one yet.
+    Uses CachedEvaluation fields to derive profile arrays. Pair scoring is left to the
+    user-triggered 'Run Analysis' button in Synergy so startup is never blocked on Ollama.
+    """
+    async with AsyncSessionLocal() as session:
+        result = await session.execute(
+            select(DealHistory).where(
+                DealHistory.is_pipeline == True,   # noqa: E712
+                DealHistory.decision.in_(["pursue", "watch", "soft_pass"]),
+            )
+        )
+        for company in result.scalars().all():
+            exists = await session.scalar(
+                select(SynergyProfile).where(
+                    SynergyProfile.company_name == company.startup_name
+                )
+            )
+            if exists:
+                continue
+
+            cached = await session.scalar(
+                select(CachedEvaluation).where(
+                    CachedEvaluation.startup_name == company.startup_name
+                )
+            )
+            if cached:
+                ev = json.loads(cached.evaluation_json)
+                services = ev.get("top_strengths", [])[:3]
+                needs    = ev.get("top_risks", [])[:3]
+                gaps     = [
+                    bs.get("risk") or bs.get("field", "")
+                    for bs in ev.get("blind_spots", [])[:3]
+                    if bs.get("risk") or bs.get("field")
+                ]
+                customers = [f"{company.sector or 'Tech'} clients"]
+                if (company.stage or "").lower() in ("seed", "pre-seed"):
+                    customers.append("Early adopters")
+                else:
+                    customers.append("Enterprise buyers")
+            else:
+                services = needs = gaps = customers = []
+
+            arrays = [services, customers, needs, gaps]
+            rich      = sum(1 for a in arrays if len(a) >= 2)
+            populated = sum(1 for a in arrays if len(a) >= 1)
+            confidence = "HIGH" if rich == 4 else ("MEDIUM" if populated >= 3 else "LOW")
+
+            session.add(SynergyProfile(
+                company_name=company.startup_name,
+                deal_history_id=company.id,
+                services_offered=json.dumps(services),
+                target_customers=json.dumps(customers),
+                operational_needs=json.dumps(needs),
+                strategic_gaps=json.dumps(gaps),
+                sector=company.sector,
+                geography=company.geography,
+                stage=company.stage,
+                profile_confidence=confidence,
+                last_extracted_at=datetime.utcnow().isoformat(),
+                extraction_source="cached_evaluations",
             ))
 
         await session.commit()

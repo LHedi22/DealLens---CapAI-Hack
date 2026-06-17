@@ -1,0 +1,77 @@
+SECUREAI — INVESTOR PITCH DECK
+Series: Seed Round | Ask: $2,000,000 | Sector: Cybersecurity | Geography: North America
+
+COMPANY OVERVIEW
+SecureAI is an AI-native threat detection and response platform for mid-market enterprises (500-5,000 employees) in North America. We use large language model-powered analysis of system logs, network traffic, and endpoint telemetry to detect and explain threats in plain English — enabling security teams without dedicated threat hunters to operate at enterprise-grade protection levels. We replace the SIEM (Security Information and Event Management) systems that require armies of analysts to interpret, with a platform that surfaces real threats with context and recommended actions.
+
+Founded: 2023 | Headquarters: Austin, Texas, USA | Team Size: 12
+
+PROBLEM
+Cybercrime damages will exceed $10.5 trillion annually by 2025 (Cybersecurity Ventures). The problem is not tools — enterprises already have firewalls, EDR, and SIEMs. The problem is signal-to-noise ratio: security tools generate 2,000-5,000 alerts per day, and 99% are false positives. Security analyst teams in mid-market companies (typically 2-5 analysts) are overwhelmed — average alert fatigue causes 67% of real threats to go undetected for more than 72 hours (IBM X-Force 2024). Mid-market companies cannot afford the $500,000+ annual cost of a dedicated threat intelligence team.
+
+SOLUTION
+SecureAI delivers:
+- AI threat correlation engine: ingests logs from 150+ data sources (SIEM, EDR, cloud, identity) and reduces alert volume by 94% through AI correlation
+- Natural language threat explanations: each flagged incident includes an AI-generated plain-English explanation of what happened, what systems are affected, and what to do
+- Automated response playbooks: for 60% of detected threat types, SecureAI can automatically isolate affected endpoints or block IPs with one-click approval
+- Threat intelligence integration: enriched with MITRE ATT&CK framework, CVE database, and real-time threat feeds
+- Compliance reporting: automated generation of SOC 2 and HIPAA security incident reports
+
+TEAM
+Co-Founder & CEO: James Holloway — former NSA Tailored Access Operations analyst (8 years), then cybersecurity product manager at CrowdStrike (3 years). LinkedIn: linkedin.com/in/james-holloway-secureai
+Co-Founder & CTO: Sarah Kim — PhD Computer Science (MIT, adversarial ML), former senior researcher at MIT Lincoln Laboratory (DoD cybersecurity division). LinkedIn: linkedin.com/in/sarahkim-mlsecurity
+VP Sales: Marcus Thompson — 12 years enterprise cybersecurity sales at Palo Alto Networks and Splunk, $47M in career bookings. LinkedIn: linkedin.com/in/marcus-thompson-cybersales
+
+Advisory Board:
+- Gen. (Ret.) Robert Mills — former U.S. Cyber Command Deputy Commander, serves on two public company cybersecurity boards
+- Lisa Chen — CISO at Fortune 500 financial institution, advisory role at SecureAI
+- Dr. Wei Zhang — Professor, Carnegie Mellon CyLab, AI security research
+
+Board of Directors: 4-member board including 2 independent directors with cybersecurity enterprise software backgrounds. All major investment decisions require board majority approval. No single founder holds veto rights. Formal shareholder agreement executed September 2023.
+
+MARKET
+Total Addressable Market: $86 billion (global SIEM, threat detection, and security operations market, source: Gartner 2024)
+Serviceable market: $12 billion (North American mid-market enterprise security operations, 500-5,000 employee segment)
+Growing at 23% CAGR driven by ransomware threat escalation, hybrid cloud security complexity, and SEC cybersecurity disclosure rules (2024).
+
+REVENUE MODEL
+Annual SaaS subscription per enterprise:
+- Core (up to 500 endpoints): $48,000/year
+- Professional (up to 2,000 endpoints): $96,000/year
+- Enterprise (unlimited endpoints): $180,000/year
+Average Contract Value: $72,000 ARR
+Current ARR: $648,000 (9 enterprise clients)
+Projected ARR Year 1 (post-raise): $2.88M (40 clients)
+CAC: $12,400 (primarily through CISO referral network and RSA Conference presence)
+LTV at 3-year retention: $214,000 (ACV × 3)
+LTV:CAC ratio: 17.3x
+Net Revenue Retention from existing clients: 118% (upsells to larger endpoint tiers)
+
+TRACTION
+- 9 enterprise clients generating $648,000 ARR
+- Industries: financial services (3), healthcare (3), manufacturing (2), legal (1)
+- Average time-to-detect improvement for clients: from 71 hours to 4.2 hours
+- 94% alert reduction reported by client security teams
+- Pipeline: 31 enterprise prospects in active evaluation, $2.2M combined potential ARR
+- Named reference customers available: CFO of a regional bank, CISO of a hospital network
+- Completed SOC 2 Type II audit (issued August 2024)
+
+COMPETITION
+Main competitors: Splunk (enterprise, $500K+ implementation), Exabeam (complex SIEM), Microsoft Sentinel (cloud-only, fragmented)
+Differentiation: SecureAI is the only AI-native platform that makes enterprise-grade threat detection accessible to mid-market security teams of 2-5 analysts without a team of SIEM engineers. Our LLM-powered explanations reduce analyst training requirements by 60%.
+IP: 2 patents filed (USPTO):
+- AI-assisted alert correlation and de-duplication for multi-source security telemetry (filed June 2024)
+- Natural language generation for cybersecurity incident reports (filed September 2024)
+
+FINANCIALS
+Monthly burn rate: $167,000
+Runway: 9 months (pre-raise)
+Funding ask: $2,000,000 USD
+Use of funds: 40% engineering (detection models, cloud expansion), 35% enterprise sales team expansion, 25% compliance and certification
+
+ESG PROFILE
+Governance: SecureAI maintains a formal 4-member board with 2 independent directors. All major financial decisions require board supermajority. Shareholder agreement in place. Financial projections are based on documented assumptions: conversion rate of 12% from pipeline to close at average ACV of $72,000, 3-year retention rate based on first cohort data, and 118% NRR from upsells documented in contract history. Full financial model with assumptions available in data room.
+Data: SecureAI processes enterprise security telemetry (logs, network data, endpoint events). All customer data is encrypted at rest and in transit, processed within AWS US-east regions only, and never used to train models outside the customer's own tenant. Privacy policy is published at secureai.io/privacy. SOC 2 Type II certified. No user data is shared with third parties outside the customer's explicit authorization.
+Social: SecureAI protects organizations across healthcare and financial services — sectors where cyberattacks directly harm patients and consumers. Our platform's ability to reduce breach detection time from 71 hours to 4.2 hours prevents real-world harm. We offer our platform at 40% discount to non-profit hospitals and community health organizations.
+Environmental: Cloud-hosted on AWS (committed to 100% renewable energy by 2025). We conduct annual carbon accounting and offset remaining emissions through verified carbon credits.
+Diversity: SecureAI's founding team includes a Korean-American female CTO (Dr. Sarah Kim) and a Black VP of Sales. Our 12-person team is 33% female and 41% underrepresented minorities. We have a formal DEI policy and named diverse leaders in key roles. We partner with CyberSecurity Girls initiative to hire female junior analysts from under-resourced backgrounds.

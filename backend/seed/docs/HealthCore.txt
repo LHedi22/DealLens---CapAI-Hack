@@ -1,0 +1,72 @@
+HEALTHCORE — INVESTOR PITCH DECK
+Series: Seed Round | Ask: $1,200,000 | Sector: HealthTech | Geography: North America
+
+COMPANY OVERVIEW
+HealthCore is a patient management and clinic analytics SaaS platform designed for independent clinics and outpatient medical practices in the United States and Canada. We replace paper-based and fragmented EHR systems with a unified platform that manages appointment scheduling, clinical documentation, billing, and population health analytics — all HIPAA-compliant and designed for clinics with 2-20 providers.
+
+Founded: 2023 | Headquarters: Toronto, Canada | Team Size: 9
+
+PROBLEM
+74% of independent clinics in North America still use paper-based or first-generation EHR systems (AMA 2023 report). These systems produce administrative overhead of 15+ hours per provider per week. 42% of clinic revenue leakage occurs at the billing stage due to manual coding errors. Small clinics are locked out of the enterprise solutions used by hospital networks (Epic, Cerner) due to price and implementation complexity.
+
+SOLUTION
+HealthCore delivers:
+- Patient scheduling: online booking with automated reminders, reducing no-shows by 34% in pilot clinics
+- Clinical documentation: structured SOAP note templates with AI-assisted clinical coding suggestions
+- Billing integration: automated ICD-10 coding checks and insurance claim submission
+- Population health dashboard: clinic operators see chronic disease management trends, vaccination rates, and follow-up gaps across their patient panel
+- Patient portal: secure messaging, lab result delivery, prescription renewal requests (HIPAA-compliant)
+
+TEAM
+Co-Founder & CEO: Dr. Priya Anand — MD, former Chief Medical Officer at a Toronto community health network (2018-2022), 10 years in clinical medicine. LinkedIn: linkedin.com/in/drpriyanand
+Co-Founder & CTO: Marcus Webb — software engineer with 9 years in healthcare IT, previously led EHR integration engineering at WELL Health Technologies (TSX: WELL). LinkedIn: linkedin.com/in/marcuswebb-healthtech
+Head of Clinical Operations: Jennifer Osei-Bonsu — former clinic administrator, 8 years managing multi-provider GP practices. LinkedIn: linkedin.com/in/jenniferosei-bonsu
+
+Advisory Board:
+- Dr. Samuel Kofi — Professor of Health Informatics, University of Toronto
+- Rachel Chung — HealthTech investor and former VP Product at League Health
+
+Board of Directors: 4-member board including 2 independent directors. Shareholder agreement in place with defined escalation procedures for major decisions.
+
+MARKET
+Total Addressable Market: $42 billion (North America outpatient clinic management software, source: Grand View Research 2024)
+Serviceable market: $4.1 billion (independent clinics with 2-20 providers, US and Canada)
+Market growing at 14.2% CAGR driven by value-based care transition and post-COVID digitization mandate from CMS.
+
+REVENUE MODEL
+SaaS subscription per clinic:
+- Starter plan: $399/month (scheduling + documentation, up to 5 providers)
+- Professional plan: $699/month (adds billing integration, up to 10 providers)
+- Enterprise plan: $1,199/month (all features, unlimited providers, population analytics)
+Current ARR: $312,000 (37 paying clinics)
+Projected ARR Year 1 (post-raise): $1.1M (130 clinics)
+CAC: $1,850 (primarily through medical association partnerships and direct sales)
+LTV at 36-month retention: $22,000 (Professional plan)
+LTV:CAC ratio: 11.9x
+
+TRACTION
+- 37 paying clinics across Ontario, British Columbia, and New York State
+- 4,100 patient records active on platform
+- 12,400 appointments managed through HealthCore in last 30 days
+- Average billing accuracy improvement: 28% reduction in claim rejections reported by clients
+- Pilot agreement signed with a regional Ontario Family Health Team (38 clinics, name withheld pending final approval)
+- Zero critical security incidents since launch
+
+COMPETITION
+Main competitors: Jane App (scheduling-only, limited analytics), Kareo (US-only, expensive), Practice Fusion (legacy, declining user base)
+Differentiation: HealthCore is the only solution combining clinical documentation, population health analytics, and billing integration at independent clinic pricing. Our AI coding assistant is built on validated clinical coding models, not general-purpose LLMs.
+IP: Patent application filed for our AI clinical coding assistance methodology (USPTO filing date: September 2024).
+
+FINANCIALS
+Monthly burn rate: $94,000 CAD
+Runway: 13 months (pre-raise)
+Funding ask: $1,200,000 USD
+Use of funds: 40% engineering (US market billing compliance expansion, mobile app), 35% sales and clinical partnerships, 25% regulatory and security compliance
+
+ESG PROFILE
+Patient data and privacy: HealthCore is fully HIPAA-compliant (audited by third-party security firm PractiSecure, March 2024). Our privacy policy is publicly available at healthcore.ca/privacy. Patient data is never sold, never used for advertising, and encrypted at rest (AES-256) and in transit (TLS 1.3). We conduct annual penetration testing.
+Social impact: We serve 14 clinics in underserved rural and Indigenous communities in Ontario at discounted rates ($199/month). These communities have historically had the worst health administration infrastructure. Reducing no-show rates in these clinics has measurably improved chronic disease management.
+Environmental: Cloud-hosted on AWS Canada (100% renewable energy commitment). We track and report our estimated annual CO2 footprint annually. No hardware shipped to clients.
+Governance: HealthCore maintains a formal 4-member board with 2 independent directors. All major financial decisions require board supermajority approval. No single founder holds veto rights. Shareholder agreement is in place and available for review. Financial projections in this document are based on stated assumptions: 3.5x revenue growth supported by Family Health Team pilot conversion and US market entry, with 36-month average retention rate documented from first-year cohort data.
+Diversity: Our founding team is 44% female and 22% visible minority. We have a formal equity and inclusion hiring policy. Named diverse leaders: Dr. Priya Anand (CEO, South Asian woman), Jennifer Osei-Bonsu (Head of Clinical Ops, Black woman).
+Labour: All HealthCore employees are full-time staff with full employment benefits including health insurance, paid leave, and RRSP matching. No contractor misclassification risk.

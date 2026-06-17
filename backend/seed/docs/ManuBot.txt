@@ -1,0 +1,63 @@
+MANUBOT — INVESTOR PITCH DECK
+Series: Pre-seed Round | Ask: $350,000 | Sector: Manufacturing | Geography: Asia (Southeast Asia)
+
+COMPANY OVERVIEW
+ManuBot is developing a low-cost collaborative robotic arm designed for small and medium manufacturing facilities in Southeast Asia — particularly garment, electronics assembly, and packaging factories employing 50-500 workers. Our ManuBot-1 robotic arm handles repetitive assembly tasks (component insertion, labeling, packaging) and is designed to be operated by workers with no robotics training, using a visual programming interface on a tablet.
+
+Founded: 2024 | Headquarters: Ho Chi Minh City, Vietnam | Team Size: 5
+
+PROBLEM
+SME manufacturers in Southeast Asia face rising labor costs (Vietnamese manufacturing wages up 12% year-over-year) and increasing pressure from global buyers demanding quality consistency. Existing industrial robotic arms (FANUC, ABB, KUKA) cost $80,000-$250,000 per unit and require specialized engineers to program and maintain — completely inaccessible to SME factories. Large factories automate; SME factories cannot, losing competitiveness to larger regional players and Chinese manufacturers.
+
+SOLUTION
+ManuBot-1 delivers:
+- Affordable collaborative robotic arm: target price $12,000-$18,000 per unit (6-10x cheaper than industrial alternatives)
+- No-code programming: factory supervisors program tasks using visual drag-and-drop interface on an Android tablet, no technical training required
+- Safety-first design: force-limited collaborative design (ISO 10218 compliant) — safe to operate alongside human workers without safety caging
+- Cloud monitoring: remote performance dashboard for factory managers and ManuBot maintenance team
+- Modular end-effectors: quick-swap grippers, suction cups, and label applicators for different task types
+
+TEAM
+Founder & CEO: Nguyen Van Duc — mechanical engineer, 6 years at an automotive parts manufacturer in Vietnam. No prior startup experience.
+Co-Founder & CTO: Li Wei — robotics engineer, 4 years building industrial automation components at a Shenzhen contract manufacturer.
+No LinkedIn profiles provided. Profiles will be created and shared with investors before site visit.
+
+No formal board or advisors in place at this stage. The company is 5 months old.
+
+MARKET
+Total Addressable Market: $8.2 billion (Southeast Asia SME industrial automation and collaborative robotics, source: MRFR 2024 — management estimate, not independently verified)
+Serviceable market: $1.1 billion (Vietnam, Thailand, Indonesia SME garment and electronics assembly)
+Growing at 18% CAGR driven by labor cost escalation and global nearshoring demand.
+
+REVENUE MODEL
+Hardware sale + software subscription:
+- ManuBot-1 unit: $14,000 USD (target selling price)
+- Annual software and cloud monitoring subscription: $1,200/year per unit
+- Maintenance and spare parts: estimated $800/year per unit
+Current revenue: $0 — pre-revenue, prototype development stage
+Projected Year 1 post-raise: $84,000 USD (6 unit sales)
+Financial projections assume 6 unit sales to SME pilot customers at $14,000 each in Year 1. These projections are based on management's expectation of market interest and have no external validation or signed LOI backing at this stage.
+
+TRACTION
+- Working prototype demonstrated at Vietnam Manufacturing Expo (September 2024)
+- Informal expressions of interest from 3 garment factory owners at expo (no signed LOIs)
+- Technical collaboration agreement with Ho Chi Minh City University of Technology (HCMUT) for robotics lab testing
+- Grant application submitted to Vietnam Ministry of Science and Technology startup fund (decision pending)
+
+COMPETITION
+Main competitors: Universal Robots (UR3/UR5 — $35,000-$65,000, complex programming), DOBOT (lower cost but limited payload, mainly China market), Chinese OEM arms (unreliable supply chain, no local support)
+Differentiation: ManuBot-1 targets the $12,000-$18,000 price point with a no-code interface — a gap not served by any current competitor. Local Vietnam support team and warranty.
+IP: Mechanical arm design and visual programming interface are under development — no IP filed yet.
+
+FINANCIALS
+Monthly burn rate: $18,000 USD
+Runway: 7 months at current burn (pre-raise)
+Funding ask: $350,000 USD
+Use of funds: 60% hardware prototype finalization and first production run (10 units), 25% software platform, 15% team
+
+ESG PROFILE
+Social: We acknowledge that automation displaces repetitive manual labor. Vietnam's manufacturing workforce (4.2 million workers in garment and electronics) may be directly impacted by products like ours at scale. We believe our automation tools will shift workers to higher-value tasks rather than eliminate jobs in the short term, but we have not conducted a formal employment impact study. Our ManuBot-1 safety design protects workers who operate alongside the robot.
+Environmental: ManuBot-1 manufacturing involves precision metal components, electronics, and plastic enclosures. Our primary manufacturing partner is a subcontractor in Shenzhen, China. We have not conducted an ESG audit of our Shenzhen supplier or its supply chain. We have not assessed the environmental impact of our hardware manufacturing and assembly process. Carbon footprint calculation is not yet available.
+Labour: The ManuBot core team of 5 is employed directly. Prototype manufacturing is outsourced to our Shenzhen supplier whose labor practices and compliance status have not been formally audited.
+Governance: The company is 5 months old and operated by the founding team with no formal governance structure, board, or shareholder agreement in place. Financial projections are management estimates with no external validation or signed customer commitments backing them.
+Diversity: No diversity data available. No diversity policy in place.

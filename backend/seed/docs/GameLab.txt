@@ -1,0 +1,73 @@
+GAMELAB — INVESTOR PITCH DECK
+Series: Seed Round | Ask: $1,400,000 | Sector: Gaming | Geography: Europe
+
+COMPANY OVERVIEW
+GameLab is a browser-based multiplayer gaming platform for indie game developers targeting the European casual gaming market. We provide indie developers with a publishing platform, player matchmaking infrastructure, and a subscription-based player membership (GameLab Pass) that unlocks access to 180+ independent titles for €9.99/month — a "Netflix for indie games" model accessible directly in-browser with no download required.
+
+Founded: 2022 | Headquarters: Warsaw, Poland | Team Size: 16
+
+PROBLEM
+184,000 indie games are released globally per year (Steam 2023 data), but over 90% earn less than $1,000 in lifetime revenue. Discoverability on Steam is dominated by AAA publishers with marketing budgets. Indie developers have no viable distribution alternative that gives them access to a paying subscriber base. Meanwhile, casual gamers in Europe (an estimated 140 million people) play free-to-play mobile games heavily monetized through in-app purchases and advertising — but many dislike the manipulative monetization and prefer a subscription model.
+
+SOLUTION
+GameLab delivers:
+- Publisher portal: indie developers submit their browser-based game for curation review; accepted games enter the GameLab library
+- GameLab Pass: subscriber gets unlimited access to 180+ curated indie titles for €9.99/month
+- Revenue share: developers earn 30% of subscriber revenue proportional to time played on their title
+- Matchmaking: real-time player matching for multiplayer titles using GameLab's shared infrastructure
+- Analytics for developers: play time, session length, completion rate, and player demographics per title
+- No-download architecture: all games run in WebGL/HTML5 in-browser — no app store dependence
+
+TEAM
+Co-Founder & CEO: Tomasz Wieczorek — 8 years in gaming product management, former Product Director at CD Projekt RED (Witcher franchise publisher). LinkedIn: linkedin.com/in/tomaszwieczorek-gaming
+Co-Founder & CTO: Agnieszka Kowalczyk — senior software engineer, 9 years in multiplayer game infrastructure, former tech lead at Techland (Dying Light publisher). LinkedIn: linkedin.com/in/agnieszkakowalczyk-techland
+Head of Developer Relations: Björn Lindqvist — indie game developer turned publisher relations, 5 years running Nordic indie game showcases. LinkedIn: linkedin.com/in/bjornlindqvist-indiegames
+
+Advisory Board:
+- Ewa Maj — former Head of Publishing, 11-bit Studios (Warsaw indie game studio, listed on Warsaw Stock Exchange)
+- Daniel Hesse — CEO of a Berlin-based gaming fund with 12 portfolio companies
+
+Board: 3-member board including 1 independent advisor. Shareholder agreement in place.
+
+MARKET
+Total Addressable Market: €32 billion (European casual and indie gaming market, source: Newzoo 2024)
+Serviceable market: €3.8 billion (browser-based, subscription gaming, Western and Central Europe)
+Growing at 11% CAGR, driven by gaming subscription adoption (Xbox Game Pass, PlayStation Now) and browser-capable hardware penetration.
+
+REVENUE MODEL
+Subscription (B2C):
+- GameLab Pass: €9.99/month or €79/year
+- Developer revenue share: 30% of proportional play-time revenue to developer; GameLab retains 70%
+- B2B licensing: GameLab library licensed to Internet Service Providers for €0.50/subscriber/month (discussions with 2 Polish ISPs)
+Current subscribers: 8,400 (MoM growth: 14%)
+Current MRR: €76,000 (7,600 monthly + 100 annual plan equivalent)
+Projected ARR Year 1 (post-raise): €1.2M (10,000 subscribers + ISP deal)
+CAC: €18 (primarily through gaming influencer partnerships on YouTube/Twitch)
+LTV at 18-month retention: €164
+
+TRACTION
+- 8,400 active subscribers across 18 EU countries (top 3: Poland, Germany, France)
+- 180 indie games in library (accepted: 62% of all submissions)
+- 220 indie developers in the GameLab publishing program
+- Average monthly active usage: 6.8 hours per subscriber
+- Top game on platform: 38,000 sessions in November 2024
+- ISP licensing agreement in final negotiation with a major Polish broadband provider (2.1M subscribers)
+
+COMPETITION
+Main competitors: itch.io (distribution only, no subscription), Armor Games (browser games, ad-supported), GamePix (B2B white-label, not B2C subscription)
+Differentiation: GameLab is the only European B2C subscription platform for indie browser-based gaming with a curated library and fair developer revenue share model.
+IP: GameLab's matchmaking infrastructure and subscriber analytics platform are proprietary. No patents filed. The browser-game execution environment is built on open-source WebGL standards.
+
+FINANCIALS
+Monthly burn rate: €108,000
+Runway: 10 months (pre-raise)
+Funding ask: $1,400,000 USD (~€1.3M)
+Use of funds: 40% platform engineering (mobile browser optimization, new game genres), 35% subscriber growth marketing, 25% developer acquisition and relations
+
+ESG PROFILE
+Data and user protection: GameLab collects player behavioral data including play time, session patterns, in-game behavior, and payment data. This data is used to improve game recommendations and developer analytics. GameLab does not currently publish a formal privacy policy on its website — this is in active development and will be published before Q1 2025. We are GDPR registered (Polish DPA registration confirmed). User data is not sold to third parties. We do not use behavioral data for advertising purposes.
+Player protection: GameLab Pass uses a flat subscription model with no in-game purchases, loot boxes, or random reward mechanics — a deliberate design choice to avoid manipulative monetization practices common in free-to-play gaming. We believe this is both ethically correct and commercially differentiated.
+Social: GameLab provides a fair revenue share (30%) to indie developers — significantly more transparent than opaque Steam algorithms. We are enabling small developer teams, including solo developers and Eastern European studios, to earn sustainable income.
+Environmental: Cloud-hosted platform on European data centers (OVH France, carbon-neutral commitment). Browser-based architecture eliminates the need for users to purchase dedicated gaming hardware. We estimate our environmental footprint is significantly lower per gaming hour than console or PC gaming.
+Governance: GameLab has a 3-member board with an independent advisor and a shareholder agreement in place governing major decisions. Financial projections in this document are based on documented assumptions (subscriber growth rate, ISP deal value, LTV from current cohort data) available in our data room.
+Diversity: Founding team includes a female CTO (Agnieszka Kowalczyk). Our 16-person team is 31% female. We have a diversity commitment in hiring. No formal written diversity policy in place yet.

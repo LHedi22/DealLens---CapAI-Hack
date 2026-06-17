@@ -262,3 +262,13 @@ export async function getCompanySummary(companyName) {
   if (!res.ok) throw new Error('Failed to fetch company synergy summary')
   return res.json()
 }
+
+export async function getMonitorCriticalCount() {
+  try {
+    const r = await fetch(`${BASE}/monitor/critical-count`)
+    const d = await r.json()
+    return d.critical_count ?? 0
+  } catch {
+    return 0
+  }
+}

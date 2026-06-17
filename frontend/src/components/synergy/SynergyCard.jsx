@@ -4,28 +4,28 @@ import SynergyTypeBadge from './SynergyTypeBadge'
 import SynergyScoreBar from './SynergyScoreBar'
 
 const CONFIDENCE_COLORS = {
-  HIGH:   { color: '#22c55e', bg: 'rgba(34,197,94,0.08)',   border: 'rgba(34,197,94,0.25)'   },
-  MEDIUM: { color: '#f59e0b', bg: 'rgba(245,158,11,0.08)',  border: 'rgba(245,158,11,0.25)'  },
-  LOW:    { color: '#ef4444', bg: 'rgba(239,68,68,0.08)',   border: 'rgba(239,68,68,0.25)'   },
+  HIGH:   { color: '#12B76A', bg: 'rgba(34,197,94,0.08)',   border: 'rgba(34,197,94,0.25)'   },
+  MEDIUM: { color: '#F5A524', bg: 'rgba(245,158,11,0.08)',  border: 'rgba(245,158,11,0.25)'  },
+  LOW:    { color: '#F04438', bg: 'rgba(239,68,68,0.08)',   border: 'rgba(239,68,68,0.25)'   },
 }
 
 const VALUE_META = {
-  cost_saving:       { label: 'Cost Saving',      color: '#22c55e', bg: 'rgba(34,197,94,0.08)'   },
+  cost_saving:       { label: 'Cost Saving',      color: '#12B76A', bg: 'rgba(34,197,94,0.08)'   },
   revenue_expansion: { label: 'Revenue Expansion', color: '#3b82f6', bg: 'rgba(59,130,246,0.08)'  },
   new_market:        { label: 'New Market',        color: '#a855f7', bg: 'rgba(168,85,247,0.08)'  },
 }
 
 const DECISION_META = {
-  approved: { label: 'Approved', color: '#22c55e', bg: 'rgba(34,197,94,0.08)',  border: 'rgba(34,197,94,0.25)'  },
-  rejected: { label: 'Rejected', color: '#ef4444', bg: 'rgba(239,68,68,0.08)', border: 'rgba(239,68,68,0.25)'  },
+  approved: { label: 'Approved', color: '#12B76A', bg: 'rgba(34,197,94,0.08)',  border: 'rgba(34,197,94,0.25)'  },
+  rejected: { label: 'Rejected', color: '#F04438', bg: 'rgba(239,68,68,0.08)', border: 'rgba(239,68,68,0.25)'  },
   snoozed:  { label: 'Snoozed',  color: '#94a3b8', bg: 'rgba(148,163,184,0.08)', border: 'rgba(148,163,184,0.25)' },
 }
 
 function scoreColor(s) {
-  if (s >= 75) return '#22c55e'
-  if (s >= 60) return '#f59e0b'
-  if (s >= 45) return '#f97316'
-  return '#ef4444'
+  if (s >= 75) return '#12B76A'
+  if (s >= 60) return '#F5A524'
+  if (s >= 45) return '#EF6820'
+  return '#F04438'
 }
 
 const CARD    = { background: 'var(--surface-1)', border: '1px solid var(--border)', borderRadius: 20, padding: 28 }
@@ -150,8 +150,8 @@ export default function SynergyCard({ pair, onDecide }) {
           <div style={DIVIDER} />
           <div style={{ display: 'flex', gap: 8 }}>
             {[
-              { mode: 'approved', label: 'Approve',  bg: '#22c55e', hoverBg: 'rgba(34,197,94,0.12)',  color: '#22c55e'  },
-              { mode: 'rejected', label: 'Reject',   bg: '#ef4444', hoverBg: 'rgba(239,68,68,0.12)', color: '#ef4444'  },
+              { mode: 'approved', label: 'Approve',  bg: '#12B76A', hoverBg: 'rgba(34,197,94,0.12)',  color: '#12B76A'  },
+              { mode: 'rejected', label: 'Reject',   bg: '#F04438', hoverBg: 'rgba(239,68,68,0.12)', color: '#F04438'  },
               { mode: 'snoozed',  label: 'Snooze',   bg: '#94a3b8', hoverBg: 'rgba(148,163,184,0.12)', color: '#94a3b8' },
             ].map(({ mode, label, hoverBg, color }) => (
               <button

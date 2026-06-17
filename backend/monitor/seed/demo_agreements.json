@@ -41,6 +41,34 @@
       ],
       "time_milestones": [],
       "is_seed_data": true
+    },
+    {
+      "startup_name": "HealthCore",
+      "agreement_date": "2023-03-01",
+      "agreement_duration_months": 48,
+      "total_committed_tnd": 400000.0,
+      "categories": [
+        { "name": "rd",             "allocated_tnd": 170000.0, "notes": null },
+        { "name": "equipment",      "allocated_tnd": 100000.0, "notes": null },
+        { "name": "salaries",       "allocated_tnd": 100000.0, "notes": null },
+        { "name": "clinical_trials","allocated_tnd":  30000.0, "notes": null }
+      ],
+      "time_milestones": [],
+      "is_seed_data": true
+    },
+    {
+      "startup_name": "CargoZip",
+      "agreement_date": "2023-06-15",
+      "agreement_duration_months": 60,
+      "total_committed_tnd": 600000.0,
+      "categories": [
+        { "name": "fleet",          "allocated_tnd": 250000.0, "notes": null },
+        { "name": "equipment",      "allocated_tnd": 150000.0, "notes": null },
+        { "name": "salaries",       "allocated_tnd": 150000.0, "notes": null },
+        { "name": "working_capital","allocated_tnd":  50000.0, "notes": null }
+      ],
+      "time_milestones": [],
+      "is_seed_data": true
     }
   ]
 }

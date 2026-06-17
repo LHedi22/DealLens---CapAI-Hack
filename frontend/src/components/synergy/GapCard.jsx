@@ -1,7 +1,7 @@
 function urgencyColor(score) {
-  if (score >= 75) return '#ef4444'
-  if (score >= 50) return '#f59e0b'
-  return '#22c55e'
+  if (score >= 75) return '#F04438'
+  if (score >= 50) return '#F5A524'
+  return '#12B76A'
 }
 
 function urgencyLabel(score) {
@@ -14,7 +14,7 @@ function StatusBadge({ status }) {
   const config = {
     open:     { color: 'var(--tx-3)',  bg: 'rgba(148,163,184,0.1)', label: 'Open' },
     hunting:  { color: '#6E56CF',      bg: 'rgba(110,86,207,0.1)', label: 'Candidates Found' },
-    filled:   { color: '#22c55e',      bg: 'rgba(34,197,94,0.1)',  label: 'Filled' },
+    filled:   { color: '#12B76A',      bg: 'rgba(34,197,94,0.1)',  label: 'Filled' },
   }
   const c = config[status] || config.open
   return (
@@ -98,6 +98,17 @@ export default function GapCard({ gap, onHunt, onDismiss, isHunting, isActive, o
           </span>
         )}
       </div>
+
+      {/* Simulated results notice */}
+      {gap.shortlist?.some(s => s.flags?.some(f => f.includes('Simulated'))) && (
+        <div style={{
+          fontSize: 10, color: '#F5A524', background: 'rgba(245,158,11,0.08)',
+          border: '1px solid rgba(245,158,11,0.25)', borderRadius: 6,
+          padding: '4px 8px', marginBottom: 8,
+        }}>
+          Simulated results — connect Anthropic API for live search
+        </div>
+      )}
 
       {/* Actions */}
       <div style={{ display: 'flex', gap: 6 }} onClick={e => e.stopPropagation()}>

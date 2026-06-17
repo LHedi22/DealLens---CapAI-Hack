@@ -7,16 +7,16 @@ const R  = 155
 const SECTOR_COLORS = {
   'EdTech':            '#8B5CF6',
   'FinTech':           '#3B82F6',
-  'Logistics':         '#F59E0B',
-  'HealthTech':        '#22C55E',
-  'Construction Tech': '#F97316',
+  'Logistics':         '#F5A524',
+  'HealthTech':        '#12B76A',
+  'Construction Tech': '#EF6820',
 }
 
 function edgeColor(types = []) {
   if (types.length > 1) return '#a855f7'
   if (types[0] === 'SERVICE')  return '#3b82f6'
-  if (types[0] === 'CUSTOMER') return '#22c55e'
-  if (types[0] === 'CO_DEV')   return '#f97316'
+  if (types[0] === 'CUSTOMER') return '#12B76A'
+  if (types[0] === 'CO_DEV')   return '#EF6820'
   return '#94a3b8'
 }
 
@@ -151,8 +151,8 @@ export default function PortfolioGraph({ nodes = [], edges = [], onSelectPair })
       }}>
         {[
           { color: '#3b82f6', label: 'Service Bridge' },
-          { color: '#22c55e', label: 'Shared Customer' },
-          { color: '#f97316', label: 'Co-Dev' },
+          { color: '#12B76A', label: 'Shared Customer' },
+          { color: '#EF6820', label: 'Co-Dev' },
           { color: '#a855f7', label: 'Multi-type' },
         ].map(({ color, label }) => (
           <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>

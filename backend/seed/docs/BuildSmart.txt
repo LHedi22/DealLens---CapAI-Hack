@@ -1,0 +1,63 @@
+BUILDSMART — INVESTOR PITCH DECK
+Series: Seed Round | Ask: $600,000 | Sector: Construction Tech | Geography: MENA
+
+COMPANY OVERVIEW
+BuildSmart is a construction project management SaaS platform designed for small and medium construction firms and real estate developers in the MENA region. We digitize project timelines, material procurement, subcontractor coordination, and site safety reporting — all in a mobile-first platform that works offline in low-connectivity construction sites.
+
+Founded: 2023 | Headquarters: Tunis, Tunisia | Team Size: 6
+
+PROBLEM
+The MENA construction sector is a $320 billion annual market, but 91% of projects are still managed through WhatsApp groups, paper registers, and manual Excel tracking (Arab Contractors Federation estimate, 2023). Project overruns average 38% over budget and 45% over schedule in the region. Site safety incidents cost firms an estimated $1.2 billion annually in the GCC alone. Medium-sized construction firms (50-500 employees) cannot afford enterprise ERP systems costing $200,000+ to implement.
+
+SOLUTION
+BuildSmart delivers:
+- Project timeline management: Gantt-style task management with milestone alerts and subcontractor assignment
+- Material procurement tracker: purchase orders, supplier invoices, delivery confirmations in one flow
+- Site safety reporting: digital safety checklists, incident reports with photo documentation, compliance scoring
+- Subcontractor coordination: invitation-based portal for subcontractors to receive assignments and confirm completion
+- Mobile-first: full Android and iOS app with offline mode — works without Wi-Fi on site
+
+TEAM
+Founder & CEO: Anis Chebbi — civil engineer, 7 years as project manager at a major Tunisian construction group. Led projects totalling $45M in value. LinkedIn: linkedin.com/in/anischebbi
+Co-Founder & CTO: Rim Ben Slama — full-stack developer, 5 years building enterprise SaaS, co-built an internal construction management tool used by the same group before founding BuildSmart. LinkedIn: linkedin.com/in/rimbenslamadev
+Advisor: Mohamed Saidane — former General Director, Tunisian Order of Engineers (honorary advisor, informal role)
+
+No formal board of directors in place. The company is structured with the founding CEO and CTO as co-decision makers. Plans to establish a formal advisory board upon closing this round.
+
+MARKET
+Total Addressable Market: $2.8 billion (MENA construction management software market, source: MarketsandMarkets 2024)
+Serviceable market: $340 million (Tunisia, Morocco, Algeria, Jordan — SME construction firms)
+Market growing at 11% CAGR driven by government digitization mandates and Vision 2030-style national infrastructure programs.
+
+REVENUE MODEL
+B2B SaaS subscription:
+- Basic plan: 2,800 TND/year (up to 10 active projects)
+- Professional plan: 6,500 TND/year (up to 50 projects, safety module included)
+- Enterprise plan: 14,000 TND/year (unlimited projects, API access, procurement module)
+Current ARR: 31,000 TND (5 paying clients)
+Projected Year 1 post-raise: 190,000 TND — based on assumptions of signing 30 SME clients through direct outreach and construction trade fair presence, with an average conversion rate of 12% from demo requests.
+Financial projections were modelled on assumed market growth and outreach conversion rates; no external benchmark data was used in the model.
+
+TRACTION
+- 5 paying clients (3 construction SMEs, 2 real estate developers in Tunisia)
+- 2 pilot agreements under negotiation (Morocco)
+- 3 letters of intent from construction firms at Arab Construction Summit (November 2024)
+- 112 active projects tracked on platform since launch (March 2024)
+- No churn among paying clients
+
+COMPETITION
+Main competitors: Procore (enterprise-focused, USD-priced — unaffordable for MENA SMEs), Buildertrend (no Arabic, no MENA compliance), local Excel-based consultants.
+Differentiation: BuildSmart is the only Arabic-first, offline-capable construction SaaS priced for MENA SMEs. We include site safety compliance reporting aligned with GCC HSE standards.
+No proprietary IP filed.
+
+FINANCIALS
+Monthly burn rate: 22,000 TND
+Runway: 10 months at current burn (pre-raise)
+Funding ask: $600,000 USD (~1.85M TND)
+Use of funds: 45% product engineering (GCC market compliance features, procurement module), 30% sales expansion, 25% team growth
+
+ESG PROFILE
+Social: Construction is one of the highest-risk industries for worker safety. BuildSmart's digital safety reporting tool has helped our 5 pilot clients reduce paper-based incident underreporting — one client identified 3 previously unreported near-miss incidents in the first 30 days. We aim to reduce construction site incidents across our client network.
+Environmental: SaaS-only, no hardware. Our platform reduces paper consumption at construction sites. We have not calculated a formal carbon footprint.
+Governance: The company is currently operated by the two co-founders as co-decision makers. We have not yet formalized a board of directors, though we plan to do so as part of this fundraising round. Financial projections in this document are based on internal estimates; no audited financial history is available yet as the company is in its first year of operations.
+Diversity: Our founding team includes a female CTO. We are committed to building a diverse team. No formal diversity policy is in place yet.

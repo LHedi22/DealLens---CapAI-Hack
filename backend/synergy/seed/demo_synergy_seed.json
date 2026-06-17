@@ -237,6 +237,48 @@
       "value_estimate_label": "~80,000 TND new market potential",
       "action_suggestion": "Co-develop safety training modules as a joint pilot with one shared construction client",
       "confidence_level": "LOW"
+    },
+    {
+      "company_a": "NovaPay",
+      "company_b": "CargoZip",
+      "service_bridge_score": 72,
+      "shared_customer_score": 35,
+      "co_dev_score": 28,
+      "composite_score": 52,
+      "synergy_types_triggered": ["SERVICE"],
+      "match_explanation": "NovaPay's payroll and financial reporting tools directly address CargoZip's driver HR and payment needs. CargoZip's construction firm clients overlap with NovaPay's target SME customer base.",
+      "value_creation_type": "cost_saving",
+      "value_estimate_label": "~95,000 TND annual savings on third-party payroll",
+      "action_suggestion": "Pilot NovaPay payroll module for CargoZip's driver fleet",
+      "confidence_level": "MEDIUM"
+    },
+    {
+      "company_a": "CargoZip",
+      "company_b": "BuildSmart",
+      "service_bridge_score": 55,
+      "shared_customer_score": 65,
+      "co_dev_score": 35,
+      "composite_score": 52,
+      "synergy_types_triggered": ["SERVICE", "CUSTOMER"],
+      "match_explanation": "Both serve construction firms and real estate developers. CargoZip handles materials and equipment delivery that BuildSmart's procurement clients need. Joint referral network opportunity.",
+      "value_creation_type": "new_market",
+      "value_estimate_label": "~110,000 TND addressable via shared construction clients",
+      "action_suggestion": "Propose joint go-to-market with 2-3 shared construction firm clients",
+      "confidence_level": "LOW"
+    },
+    {
+      "company_a": "HealthCore",
+      "company_b": "BuildSmart",
+      "service_bridge_score": 30,
+      "shared_customer_score": 20,
+      "co_dev_score": 40,
+      "composite_score": 30,
+      "synergy_types_triggered": ["CO_DEV"],
+      "match_explanation": "BuildSmart's construction site clients have occupational health requirements. HealthCore's compliance tooling could cover worker health tracking. Co-dev: an occupational health module for construction sites.",
+      "value_creation_type": "new_market",
+      "value_estimate_label": "~45,000 TND new market potential",
+      "action_suggestion": "Feasibility study for occupational health module covering BuildSmart's construction client base",
+      "confidence_level": "LOW"
     }
   ],
   "gaps": [
@@ -293,6 +335,39 @@
       "suggested_sector": "Marketing SaaS",
       "suggested_stage": "Seed to Series A",
       "urgency_score": 60,
+      "status": "open"
+    },
+    {
+      "gap_label": "Cybersecurity & Data Protection",
+      "need_description": "All 5 portfolio companies handle sensitive data — patient records (HealthCore), payment credentials (NovaPay), student data (EduFlow), fleet GPS and driver data (CargoZip), site contracts and supplier data (BuildSmart) — with no shared cybersecurity tooling or shared incident-response framework in place.",
+      "affected_companies": ["EduFlow", "NovaPay", "CargoZip", "HealthCore", "BuildSmart"],
+      "affected_count": 5,
+      "estimated_annual_spend": "~120,000 TND/year",
+      "suggested_sector": "Cybersecurity",
+      "suggested_stage": "Seed to Series A",
+      "urgency_score": 78,
+      "status": "open"
+    },
+    {
+      "gap_label": "Data Analytics & Business Intelligence",
+      "need_description": "EduFlow, NovaPay, and HealthCore each generate rich transactional data (learning outcomes, payment flows, patient metrics) but rely on manual spreadsheets for reporting. A shared BI layer would accelerate product iteration and satisfy investor reporting requirements.",
+      "affected_companies": ["EduFlow", "NovaPay", "HealthCore"],
+      "affected_count": 3,
+      "estimated_annual_spend": "~90,000 TND/year",
+      "suggested_sector": "SaaS / Analytics",
+      "suggested_stage": "Seed to Series A",
+      "urgency_score": 72,
+      "status": "open"
+    },
+    {
+      "gap_label": "On-Site & Field Delivery Services",
+      "need_description": "BuildSmart, EduFlow, and HealthCore all need reliable field delivery — construction materials and equipment to sites, physical learning kits to schools, and medical supplies to clinics. CargoZip partially covers this need but capacity is constrained in certain regions; an external logistics partner is needed to complement.",
+      "affected_companies": ["BuildSmart", "EduFlow", "HealthCore"],
+      "affected_count": 3,
+      "estimated_annual_spend": "~200,000 TND/year",
+      "suggested_sector": "Logistics",
+      "suggested_stage": "Series A",
+      "urgency_score": 65,
       "status": "open"
     }
   ],

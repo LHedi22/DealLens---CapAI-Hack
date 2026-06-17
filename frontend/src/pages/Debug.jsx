@@ -274,9 +274,9 @@ function PipelineTab({ pipelineData }) {
 // DB table nodes with live record counts from the API
 const DB_NODES = [
   { id: 'deal_history',        label: 'deal_history',        color: '#6366f1' },
-  { id: 'entity_sectors',      label: 'entity_sectors',      color: '#22c55e' },
-  { id: 'portfolio_companies', label: 'portfolio_companies',  color: '#f59e0b' },
-  { id: 'esg_red_flags',       label: 'esg_red_flags',       color: '#ef4444' },
+  { id: 'entity_sectors',      label: 'entity_sectors',      color: '#12B76A' },
+  { id: 'portfolio_companies', label: 'portfolio_companies',  color: '#F5A524' },
+  { id: 'esg_red_flags',       label: 'esg_red_flags',       color: '#F04438' },
   { id: 'entity_founders',     label: 'entity_founders',     color: '#a78bfa' },
   { id: 'cached_evaluations',  label: 'cached_evaluations',  color: '#38bdf8' },
 ]
@@ -333,7 +333,7 @@ const KG_LINKS = [
   { s: 'verdict',           t: 'cached_evals',        lb: 'stored in' },
 ]
 
-const KG_COLORS = { 'DB Table': '#6366f1', 'AI Agent': '#22c55e', 'Process': '#f59e0b', 'Concept': '#a78bfa' }
+const KG_COLORS = { 'DB Table': '#6366f1', 'AI Agent': '#12B76A', 'Process': '#F5A524', 'Concept': '#a78bfa' }
 
 const STATIC_POS = {
   // DB Tables — left column

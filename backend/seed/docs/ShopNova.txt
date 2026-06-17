@@ -1,0 +1,65 @@
+SHOPNOVA — INVESTOR PITCH DECK
+Series: Seed Round | Ask: $1,100,000 | Sector: E-Commerce | Geography: Asia (Southeast Asia)
+
+COMPANY OVERVIEW
+ShopNova is a social commerce marketplace for independent fashion, lifestyle, and beauty sellers in Southeast Asia, focused initially on Indonesia and Vietnam. We enable micro-entrepreneurs — primarily women running home-based businesses — to set up a shoppable social storefront, process payments, and arrange delivery through our integrated logistics partners, all from a mobile app. Think of us as the B2C layer connecting TikTok-style seller content with the transactional infrastructure of Shopee.
+
+Founded: 2023 | Headquarters: Jakarta, Indonesia | Team Size: 14
+
+PROBLEM
+Southeast Asia has 35 million micro-entrepreneurs selling through Instagram, WhatsApp, and Facebook groups — but these platforms have no native checkout. Sellers manually process orders via DM, collect payments via bank transfer, and arrange delivery through third-party couriers by phone. The average seller loses 4 hours per day to manual order management. Failed payments and delivery disputes account for 18% of all transactions. Meanwhile, large platforms (Shopee, Tokopedia) favor established brands and charge commission fees that make them unviable for micro-scale sellers.
+
+SOLUTION
+ShopNova delivers:
+- Social storefront: seller creates a shoppable profile with video and image content
+- Integrated checkout: buyers add to cart and pay within ShopNova without leaving the app
+- Payment processing: virtual account, QRIS (Indonesian QR payment standard), and DANA/OVO wallet integration
+- Logistics: ShopNova integrates with J&T Express, SiCepat, and JNE for automated shipment booking and tracking
+- Seller analytics: weekly sales reports, top products, buyer return rate, follower growth
+- Live shopping: real-time video stream with embedded product links and instant purchase
+
+TEAM
+Co-Founder & CEO: Aryan Patel — 5 years in e-commerce product management at Lazada Indonesia, led seller acquisition program. LinkedIn: linkedin.com/in/aryanpatel-jakarta
+Co-Founder & CTO: Mei Lin — full-stack engineer, 7 years in mobile app development for consumer fintech and e-commerce. LinkedIn: linkedin.com/in/meilindev
+Head of Seller Success: Dewi Rahayu — former SME relationship manager at Bank BRI, 6 years supporting micro-entrepreneur loan programs in Java. LinkedIn: linkedin.com/in/dewirahayu
+
+We are proud to serve a seller community that is 74% female. We are committed to building a team that reflects the diversity of our users. Currently building toward a formal diversity and inclusion policy.
+
+MARKET
+Total Addressable Market: $89 billion (Southeast Asia social commerce and micro-merchant e-commerce, source: Bain & Company 2024)
+Serviceable market: $12 billion (Indonesia and Vietnam micro-entrepreneur fashion and lifestyle, mobile-first)
+Growing at 28% CAGR driven by mobile-first consumption, rising disposable income, and creator economy growth.
+
+REVENUE MODEL
+Commission: 4% of each transaction processed through ShopNova
+Logistics margin: ShopNova negotiates bulk logistics rates and earns 8-12% margin on delivery facilitation
+Premium seller tools: $9.99/month for advanced analytics, promotional tools, and priority listing
+Current GMV (last 30 days): $186,000 USD
+Projected GMV Year 1 (post-raise): $8.4M
+Projected take rate revenue Year 1: $420,000 (5% blended: commission + logistics margin)
+
+TRACTION
+- 4,200 active seller accounts (Indonesia: 3,400, Vietnam: 800)
+- 31,000 buyer accounts
+- $186,000 GMV processed in November 2024
+- Average seller GMV: $44/month (top 10% of sellers average $320/month)
+- MoM GMV growth: 34% over last 4 months
+- NPS from sellers: 67
+
+COMPETITION
+Main competitors: Shopee (large platform, unfavorable for micro-sellers), TikTok Shop (content-first, limited Indonesia rollout), Flip (payments only)
+Differentiation: ShopNova is the only platform purpose-built for the micro-entrepreneur seller (not large brands), combining social content, checkout, and logistics in one mobile app.
+No proprietary IP. Platform built on React Native (mobile), Node.js (backend), open-source logistics APIs.
+
+FINANCIALS
+Monthly burn rate: $82,000 USD
+Runway: 9 months (pre-raise)
+Funding ask: $1,100,000 USD
+Use of funds: 40% product (live shopping feature, Vietnam market localization), 35% seller growth and marketing, 25% operations
+
+ESG PROFILE
+Social impact: ShopNova directly enables economic empowerment for 4,200 micro-entrepreneurs, 74% of whom are women in Indonesia and Vietnam — communities with historically limited access to formal commerce infrastructure. Our platform gives sellers access to payment processing and logistics that previously required bank accounts and formal business registration. We believe we are helping close the gender economic gap in Southeast Asian micro-commerce.
+Environmental: Mobile-only platform. No warehousing. We use third-party logistics networks and do not operate our own delivery fleet. We have not calculated a formal environmental impact or carbon footprint at this stage.
+Diversity: Our user base is 74% female. We are committed to diversity. We are building toward a formal diversity policy. Named diverse leaders: Dewi Rahayu (Head of Seller Success, Indonesian woman).
+Data: ShopNova collects buyer purchasing data, seller financial data, and user behavioral data through our app. This data is used to improve our recommendation engine and seller analytics tools. We do not currently publish a formal privacy policy — this is in progress and will be completed before our next funding round. User data handling practices follow Indonesian OJK data guidance. We do not sell user data to third parties.
+Governance: ShopNova is managed by the co-founding team. No formal board is in place. We plan to establish a formal board including independent directors before our Series A.

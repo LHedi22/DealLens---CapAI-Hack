@@ -82,7 +82,7 @@ def _default_portfolio():
 @router.get("/ocr-mock")
 async def get_ocr_mock():
     try:
-        with open("backend/ocr_mock/scanned_result.json") as f:
+        with open("backend/ocr_mock/scanned_result.json", encoding="utf-8-sig") as f:
             return json.load(f)
     except FileNotFoundError:
         raise HTTPException(status_code=500, detail="OCR mock data not found")

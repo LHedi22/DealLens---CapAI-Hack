@@ -1,0 +1,70 @@
+NOVAPAY — INVESTOR PITCH DECK
+Series: Pre-seed Round | Ask: $500,000 | Sector: FinTech | Geography: Europe (HQ: Berlin, target: EU)
+
+COMPANY OVERVIEW
+NovaPay is a B2B payment infrastructure platform for SMEs in Europe. We provide a single API that unifies invoicing, expense tracking, multi-currency payments, and payroll — replacing the patchwork of Stripe, IBAN transfers, and manual Excel payroll that most SMEs rely on today. Our product is built for accountants, CFOs, and founders who want real-time financial visibility without hiring a finance team.
+
+Founded: 2024 | Headquarters: Berlin, Germany | Team Size: 5
+
+PROBLEM
+European SMEs (2.5 million businesses) are losing an average of 11 hours per week to manual financial administration. Existing solutions either serve enterprise clients (Sage, SAP) at prohibitive cost, or consumer fintech (Revolut, Wise) that lacks the B2B features SMEs need. 68% of SME finance failures are linked to cash flow mismanagement (European Banking Authority, 2023).
+
+SOLUTION
+NovaPay delivers:
+- Smart invoicing: auto-generated invoices with payment status tracking and automated reminders
+- Expense management: virtual card issuance with real-time categorization and budget alerts
+- Payroll: automated salary processing with EU tax compliance built in for Germany, France, and Netherlands
+- Cash flow forecasting: 30-day rolling cash position prediction based on invoice and payroll data
+
+TEAM
+Co-Founder & CEO: Maximilian Bauer — former Product Lead at N26 (Series D FinTech), 5 years building payment products. LinkedIn: linkedin.com/in/maximilianbauer-fintech
+Co-Founder & CTO: Leila Hadjadj — ex-software engineer at Klarna, expert in PSD2 compliance and payment APIs, 7 years in fintech engineering. LinkedIn: linkedin.com/in/leilahadjadj
+Co-Founder & CFO: Thomas Reinhardt — certified CPA, former Controller at a Berlin-based Series B SaaS company, manages regulatory and compliance track for NovaPay. LinkedIn: linkedin.com/in/thomasreinhardt-cpa
+
+Advisory Board:
+- Dr. Petra Vogel — Payment regulation specialist, former BaFin (German financial regulator) advisor
+- Henrik Sorensen — Angel investor, 3 exits in European B2B SaaS, board member at two FinTech startups
+
+Board of Directors: 3-member board with independent advisor representation. Shareholder agreement in place. No single founder holds veto rights over board decisions.
+
+MARKET
+Total Addressable Market: €42 billion (EU SME financial software and payroll market, source: IDC Europe 2024)
+Serviceable Addressable Market: €4.8 billion (Germany, France, Netherlands SMEs with 5-50 employees)
+Growth rate: 18% CAGR driven by Open Banking (PSD2) and digital-first SME growth post-pandemic
+
+REVENUE MODEL
+SaaS subscription + transaction fee:
+- Base plan: €149/month per SME (invoicing + expense)
+- Full plan: €299/month (adds payroll and forecasting)
+- Transaction fee: 0.6% on processed payments above €10,000/month
+- Current ARR: €72,000 (22 paying SME clients in beta)
+- Projected ARR Year 1 (post-raise): €540,000 (180 clients)
+- Customer Acquisition Cost: €380 (primarily inbound from accounting partner referrals)
+- LTV at 24-month retention: €4,300
+- LTV:CAC ratio: 11.3x
+
+TRACTION
+- 22 paying beta clients (19 Germany, 3 Netherlands)
+- €2.1M in payments processed through platform (last 90 days)
+- Average monthly NPS: 74
+- 0% churn in 8-month beta period
+- Letter of Intent signed with 3 accounting firms to distribute NovaPay as embedded product to their SME clients (combined client base: 1,400 SMEs)
+- PSD2 Open Banking integration completed and audited
+
+COMPETITION
+Direct competitors: Spendesk (enterprise-focused, €299+/month), Pennylane (France-only), Holvi (limited payroll features)
+Differentiation: NovaPay is the only solution combining invoicing, expense management, and payroll in a single product at SME-accessible pricing, with native multi-country EU payroll compliance.
+Patent pending on our cash flow prediction algorithm (application filed November 2024, EPO application number EP24XXXXX).
+
+FINANCIALS
+Monthly burn: €42,000
+Runway: 11 months at current burn (pre-raise)
+Funding ask: $500,000 USD / ~€460,000
+Use of funds: 45% engineering (payroll engine expansion to France), 30% sales and partnerships, 25% regulatory compliance
+
+ESG PROFILE
+Governance: NovaPay maintains a formal governance structure including a shareholders' agreement, a 3-member board, and independent advisors. All financial projections in this deck are based on documented assumptions available upon request: SME conversion rate of 3.2% from accounting partner referrals, 24-month average retention, 0.6% payment take rate. No founder holds unilateral veto power.
+Social: Our product directly reduces the administrative burden on SME founders, 34% of whom are women in Germany. We target underserved SMEs that cannot afford enterprise finance tools.
+Environmental: Cloud-hosted product with carbon-neutral hosting on AWS Frankfurt (powered by renewable energy). We publish our estimated annual carbon footprint.
+Diversity: Founding team is 33% female. CFO is a first-generation immigrant. We have a formal diversity and inclusion hiring policy in place, available upon request.
+Data: NovaPay processes financial data under GDPR compliance. Privacy policy is publicly available at novapay.eu/privacy. No user data is sold or shared with third parties.

@@ -19,7 +19,9 @@ async def submit_profile(profile: StartupProfile):
 @router.get("/pipeline", response_model=List[DealSummary])
 async def get_pipeline(db: AsyncSession = Depends(get_db)):
     result = await db.execute(
-        select(DealHistory).order_by(DealHistory.final_score.desc())
+        select(DealHistory)
+        .where(DealHistory.is_pipeline == True)  # noqa: E712
+        .order_by(DealHistory.final_score.desc())
     )
     deals = result.scalars().all()
     return deals

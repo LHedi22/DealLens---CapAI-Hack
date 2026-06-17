@@ -1,0 +1,63 @@
+CARGOZIP — INVESTOR PITCH DECK
+Series: Series A Round | Ask: $3,000,000 | Sector: Logistics | Geography: Europe (HQ: Warsaw, expansion: EU)
+
+COMPANY OVERVIEW
+CargoZip is a last-mile logistics marketplace connecting retailers and e-commerce brands with independent delivery drivers across Central and Eastern Europe. We operate an on-demand fleet of 4,200 independent contractors who handle same-day and next-day delivery for clients including fashion retailers, food platforms, and medical supply distributors. Our platform uses AI-powered route optimization to reduce delivery times by 23% versus traditional couriers.
+
+Founded: 2021 | Headquarters: Warsaw, Poland | Team Size: 38 (including 4,200 gig drivers on platform)
+
+PROBLEM
+CEE e-commerce grew 35% in 2023, but courier capacity has not kept pace. Enterprise couriers (DHL, DPD) are too slow and expensive for SME e-commerce. Same-day delivery rates run 18-22 EUR per package through traditional channels. Retailers lose 14% of customers to abandoned checkout when same-day delivery is unavailable.
+
+SOLUTION
+CargoZip provides:
+- On-demand delivery marketplace: retailers post delivery jobs, drivers pick up in real time
+- Route optimization engine: AI clusters deliveries to minimize driver km and time
+- API integration: one-click integration with WooCommerce, Shopify, and Magento
+- Warehousing integration: CargoZip manages dark store pick-up coordination for 3 major Warsaw clients
+- Analytics dashboard: retailers track deliveries in real time with SLA alerts
+
+TEAM
+CEO: Piotr Kowalski — founded CargoZip in 2021. 10 years in logistics and supply chain. LinkedIn: not provided.
+CTO: Andrzej Wiśniewski — systems architect, 12 years in logistics software. No prior startup experience. LinkedIn: not provided.
+COO: Natalia Jankowska — former operations director at InPost (largest Polish parcel network). LinkedIn: linkedin.com/in/nataliajankowska
+
+Note: Company is led by the founding CEO who retains majority voting rights and final decision authority on all strategic and operational matters. No independent board directors currently in place. The CEO has expressed intent to establish a formal advisory board following this funding round.
+
+MARKET
+Total Addressable Market: €18 billion (CEE last-mile delivery market, source: McKinsey Logistics Report 2024 — estimated)
+Serviceable market: €3.2 billion (Poland, Czech Republic, Slovakia)
+Market growing at 22% annually.
+
+REVENUE MODEL
+Marketplace commission: 12-15% of each delivery fee
+Enterprise SLA contracts: fixed monthly fee + per-delivery charge for high-volume clients
+Current revenue run rate: €1.8M ARR
+Projected Year 1 post-raise: €4.2M ARR
+Unit economics: Revenue per driver per month approximately €350. Driver acquisition cost approximately €85.
+Financial projections are based on continued 35% e-commerce growth in CEE and 15% market share expansion — no detailed breakdown of assumptions available in this document.
+
+TRACTION
+- 4,200 active independent contractor drivers on platform
+- 312 retail and e-commerce clients (active in last 30 days)
+- 48,000 deliveries completed last month
+- Expanding to Czech Republic Q2 2025
+- Partnership signed with a leading Polish supermarket chain (name withheld pending NDA lift)
+
+COMPETITION
+Main competitors: Glovo (food-focused), InPost (parcel lockers, not last-mile), Stuart (limited CEE presence)
+Differentiation: CargoZip is the only CEE-focused multi-category last-mile marketplace with integrated warehouse coordination and API-first retailer integration.
+No proprietary IP. Route optimization algorithm built on open-source OSRM library with proprietary clustering layer.
+
+FINANCIALS
+Monthly burn rate: €210,000
+Current runway: 7 months (pre-raise)
+Funding ask: $3,000,000 USD (~€2.75M)
+Use of funds: 40% technology (route optimization expansion), 35% market expansion (Czech Republic, Slovakia), 25% operations
+
+ESG PROFILE
+Environmental: We aim to reduce urban emissions by increasing delivery density per vehicle. We are exploring EV fleet incentives for drivers. Environmental impact methodology and carbon calculations are not yet formally documented. We plan to publish a sustainability report in 2025.
+Social: CargoZip provides flexible earning opportunities to over 4,200 independent gig workers across Poland. Workers on our platform are classified as independent contractors, not employees. As contractors, they are responsible for their own insurance, tax filings, and equipment. We do not provide minimum earning guarantees, health insurance, or labor protections. We are monitoring EU Platform Work Directive developments and assessing potential impact on our model.
+Supply chain: Our operations rely on a network of vehicle suppliers, fuel providers, and packaging partners across the CEE region. We have not conducted a formal ESG audit of our supply chain partners' labor practices or environmental standards.
+Governance: The company is operated under the direct authority of the founding CEO. No formal board or governance framework is in place at this time.
+Diversity: We are proud that our driver network is diverse in terms of nationality and background. We do not currently track gender or ethnicity data for our driver or employee workforce.

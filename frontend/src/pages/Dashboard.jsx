@@ -16,8 +16,31 @@ const COLUMNS = [
   { key: 'final_score',     label: 'Score',       sortable: true  },
   { key: 'decision',        label: 'Verdict',     sortable: false },
   { key: 'confidence_level',label: 'Confidence',  sortable: false },
-  { key: 'synergy',         label: 'Synergy',     sortable: false },
+  { key: 'compliance_health_score', label: 'Compliance', sortable: true  },
+  { key: 'synergy',                label: 'Synergy',    sortable: false },
 ]
+
+const COMPLIANCE_MAP = [
+  { min: 75, color: '#12B76A', bg: 'rgba(18,183,106,0.1)'  },
+  { min: 50, color: '#F5A524', bg: 'rgba(245,165,36,0.1)'  },
+  { min: 25, color: '#EF6820', bg: 'rgba(239,104,32,0.1)'  },
+  { min: 0,  color: '#F04438', bg: 'rgba(240,68,56,0.1)'   },
+]
+
+function CompliancePill({ score }) {
+  if (score == null) return <span style={{ fontSize: 10, color: 'var(--tx-3)' }}>—</span>
+  const { color, bg } = COMPLIANCE_MAP.find(c => score >= c.min) ?? COMPLIANCE_MAP[COMPLIANCE_MAP.length - 1]
+  return (
+    <span style={{
+      fontFamily: 'JetBrains Mono, monospace',
+      fontSize: 11, fontWeight: 700,
+      color, background: bg,
+      padding: '2px 7px', borderRadius: 6,
+    }}>
+      {score}
+    </span>
+  )
+}
 
 function SynergyChips({ summary, onClick }) {
   if (!summary) return <span style={{ fontSize: 10, color: 'var(--tx-3)' }}>—</span>
@@ -30,7 +53,7 @@ function SynergyChips({ summary, onClick }) {
       {approved_count > 0 && (
         <span style={{
           fontSize: 9, padding: '1px 6px', borderRadius: 4, fontWeight: 700, cursor: 'pointer',
-          background: 'rgba(34,197,94,0.1)', color: '#22c55e', border: '1px solid rgba(34,197,94,0.25)',
+          background: 'rgba(34,197,94,0.1)', color: '#12B76A', border: '1px solid rgba(34,197,94,0.25)',
           fontFamily: 'JetBrains Mono, monospace',
         }}>
           ✓ {approved_count}
@@ -39,7 +62,7 @@ function SynergyChips({ summary, onClick }) {
       {pending_count > 0 && (
         <span style={{
           fontSize: 9, padding: '1px 6px', borderRadius: 4, fontWeight: 700, cursor: 'pointer',
-          background: 'rgba(245,158,11,0.1)', color: '#f59e0b', border: '1px solid rgba(245,158,11,0.25)',
+          background: 'rgba(245,158,11,0.1)', color: '#F5A524', border: '1px solid rgba(245,158,11,0.25)',
           fontFamily: 'JetBrains Mono, monospace',
         }}>
           ~ {pending_count}
@@ -349,6 +372,7 @@ export default function Dashboard({ refreshKey = 0 }) {
                         <td style={{ padding: '14px 16px' }}><ScorePill score={deal.final_score} /></td>
                         <td style={{ padding: '14px 16px' }}><VerdictBadge decision={deal.decision} /></td>
                         <td style={{ padding: '14px 16px' }}><ConfidenceBadge level={deal.confidence_level} /></td>
+                        <td style={{ padding: '14px 16px' }}><CompliancePill score={deal.compliance_health_score} /></td>
                         <td style={{ padding: '14px 16px' }}>
                           <SynergyChips
                             summary={synergySummaries[deal.startup_name]}

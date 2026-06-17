@@ -17,7 +17,27 @@
       "Bash(Get-ChildItem *)",
       "Bash(dir \"C:\\\\Hedi\\\\Personal\\\\SMU_SCHOLARSHIP\\\\CAPAIHACK\" /s /b)",
       "Bash(findstr -i \"monitor\")",
-      "Skill(frontend-design:frontend-design)"
+      "Skill(frontend-design:frontend-design)",
+      "Bash(python -m py_compile backend/main.py backend/database.py backend/models.py backend/schemas.py backend/routers/*.py)",
+      "Bash(awk '{print $NF}')",
+      "Bash(Remove-Item -ErrorAction SilentlyContinue convictai.db)",
+      "Bash(Write-Host \"DB deleted\")",
+      "PowerShell(Start-Sleep -Seconds 5; try { $r = Invoke-WebRequest -Uri \"http://localhost:8000/api/health\" -UseBasicParsing -TimeoutSec 10; Write-Host \"Backend: $\\($r.StatusCode\\) — $\\($r.Content\\)\" } catch { Write-Host \"Backend not ready yet: $_\" })",
+      "PowerShell(Start-Sleep -Seconds 8; try { $r = Invoke-WebRequest -Uri \"http://localhost:8000/api/health\" -UseBasicParsing -TimeoutSec 15; Write-Host \"Backend: $\\($r.StatusCode\\) — $\\($r.Content\\)\" } catch { Write-Host \"Backend not ready: $_\" })",
+      "PowerShell(Receive-Job *)",
+      "PowerShell(cd \"C:\\\\Hedi\\\\Personal\\\\SMU_SCHOLARSHIP\\\\CAPAIHACK\\\\ConvictAI\"; Get-ChildItem .venv\\\\Scripts\\\\ | Where-Object { $_.Name -match 'python|uvicorn' } | Select-Object Name; Write-Host \"---\"; Get-ChildItem .venv\\\\ | Select-Object Name)",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://localhost:8000/api/pipeline\" -UseBasicParsing; $data = $r.Content | ConvertFrom-Json; Write-Host \"Pipeline count: $\\($data.Count\\)\"; $data | ForEach-Object { Write-Host \"  $\\($_.startup_name\\) | decision=$\\($_.decision\\) | final_score=$\\($_.final_score\\) | compliance=$\\($_.compliance_health_score\\) | is_pipeline=$\\($_.is_pipeline\\)\" })",
+      "PowerShell(Start-Sleep -Seconds 3; try { $r = Invoke-WebRequest -Uri \"http://127.0.0.1:8000/api/health\" -UseBasicParsing -TimeoutSec 10; Write-Host \"Health: $\\($r.Content\\)\" } catch { Write-Host \"Error: $_\" })",
+      "PowerShell(netstat *)",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://127.0.0.1:8000/api/cached/EduFlow\" -UseBasicParsing -ErrorAction SilentlyContinue; if \\($r\\) { $d = $r.Content | ConvertFrom-Json; Write-Host \"Cached EduFlow: found, score=$\\($d.scorecard.final_score\\) verdict=$\\($d.scorecard.verdict\\)\" } else { Write-Host \"Cached EduFlow: NOT FOUND or error\" })",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://127.0.0.1:8000/api/evaluate/cached/EduFlow\" -UseBasicParsing; $d = $r.Content | ConvertFrom-Json; Write-Host \"Cached EduFlow: score=$\\($d.final_score\\) verdict=$\\($d.verdict\\) confidence=$\\($d.confidence_level\\)\")",
+      "Bash(gh pr *)",
+      "Bash(.venvScriptspython.exe -c ' *)",
+      "PowerShell(Get-Command *)",
+      "Bash(python -m pip list)",
+      "Bash(sqlite3 convictai.db \".tables\")",
+      "Bash(sqlite3 convictai.db \"SELECT 'deal_history', COUNT\\(*\\) FROM deal_history; SELECT 'entity_sectors', COUNT\\(*\\) FROM entity_sectors; SELECT 'entity_founders', COUNT\\(*\\) FROM entity_founders; SELECT 'mandate_config', COUNT\\(*\\) FROM mandate_config; SELECT 'portfolio_companies', COUNT\\(*\\) FROM portfolio_companies; SELECT 'cached_evaluations', COUNT\\(*\\) FROM cached_evaluations; SELECT 'monitor_agreements', COUNT\\(*\\) FROM monitor_agreements; SELECT 'monitor_transactions', COUNT\\(*\\) FROM monitor_transactions; SELECT 'monitor_ledger_snapshots', COUNT\\(*\\) FROM monitor_ledger_snapshots; SELECT 'monitor_alerts', COUNT\\(*\\) FROM monitor_alerts; SELECT 'synergy_profiles', COUNT\\(*\\) FROM synergy_profiles; SELECT 'synergy_pairs', COUNT\\(*\\) FROM synergy_pairs; SELECT 'synergy_gaps', COUNT\\(*\\) FROM synergy_gaps; SELECT 'gap_shortlist', COUNT\\(*\\) FROM gap_shortlist;\")",
+      "Bash(curl -s http://localhost:11434/api/tags)"
     ]
   }
 }

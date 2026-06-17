@@ -106,7 +106,7 @@ async def get_dashboard(startup_name: str, db: AsyncSession = Depends(get_db)):
         .where(MonitorAgreement.startup_name == startup_name)
         .order_by(desc(MonitorAgreement.id))
     )
-    agreement = ag_result.scalar_one_or_none()
+    agreement = ag_result.scalars().first()
 
     if not agreement:
         return {"startup_name": startup_name, "has_agreement": False, "active_alerts": []}
@@ -116,7 +116,7 @@ async def get_dashboard(startup_name: str, db: AsyncSession = Depends(get_db)):
         .where(MonitorLedgerSnapshot.agreement_id == agreement.id)
         .order_by(desc(MonitorLedgerSnapshot.id))
     )
-    snapshot = snap_result.scalar_one_or_none()
+    snapshot = snap_result.scalars().first()
 
     alert_result = await db.execute(
         select(MonitorAlert)
@@ -178,7 +178,7 @@ async def get_portfolio_health(db: AsyncSession = Depends(get_db)):
             .where(MonitorLedgerSnapshot.agreement_id == agreement.id)
             .order_by(desc(MonitorLedgerSnapshot.id))
         )
-        snapshot = snap_result.scalar_one_or_none()
+        snapshot = snap_result.scalars().first()
 
         health_list.append({
             "startup_name": agreement.startup_name,
@@ -530,6 +530,20 @@ async def monitor_ocr_confirm(
         "statement_month": payload.statement_month,
         "compliance_health_score": snapshot.compliance_health_score,
     }
+
+
+# ── Critical alert count (sidebar badge) ─────────────────────────────────────
+
+@router.get("/critical-count")
+async def get_critical_alert_count(db: AsyncSession = Depends(get_db)):
+    """Returns the total count of unresolved CRITICAL alerts across all companies."""
+    result = await db.execute(
+        select(func.count(MonitorAlert.id))
+        .where(MonitorAlert.severity == "CRITICAL")
+        .where(MonitorAlert.resolved == 0)
+    )
+    count = result.scalar() or 0
+    return {"critical_count": count}
 
 
 # ── No-statement alert ────────────────────────────────────────────────────────

@@ -4,7 +4,7 @@ from sqlalchemy import select
 import json
 
 from backend.database import get_db
-from backend.models import MandateConfig, DealHistory
+from backend.models import MandateConfig, DealHistory, CachedEvaluation
 from backend.schemas import MandateConfigIn, MandateConfigOut, MandateApplyResult
 
 router = APIRouter()
@@ -74,10 +74,7 @@ async def apply_mandate(db: AsyncSession = Depends(get_db)):
     min_esg       = mandate_record.min_esg_threshold or 0
 
     result = await db.execute(
-        select(DealHistory).where(
-            DealHistory.is_pipeline == True,   # noqa: E712
-            DealHistory.is_seed_data == False,  # noqa: E712
-        )
+        select(DealHistory).where(DealHistory.is_pipeline == True)  # noqa: E712
     )
     pipeline = result.scalars().all()
 
@@ -100,6 +97,23 @@ async def apply_mandate(db: AsyncSession = Depends(get_db)):
             })
             deal.decision = "pass"
             deal.decision_reason = "Mandate breach: " + "; ".join(breaches)
+
+            # Invalidate cached evaluation so next Dashboard click shows updated verdict
+            cached = await db.scalar(
+                select(CachedEvaluation).where(
+                    CachedEvaluation.startup_name == deal.startup_name
+                )
+            )
+            if cached:
+                try:
+                    payload = json.loads(cached.evaluation_json)
+                    payload["verdict"] = "pass"
+                    payload["verdict_label"] = "PASS"
+                    payload["mandate_breach"] = True
+                    payload["mandate_breaches"] = breaches
+                    cached.evaluation_json = json.dumps(payload)
+                except Exception:
+                    pass
 
     if changed:
         await db.commit()

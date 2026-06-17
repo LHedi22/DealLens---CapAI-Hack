@@ -1,10 +1,10 @@
 import { useState } from 'react'
 
 function fitColor(score) {
-  if (score >= 75) return '#22c55e'
-  if (score >= 60) return '#f59e0b'
-  if (score >= 45) return '#f97316'
-  return '#ef4444'
+  if (score >= 75) return '#12B76A'
+  if (score >= 60) return '#F5A524'
+  if (score >= 45) return '#EF6820'
+  return '#F04438'
 }
 
 export default function ExternalStartupCard({ company, onAction }) {
@@ -89,7 +89,7 @@ export default function ExternalStartupCard({ company, onAction }) {
           {company.flags.map((f, i) => (
             <span key={i} style={{
               fontSize: 9, padding: '1px 6px', borderRadius: 4,
-              background: 'rgba(245,158,11,0.08)', color: '#f59e0b',
+              background: 'rgba(245,158,11,0.08)', color: '#F5A524',
               border: '1px solid rgba(245,158,11,0.2)',
               fontFamily: 'JetBrains Mono, monospace',
             }}>
@@ -102,7 +102,7 @@ export default function ExternalStartupCard({ company, onAction }) {
       {/* Actions */}
       <div style={{ display: 'flex', gap: 6 }}>
         {added ? (
-          <span style={{ fontSize: 11, fontWeight: 600, color: '#22c55e', padding: '4px 0' }}>
+          <span style={{ fontSize: 11, fontWeight: 600, color: '#12B76A', padding: '4px 0' }}>
             ✓ Added to Pipeline
           </span>
         ) : (

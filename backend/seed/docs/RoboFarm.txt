@@ -1,0 +1,80 @@
+ROBOFARM — INVESTOR PITCH DECK
+Series: Series A Round | Ask: $5,000,000 | Sector: AgriTech | Geography: North America
+
+COMPANY OVERVIEW
+RoboFarm builds autonomous agricultural robots for specialty crop harvesting in North America. Our RoboFarm Harvester is a wheeled autonomous robot that uses computer vision to identify, assess, and harvest strawberries, blueberries, and peppers — crops that have historically resisted automation due to their irregular shapes and delicate nature. We are the only commercially deployed autonomous harvesting system for specialty crops in the United States with a provable field track record.
+
+Founded: 2021 | Headquarters: Salinas, California, USA | Team Size: 34
+
+PROBLEM
+North American specialty crop farming faces an existential labor crisis. Seasonal agricultural labor is declining 9% year-over-year due to visa restrictions, aging workforce demographics, and competition from other industries. H-2A visa costs run $15-22 per worker-hour. Growers are leaving crops unharvested — $2.8 billion in specialty crops were left in fields in 2023 (USDA Economic Research Service). Each RoboFarm deployment can replace 20-30 seasonal pickers at a cost equivalent to $3.40/hour of harvesting time. Strawberry picking robots specifically have failed commercially for 15 years due to insufficient accuracy — until now.
+
+SOLUTION
+RoboFarm Harvester delivers:
+- Computer vision system: custom-trained vision model (94.3% berry identification accuracy in field conditions, independently verified by UC Davis AgriTech Lab)
+- Autonomous navigation: RoboFarm navigates existing row crop configurations without infrastructure modification
+- Selective harvesting: real-time ripeness assessment — harvests only fruit meeting client's color/firmness spec
+- Yield analytics: per-row, per-day harvest data delivered to farm management dashboard
+- Fleet management: farm operators manage multiple robots from iPad-based dashboard with real-time status and alerts
+- Harvest-as-a-Service: RoboFarm deploys, operates, and maintains the hardware fleet — growers pay per pound harvested ($0.08-$0.12/pound depending on crop)
+
+TEAM
+Co-Founder & CEO: Dr. Elena Vasquez — PhD Robotics (Stanford), 3 years at Carnegie Mellon robotics lab, prior exit: sold agricultural drone startup to John Deere (2019, undisclosed). LinkedIn: linkedin.com/in/dreleanavasquez-robofarm
+Co-Founder & CTO: James Park — former Principal Engineer, Boston Dynamics (Atlas platform), 12 years in field robotics. LinkedIn: linkedin.com/in/jamespark-robotics
+VP Agronomy: Dr. Maria Santos — agronomist, 14 years with UC Cooperative Extension, deep relationships with California strawberry grower network. LinkedIn: linkedin.com/in/drmasantos-agronomy
+CFO: Kevin O'Brien — CPA, former CFO at precision agriculture startup (Series B), managed $40M equipment financing program. LinkedIn: linkedin.com/in/kevinobrien-agritech
+
+Advisory Board:
+- Dr. Ken Giles — Professor Emeritus, UC Davis AgriTech Lab (verified our 94.3% accuracy claim)
+- Peter Silvestri — 3rd generation strawberry grower, 800-acre operation in Watsonville CA — deployed 8 RoboFarm units
+- Sarah Chang — AgriTech investor, portfolio includes 4 hardware-as-a-service agriculture exits
+
+Board of Directors: 5-member board including 3 independent directors (investor, industry, and financial representation). Full corporate governance in place. Shareholder agreement, audit committee, and compensation committee established. No single founder holds veto rights over board decisions.
+
+MARKET
+Total Addressable Market: $48 billion (North American specialty crop harvesting labor market, source: USDA ERS 2024)
+Serviceable market: $8.2 billion (strawberry, blueberry, and pepper harvesting automation, Western US and Eastern Canada)
+Growing at 24% CAGR driven by labor shortage escalation, H-2A cost inflation, and food security investment.
+
+REVENUE MODEL
+Harvest-as-a-Service (HaaS):
+- Strawberry: $0.085/pound harvested (vs. $0.18-$0.22/pound human picker fully loaded cost)
+- Blueberry: $0.105/pound harvested
+- Pepper: $0.12/pound harvested
+Current ARR: $3.2M (50 robots deployed across 18 farms)
+Projected ARR Year 1 (post-Series A): $9.8M (150 robots, 45 farms)
+Contract structure: 3-year minimum service agreements with quarterly payment
+CAC per farm: $28,000 (primarily through agronomist referral and trade show presence)
+LTV per farm (5-year contract): $1.2M
+LTV:CAC ratio: 42.9x
+
+TRACTION
+- 50 robots deployed across 18 farms in California (14), Oregon (2), and Florida (2)
+- 8.7 million pounds of specialty crops harvested by RoboFarm robots to date
+- Average grower cost savings: 48% vs. H-2A seasonal labor (documented by independent cost audit, available in data room)
+- 100% client retention from first-year cohort — all 12 original clients expanded to more units
+- Waitlist of 34 farms requesting deployment (valued at $4.1M additional ARR)
+- Partnership with Driscoll's (world's largest specialty berry brand): pilot on 3 farms, expansion to 15 farms signed
+
+COMPETITION
+Main competitors: Agrobot (strawberry robot, failed commercial scale), FFRobotics (orchard harvesting, different crops), human labor with H-2A visa
+Differentiation: RoboFarm is the only autonomous specialty crop harvester with proven commercial deployment at scale. 94.3% identification accuracy, independently verified. Hardware-as-a-service model removes grower capex barrier.
+IP: 7 patents granted (USPTO):
+- Robotic end-effector for delicate fruit harvesting (US Patent 11,234,567)
+- Real-time fruit ripeness assessment using multi-spectral vision (US Patent 11,345,678)
+- Autonomous navigation in structured row crop environments (US Patent 11,456,789)
+- Additional 4 patents in various stages of grant
+IP licensed exclusively to RoboFarm Inc. All IP developed by founding team.
+
+FINANCIALS
+Monthly burn rate: $430,000
+Runway: 11 months at current burn (pre-raise)
+Funding ask: $5,000,000 USD
+Use of funds: 45% manufacturing scale-up (robot production, from 50 to 200 units annual capacity), 30% sales expansion (Midwest, Eastern Canada), 25% R&D (broccoli and head lettuce harvesting expansion)
+
+ESG PROFILE
+Environmental: RoboFarm robots are fully electric, charged by solar panels co-located on farm. No diesel. Each robot deployed replaces the fuel consumption of farm vehicles and crew transport associated with 20-30 human pickers. We calculate and publish our annual carbon impact per deployment — 2024 estimate: 84 tonnes CO2e avoided per 10-robot farm deployment vs. H-2A alternative. Our vision system selectively harvests only ripe fruit, reducing harvest waste by an estimated 12% vs. human crews who cannot assess ripeness as consistently at speed. We submit annual environmental impact report to our major client Driscoll's as part of their sustainability supplier program.
+Social: We acknowledge that agricultural automation raises workforce transition concerns. RoboFarm creates skilled technician jobs (robot deployment, maintenance, fleet monitoring) at $28-$42/hour — significantly above H-2A picker wages ($15-$18/hour). We partner with Salinas Valley Community College to run a certified agricultural robotics technician training program for displaced farmworkers. 4 graduates of this program are now employed by RoboFarm. We also note that the H-2A program has documented exploitation risks for migrant workers — our technology reduces dependence on a labor system with documented welfare concerns.
+Governance: RoboFarm maintains a full corporate governance structure: 5-member board with 3 independent directors, audit committee, compensation committee, and formal shareholder agreement. All major financial and strategic decisions require board majority approval. No single founder holds veto rights. Financial projections in this document are based on documented assumptions (contract conversion rate from waitlist, 3-year contract duration, deployment cost per unit) — all assumptions are in our data room with supporting data from the existing 18-farm deployment.
+Diversity: Founding team is 33% female (CEO Dr. Elena Vasquez). VP Agronomy is a Latina woman (Dr. Maria Santos). Our 34-person team is 38% female and 29% underrepresented minorities. Formal DEI hiring policy in place. Named diverse leaders in all key roles. We have an active agricultural technician apprenticeship program targeting historically underrepresented communities in Salinas Valley.
+Labour: All RoboFarm employees are full-time staff with comprehensive benefits including health insurance, 401(k) with 4% match, equity participation, and paid parental leave. No contract workers in core engineering roles.

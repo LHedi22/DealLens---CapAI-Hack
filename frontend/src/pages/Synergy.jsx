@@ -154,14 +154,14 @@ export default function Synergy() {
         <div style={{ display: 'flex', gap: 12, marginBottom: 28, flexWrap: 'wrap' }}>
           <STAT label="Profiles"      value={status.profiles_ready} />
           <STAT label="Pairs Scored"  value={status.pairs_computed} />
-          <STAT label="Pending Review" value={pendingCount} color={pendingCount > 0 ? '#f59e0b' : undefined} />
+          <STAT label="Pending Review" value={pendingCount} color={pendingCount > 0 ? '#F5A524' : undefined} />
           <STAT label="Gaps Detected" value={status.gaps_detected} />
         </div>
       )}
 
       {/* ── Error ── */}
       {error && (
-        <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)', borderRadius: 10, padding: '10px 16px', marginBottom: 20, fontSize: 13, color: '#ef4444' }}>
+        <div style={{ background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)', borderRadius: 10, padding: '10px 16px', marginBottom: 20, fontSize: 13, color: '#F04438' }}>
           {error}
         </div>
       )}

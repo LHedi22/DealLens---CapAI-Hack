@@ -96,9 +96,11 @@ async def run_extraction(document_text: str) -> dict:
         )
 
         if not raw:
-            result = _empty_extraction()
-            step_completed("extraction", "No structured data extracted")
-            return result
+            raise RuntimeError(
+                "Extraction failed: Ollama returned no structured data. "
+                "The model may be overloaded or the request timed out. "
+                "Try uploading fewer files or waiting a moment before retrying."
+            )
 
         extracted = _normalize(raw)
         completeness = _compute_completeness(extracted)

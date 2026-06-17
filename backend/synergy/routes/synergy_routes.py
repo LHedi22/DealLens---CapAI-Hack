@@ -1,5 +1,5 @@
 import json
-from datetime import datetime, timedelta, timezone
+from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
@@ -11,12 +11,14 @@ from backend.models import DealHistory, SynergyProfile, SynergyPair, SynergyGap,
 from backend.synergy.engine.match_engine import run_full_pipeline, pair_to_dict, build_graph, profile_to_dict
 from backend.synergy.agents.gap_detector import detect_gaps
 from backend.synergy.agents.gap_hunter import hunt_gap
+from backend.synergy.engine.synergy_feedback import process_decision, resurface_snoozed_pairs
+from backend.synergy.engine.synergy_trigger import schedule_synergy_run
 
 
 class DecisionBody(BaseModel):
     decision:    str
     reason:      str = ""
-    snooze_days: int = 0
+    snooze_days: int = 30
 
 
 class ShortlistActionBody(BaseModel):
@@ -64,6 +66,8 @@ async def get_pairs(
     decision: str = Query(None, description="Filter by decision: pending | approved | rejected | snoozed"),
     db: AsyncSession = Depends(get_db),
 ):
+    await resurface_snoozed_pairs(db)
+
     result = await db.execute(
         select(SynergyPair).order_by(SynergyPair.composite_score.desc())
     )
@@ -113,27 +117,25 @@ async def decide_pair(
     body: DecisionBody,
     db: AsyncSession = Depends(get_db),
 ):
-    result = await db.execute(select(SynergyPair).where(SynergyPair.id == pair_id))
-    pair = result.scalar_one_or_none()
-    if not pair:
-        raise HTTPException(status_code=404, detail="Pair not found")
-
     valid = {"approved", "rejected", "snoozed"}
     if body.decision not in valid:
         raise HTTPException(status_code=422, detail=f"decision must be one of {valid}")
 
-    now = datetime.now(timezone.utc)
-    pair.analyst_decision = body.decision
-    pair.decision_reason  = body.reason or None
-    pair.decision_at      = now
+    outcome = await process_decision(
+        db=db,
+        pair_id=pair_id,
+        decision=body.decision,
+        reason=body.reason,
+        snooze_days=body.snooze_days,
+    )
+    if not outcome:
+        raise HTTPException(status_code=404, detail="Pair not found or decision failed")
 
-    if body.decision == "snoozed" and body.snooze_days > 0:
-        pair.snooze_until = now + timedelta(days=body.snooze_days)
-    else:
-        pair.snooze_until = None
-
-    await db.commit()
-    await db.refresh(pair)
+    # Re-fetch for full pair response (process_decision returns minimal dict)
+    pair_result = await db.execute(select(SynergyPair).where(SynergyPair.id == pair_id))
+    pair = pair_result.scalar_one_or_none()
+    if not pair:
+        raise HTTPException(status_code=404, detail="Pair not found")
     return pair_to_dict(pair)
 
 
@@ -289,34 +291,50 @@ async def shortlist_action(
     if not item:
         raise HTTPException(status_code=404, detail="Shortlist item not found")
 
-    item.analyst_action = body.action
-
     if body.action == "add_to_pipeline":
+        # Dedup check — never create a duplicate deal_history record
         existing = await db.scalar(
             select(func.count()).select_from(DealHistory)
             .where(DealHistory.startup_name == item.company_name)
         )
-        if not existing:
-            db.add(DealHistory(
-                startup_name=    item.company_name,
-                sector=          "Unknown",
-                stage=           "Unknown",
-                geography=       "Unknown",
-                business_model_type= "Unknown",
-                business_score=  0,
-                esg_composite=   0,
-                data_completeness= 0,
-                confidence_level= "LOW",
-                conviction_delta= 0,
-                final_score=     0,
-                decision=        "watch",
-                decision_reason= "synergy_gap_hunt",
-                is_pipeline=     True,
-                is_seed_data=    False,
-            ))
+        if existing:
+            return {
+                "status": "already_exists",
+                "message": f"{item.company_name} is already in the pipeline.",
+                "company_name": item.company_name,
+            }
 
+        db.add(DealHistory(
+            startup_name=        item.company_name,
+            sector=              "Unknown",
+            stage=               "Unknown",
+            date_evaluated=      datetime.utcnow().strftime("%Y-%m-%d"),
+            business_score=      0,
+            esg_composite=       0,
+            data_completeness=   0,
+            confidence_level=    "LOW",
+            conviction_delta=    0,
+            final_score=         0,
+            decision=            None,
+            decision_reason=     f"Sourced via Synergy Gap Hunt for gap_id={gap_id}",
+            is_pipeline=         True,
+            is_seed_data=        False,
+        ))
+        item.analyst_action = "add_to_pipeline"
+        db.add(item)
+        await db.commit()
+        schedule_synergy_run(item.company_name)
+        return {
+            "status": "added",
+            "message": f"{item.company_name} added to pipeline as a sourced lead.",
+            "company_name": item.company_name,
+        }
+
+    # dismissed
+    item.analyst_action = "dismissed"
+    db.add(item)
     await db.commit()
-    return {"shortlist_id": shortlist_id, "action": body.action, "company_name": item.company_name}
+    return {"status": "dismissed", "company_name": item.company_name}
 
 
 @router.post("/gaps/{gap_id}/dismiss")

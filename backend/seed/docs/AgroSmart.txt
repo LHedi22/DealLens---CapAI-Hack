@@ -1,0 +1,71 @@
+AGROSMART — INVESTOR PITCH DECK
+Series: Seed Round | Ask: $900,000 | Sector: AgriTech | Geography: MENA
+
+COMPANY OVERVIEW
+AgroSmart is a precision agriculture SaaS and IoT platform for smallholder and medium-scale farmers in North Africa and the Levant. We combine low-cost soil sensors, satellite imagery, and AI-driven crop advisory to help farmers increase yield by 18-31% while reducing water and fertilizer usage. Our B2B model sells to agricultural cooperatives, irrigation districts, and agribusiness distributors who serve thousands of farmers.
+
+Founded: 2023 | Headquarters: Sfax, Tunisia | Team Size: 11
+
+PROBLEM
+MENA agriculture faces a perfect storm: water scarcity (region holds 1% of global freshwater, hosts 6% of global population), soil degradation from over-fertilization, and a lack of agronomic advisory reaching smallholder farmers. Average crop yields in Tunisia and Morocco are 40-60% below European benchmarks for identical crops. Farmers waste an estimated 35% of irrigation water due to lack of soil moisture data. Agricultural advisory services from government extension workers reach fewer than 12% of smallholders.
+
+SOLUTION
+AgroSmart delivers:
+- Soil sensor network: low-cost wireless soil moisture, temperature, and salinity sensors (AgroSmart-S1, priced at 180 TND each)
+- Satellite crop monitoring: weekly NDVI and thermal stress maps per field, processed from Sentinel-2 imagery (free)
+- AI crop advisory: personalized irrigation and fertilization recommendations sent via SMS and mobile app in Arabic and French
+- Cooperative dashboard: cooperative managers see portfolio-level water usage and yield tracking across member farms
+- Marketplace integration: farmers can order inputs (seeds, fertilizer) at cooperative prices through the platform
+
+TEAM
+Co-Founder & CEO: Dr. Fatma Zouari — PhD in Agricultural Sciences (University of Tunis), 8 years researching precision irrigation. Former researcher at Institut National de la Recherche Agronomique de Tunisie. LinkedIn: linkedin.com/in/fatmazouari-phd
+Co-Founder & CTO: Karim Mansouri — IoT systems engineer, 9 years in embedded systems and wireless sensor networks. Led sensor network design at a Sfax-based agri-tech research project. LinkedIn: linkedin.com/in/karimmansouri-iot
+Field Operations Lead: Houda Ben Yahia — 7 years working with agricultural cooperatives in the Sidi Bouzid region, deep relationships with cooperative network. LinkedIn: linkedin.com/in/houdabenyahia
+
+Advisory Board:
+- Prof. Ahmed Karray — INAT (Institut National Agronomique de Tunisie), soil science
+- Mariam El Fassi — Regional Director, Moroccan Agricultural Development Agency (ADA)
+
+Board: 3-member board including 1 independent advisor. Shareholder agreement in place. Co-founders hold equal voting rights; major strategic decisions require board approval.
+
+MARKET
+Total Addressable Market: $3.8 billion (MENA precision agriculture and crop management technology, source: Allied Market Research 2024)
+Serviceable market: $420 million (Tunisia, Morocco, Jordan cooperative and SME farming sector)
+Growing at 16% CAGR, accelerated by government water-efficiency mandates (Tunisia: National Water Strategy 2050, Morocco: Plan Maroc Vert)
+
+REVENUE MODEL
+Hybrid hardware + SaaS:
+- Sensor kit: 180 TND per sensor (hardware sale)
+- SaaS advisory platform: 1,200 TND/year per cooperative (covers up to 50 member farms)
+- Enterprise cooperative plan: 4,500 TND/year (covers up to 300 farms with marketplace access)
+Current ARR: 128,000 TND (8 cooperatives subscribed, 2 ongoing sensor deployments)
+Projected Year 1 post-raise: 480,000 TND
+Revenue assumptions: signing 25 cooperatives in Tunisia and Morocco, each averaging 1,800 TND ARR; 15% conversion from MoA referral pipeline. Documented in business model assumptions appendix (available on request).
+Customer Acquisition Cost: 4,200 TND per cooperative (primarily through Ministry of Agriculture referral)
+LTV: 18,000 TND per cooperative at 5-year retention
+
+TRACTION
+- 8 paying cooperatives (6 Tunisia, 2 Morocco)
+- 312 individual farmer plots monitored
+- Average water usage reduction reported by clients: 22% in first growing season
+- Average yield improvement reported: 18% for irrigated tomato and pepper crops
+- Signed framework agreement with Tunisian Ministry of Agriculture for a 50-cooperative pilot program (confirmed, government budget allocation pending)
+- CGIAR (international agricultural research network) partnership for methodology validation
+
+COMPETITION
+Main competitors: CropIn (India-focused), Trimble Agriculture (enterprise-priced, no Arabic), local government extension services (manual, limited reach)
+Differentiation: AgroSmart is the only Arabic-first precision agriculture platform combining IoT hardware, satellite imagery, and AI advisory priced for cooperative-scale MENA agriculture.
+IP: AgroSmart's soil sensor hardware design is proprietary (design registered in Tunisia). AI advisory algorithm trained on 8 years of INAT research data under exclusive license.
+
+FINANCIALS
+Monthly burn rate: 41,000 TND
+Runway: 14 months at current burn
+Funding ask: $900,000 USD (~2.77M TND)
+Use of funds: 35% hardware manufacturing scale-up, 30% platform engineering (Morocco market compliance, satellite analytics expansion), 25% sales and cooperative partnerships, 10% regulatory
+
+ESG PROFILE
+Environmental: AgroSmart's core mission is environmental. Our platform directly reduces water usage (22% average), reduces fertilizer overuse (14% reduction in first season across client base), and helps prevent soil salinization — the primary cause of land degradation in Tunisia. We track and publish water-saved and chemical-reduction metrics per cooperative annually. Our sensor manufacturing uses no hazardous materials. We use Sentinel-2 satellite data (no carbon cost) and cloud hosting powered by OVH's renewable energy infrastructure.
+Social: 78% of our client cooperatives are in economically disadvantaged rural regions. 34% of participating farmers are women — a significantly higher female participation rate than the regional agricultural average of 19%. Our SMS advisory service is designed to reach illiterate farmers through voice note integration. We work with the FAO Tunisia team to align our metrics with SDG 2 (Zero Hunger) and SDG 6 (Clean Water).
+Governance: AgroSmart maintains a formal 3-member board with independent advisor representation. All major financial decisions require board approval. No single founder holds veto rights. Shareholder agreement in place. Financial projections are based on documented assumptions (government referral conversion rate, 5-year retention from comparable CGIAR programs) — assumptions appendix available on request.
+Diversity: Founding team is 33% female (CEO is a woman). Field operations are led by a woman. We have a formal diversity hiring commitment and named diverse leaders in key roles.
+Labour: All employees are full-time staff on formal contracts with Tunisian CNSS (social security) registration. No gig or informal labor in our operations.

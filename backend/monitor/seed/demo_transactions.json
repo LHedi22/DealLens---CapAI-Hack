@@ -385,10 +385,10 @@
         "transaction_date": "2023-07-10",
         "beneficiary": "Bureau Technique BT-Sols",
         "amount_tnd": 12000.0,
-        "memo": "Études géotechniques et maquettes numériques",
-        "ai_category": "rd",
-        "ai_confidence": 0.91,
-        "classification_status": "AUTO_CLASSIFIED",
+        "memo": "Réf. OP/BSM/2023-07 — prestation externe",
+        "ai_category": null,
+        "ai_confidence": 0.41,
+        "classification_status": "UNCLASSIFIED",
         "alert_triggered": 0
       },
       {
@@ -574,6 +574,371 @@
         "alert_detail": "Monthly bank statements are required within 10 days of month-end for SICAR compliance monitoring. The absence of the May 2025 statement prevents accurate compliance assessment for month 30 of the agreement. Contact BuildSmart to upload the statement immediately to avoid a lapse note in the annual fund report.",
         "fired_at": "2025-05-11T07:00:00",
         "resolved": 0
+      }
+    ]
+  },
+
+  "HealthCore": {
+    "transactions": [
+      {
+        "statement_month": "2023-03",
+        "transaction_date": "2023-03-15",
+        "beneficiary": "Institut de Biotechnologie de Sousse",
+        "amount_tnd": 22000.0,
+        "memo": "Contrat R&D Phase 1 — Recherche biomarqueurs diagnostiques",
+        "ai_category": "rd",
+        "ai_confidence": 0.95,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-05",
+        "transaction_date": "2023-05-10",
+        "beneficiary": "BioMed Equipment MENA",
+        "amount_tnd": 28000.0,
+        "memo": "Achat équipements laboratoire médical Lot 1 — analyseurs et centrifugeuses",
+        "ai_category": "equipment",
+        "ai_confidence": 0.92,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-07",
+        "transaction_date": "2023-07-15",
+        "beneficiary": "Paie Personnel HealthCore",
+        "amount_tnd": 16000.0,
+        "memo": "Virement salaires équipe médicale Janv-Juin 2023",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-09",
+        "transaction_date": "2023-09-20",
+        "beneficiary": "Clinique El Yasmine",
+        "amount_tnd": 8000.0,
+        "memo": "Essais cliniques Phase 1 — recrutement et suivi patients pilote",
+        "ai_category": "clinical_trials",
+        "ai_confidence": 0.91,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-11",
+        "transaction_date": "2023-11-08",
+        "beneficiary": "Université de Médecine Tunis",
+        "amount_tnd": 28000.0,
+        "memo": "Partenariat R&D — Développement algorithmes IA diagnostics médicaux",
+        "ai_category": "rd",
+        "ai_confidence": 0.94,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-12",
+        "transaction_date": "2023-12-15",
+        "beneficiary": "Paie Personnel HealthCore",
+        "amount_tnd": 16000.0,
+        "memo": "Virement salaires équipe médicale Jul-Déc 2023",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-01",
+        "transaction_date": "2024-01-12",
+        "beneficiary": "Siemens Healthineers MENA",
+        "amount_tnd": 28000.0,
+        "memo": "Équipement imagerie médicale portable — Lot 2 diagnostics terrain",
+        "ai_category": "equipment",
+        "ai_confidence": 0.90,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 1,
+        "alert_type": "ANOMALY"
+      },
+      {
+        "statement_month": "2024-04",
+        "transaction_date": "2024-04-18",
+        "beneficiary": "Polyclinique du Lac",
+        "amount_tnd": 6500.0,
+        "memo": "Essais cliniques Phase 2 — validation protocole thérapeutique",
+        "ai_category": "clinical_trials",
+        "ai_confidence": 0.89,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-06",
+        "transaction_date": "2024-06-10",
+        "beneficiary": "InnoHealth Research Lab",
+        "amount_tnd": 30000.0,
+        "memo": "R&D Phase 3 — Développement plateforme patient management SaaS",
+        "ai_category": "rd",
+        "ai_confidence": 0.93,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-07",
+        "transaction_date": "2024-07-15",
+        "beneficiary": "Paie Personnel HealthCore",
+        "amount_tnd": 16000.0,
+        "memo": "Virement salaires équipe médicale Janv-Juin 2024",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-08",
+        "transaction_date": "2024-08-22",
+        "beneficiary": "MedConsult Experts SARL",
+        "amount_tnd": 2500.0,
+        "memo": "Réf. HC/2024-08 — prestation externe non spécifiée",
+        "ai_category": null,
+        "ai_confidence": 0.68,
+        "classification_status": "UNCLASSIFIED",
+        "alert_triggered": 1,
+        "alert_type": "UNCLASSIFIED"
+      }
+    ],
+    "snapshot": {
+      "snapshot_month": "2025-03",
+      "months_elapsed": 24,
+      "category_totals": {
+        "rd":             { "planned_tnd": 170000, "spent_tnd":  80000, "planned_to_date_tnd":  85000, "variance_pct":  -5.88, "status": "ON_TRACK" },
+        "equipment":      { "planned_tnd": 100000, "spent_tnd":  56000, "planned_to_date_tnd":  50000, "variance_pct":  12.00, "status": "WARNING"  },
+        "salaries":       { "planned_tnd": 100000, "spent_tnd":  48000, "planned_to_date_tnd":  50000, "variance_pct":  -4.00, "status": "ON_TRACK" },
+        "clinical_trials":{ "planned_tnd":  30000, "spent_tnd":  14500, "planned_to_date_tnd":  15000, "variance_pct":  -3.33, "status": "ON_TRACK" }
+      },
+      "total_spent_tnd": 198500.0,
+      "total_planned_to_date_tnd": 200000.0,
+      "unclassified_tnd": 2500.0,
+      "compliance_health_score": 78,
+      "alert_count_active": 2,
+      "alert_count_total": 3
+    },
+    "alerts": [
+      {
+        "alert_type": "ANOMALY",
+        "severity": "WARNING",
+        "alert_summary": "Equipment purchase of 28,000 TND from Siemens Healthineers MENA flagged — new high-value medical vendor.",
+        "alert_detail": "This payment exceeds the 25,000 TND single-transaction threshold for the equipment category and was made to a previously unseen beneficiary. Request invoice HC-SH-2024-01 and verify the purchase falls within the approved SICAR equipment allocation. The equipment category is now 12% over the expected spending pace at month 24.",
+        "fired_at": "2024-01-13T09:30:00",
+        "resolved": 0
+      },
+      {
+        "alert_type": "UNCLASSIFIED",
+        "severity": "WARNING",
+        "alert_summary": "1 transaction of 2,500 TND from MedConsult Experts SARL could not be automatically classified — confidence 68%.",
+        "alert_detail": "The payment reference HC/2024-08 does not clearly map to any agreed spending category. This could be an external clinical advisor fee (clinical_trials), a consultancy cost (rd), or a recruitment cost (salaries). Manually reclassify to include it in compliance calculations and prevent it from appearing as an unclassified spend in the annual audit.",
+        "fired_at": "2024-08-23T08:00:00",
+        "resolved": 0
+      },
+      {
+        "alert_type": "ANOMALY",
+        "severity": "WARNING",
+        "alert_summary": "R&D payment of 22,000 TND to Institut de Biotechnologie de Sousse initially flagged as first-transaction anomaly.",
+        "alert_detail": "Payment made in the first month of the agreement to an institution not pre-listed in the investment plan. Invoice IBS-HC-2023-0315 reviewed and confirmed as a valid research partnership contract aligned with the R&D scope. No compliance risk.",
+        "fired_at": "2023-03-16T10:00:00",
+        "resolved": 1,
+        "resolved_at": "2023-03-20T14:00:00",
+        "resolved_by_note": "Invoice IBS-HC-2023-0315 confirmed — valid R&D partnership with accredited biotech institution. No compliance issue."
+      }
+    ]
+  },
+
+  "CargoZip": {
+    "transactions": [
+      {
+        "statement_month": "2023-07",
+        "transaction_date": "2023-07-10",
+        "beneficiary": "FleetPro Véhicules MENA",
+        "amount_tnd": 35000.0,
+        "memo": "Acquisition flotte véhicules livraison Lot 1 — 5 fourgons",
+        "ai_category": "fleet",
+        "ai_confidence": 0.94,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-08",
+        "transaction_date": "2023-08-15",
+        "beneficiary": "Paie Chauffeurs CargoZip",
+        "amount_tnd": 18000.0,
+        "memo": "Virement salaires chauffeurs et opérateurs logistique Jul-Déc 2023",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-09",
+        "transaction_date": "2023-09-20",
+        "beneficiary": "Scanner Solutions Maghreb",
+        "amount_tnd": 15000.0,
+        "memo": "Équipements scanning entrepôt — lecteurs codes-barres et terminaux mobiles",
+        "ai_category": "equipment",
+        "ai_confidence": 0.91,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2023-10",
+        "transaction_date": "2023-10-05",
+        "beneficiary": "AutoStar Fleet Finance",
+        "amount_tnd": 45000.0,
+        "memo": "Acquisition fourgons frigorifiques Lot 2 — 6 unités chaîne froide médicale",
+        "ai_category": "fleet",
+        "ai_confidence": 0.93,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 1,
+        "alert_type": "ANOMALY"
+      },
+      {
+        "statement_month": "2023-11",
+        "transaction_date": "2023-11-12",
+        "beneficiary": "Approvisionnements Logistique Pro",
+        "amount_tnd": 9000.0,
+        "memo": "Fournitures opérationnelles entrepôt Q3 2023",
+        "ai_category": "working_capital",
+        "ai_confidence": 0.88,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-01",
+        "transaction_date": "2024-01-15",
+        "beneficiary": "Paie Chauffeurs CargoZip",
+        "amount_tnd": 18000.0,
+        "memo": "Virement salaires chauffeurs et opérateurs Janv-Jun 2024",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-02",
+        "transaction_date": "2024-02-08",
+        "beneficiary": "RouteOpt Hardware Solutions",
+        "amount_tnd": 15000.0,
+        "memo": "Matériel optimisation itinéraires — GPS flotte et serveurs edge computing",
+        "ai_category": "equipment",
+        "ai_confidence": 0.90,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-04",
+        "transaction_date": "2024-04-10",
+        "beneficiary": "Carburant & Maintenance Sahel",
+        "amount_tnd": 9000.0,
+        "memo": "Carburant et entretien préventif flotte Q1 2024",
+        "ai_category": "working_capital",
+        "ai_confidence": 0.87,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-05",
+        "transaction_date": "2024-05-20",
+        "beneficiary": "AutoPark Fleet Expansion",
+        "amount_tnd": 44000.0,
+        "memo": "Extension flotte — 5 camionnettes frigorifiques grand volume Lot 3",
+        "ai_category": "fleet",
+        "ai_confidence": 0.95,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-07",
+        "transaction_date": "2024-07-15",
+        "beneficiary": "Paie Chauffeurs CargoZip",
+        "amount_tnd": 18000.0,
+        "memo": "Virement salaires chauffeurs et opérateurs Jul-Déc 2024",
+        "ai_category": "salaries",
+        "ai_confidence": 0.97,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 0
+      },
+      {
+        "statement_month": "2024-09",
+        "transaction_date": "2024-09-18",
+        "beneficiary": "Conseil Externe Transport SARL",
+        "amount_tnd": 8000.0,
+        "memo": "Réf. CZ/EXT/2024-09 — prestation conseil non catégorisée",
+        "ai_category": null,
+        "ai_confidence": 0.62,
+        "classification_status": "UNCLASSIFIED",
+        "alert_triggered": 1,
+        "alert_type": "UNCLASSIFIED"
+      },
+      {
+        "statement_month": "2024-11",
+        "transaction_date": "2024-11-15",
+        "beneficiary": "Agence Marketing Digital MENA",
+        "amount_tnd": 7500.0,
+        "memo": "Campagne acquisition clients e-commerce — publicité digitale Q4 2024",
+        "ai_category": "marketing",
+        "ai_confidence": 0.86,
+        "classification_status": "AUTO_CLASSIFIED",
+        "alert_triggered": 1,
+        "alert_type": "OFF_PLAN"
+      }
+    ],
+    "snapshot": {
+      "snapshot_month": "2025-04",
+      "months_elapsed": 22,
+      "category_totals": {
+        "fleet":          { "planned_tnd": 250000, "spent_tnd": 124000, "planned_to_date_tnd":  91667, "variance_pct":  35.27, "status": "OVER_BUDGET" },
+        "equipment":      { "planned_tnd": 150000, "spent_tnd":  30000, "planned_to_date_tnd":  55000, "variance_pct": -45.45, "status": "CRITICAL"    },
+        "salaries":       { "planned_tnd": 150000, "spent_tnd":  54000, "planned_to_date_tnd":  55000, "variance_pct":  -1.82, "status": "ON_TRACK"    },
+        "working_capital":{ "planned_tnd":  50000, "spent_tnd":  18000, "planned_to_date_tnd":  18333, "variance_pct":  -1.82, "status": "ON_TRACK"    },
+        "marketing":      { "planned_tnd":      0, "spent_tnd":   7500, "planned_to_date_tnd":      0, "variance_pct":   null, "status": "OFF_PLAN"    }
+      },
+      "total_spent_tnd": 233500.0,
+      "total_planned_to_date_tnd": 220000.0,
+      "unclassified_tnd": 8000.0,
+      "compliance_health_score": 40,
+      "alert_count_active": 3,
+      "alert_count_total": 4
+    },
+    "alerts": [
+      {
+        "alert_type": "OVER_BUDGET",
+        "severity": "CRITICAL",
+        "alert_summary": "Fleet spending of 124,000 TND is 35% above the SICAR-agreed plan at month 22 — direct compliance breach.",
+        "alert_detail": "The fleet category has consumed 124,000 TND against an expected 91,667 TND for month 22, representing a 35% overspend. Under SICAR regulations, exceeding the agreed allocation without prior written approval constitutes a compliance violation. Further fleet acquisitions must be frozen until a budget amendment is approved by the fund and submitted to government supervisory bodies. Prepare a remediation plan for the next quarterly compliance report.",
+        "fired_at": "2024-05-21T09:00:00",
+        "resolved": 0
+      },
+      {
+        "alert_type": "OFF_PLAN",
+        "severity": "CRITICAL",
+        "alert_summary": "Payment of 7,500 TND to Agence Marketing Digital MENA — 'marketing' has no allocation in the signed SICAR agreement.",
+        "alert_detail": "Off-plan expenditure in the marketing category is a potential SICAR compliance violation. Marketing was not included as an approved spending line in the investment agreement signed June 2023. Request a formal invoice and justification from CargoZip and escalate to legal counsel. A category amendment request should be filed before the next statement upload to regularise this spend.",
+        "fired_at": "2024-11-16T10:30:00",
+        "resolved": 0
+      },
+      {
+        "alert_type": "UNCLASSIFIED",
+        "severity": "WARNING",
+        "alert_summary": "1 transaction of 8,000 TND from Conseil Externe Transport SARL could not be classified — confidence 62%.",
+        "alert_detail": "The payment reference CZ/EXT/2024-09 does not match any agreed spending category with sufficient confidence. This could be a fleet maintenance advisory fee, a logistics consulting cost, or a working capital expense. Manually reclassify before the next audit period to avoid this appearing as unexplained expenditure in the annual SICAR compliance report.",
+        "fired_at": "2024-09-19T08:00:00",
+        "resolved": 0
+      },
+      {
+        "alert_type": "ANOMALY",
+        "severity": "WARNING",
+        "alert_summary": "Large fleet purchase of 45,000 TND from AutoStar Fleet Finance — single transaction exceeds standard threshold.",
+        "alert_detail": "Payment of 45,000 TND for 6 refrigerated vans exceeded the 40,000 TND single-transaction alert threshold. Invoice ASF-CZ-2023-1005 was reviewed and confirmed as a standard bulk vehicle acquisition within the approved fleet category. However, combined with Lot 1 (35,000 TND in July), total fleet spend reached 80,000 TND by month 5 — significantly ahead of the linear spending plan. Fleet expansion pace must be moderated going forward.",
+        "fired_at": "2023-10-06T09:15:00",
+        "resolved": 1,
+        "resolved_at": "2023-10-10T14:00:00",
+        "resolved_by_note": "Invoice ASF-CZ-2023-1005 confirmed — standard bulk vehicle acquisition. Fleet category pace flagged as high risk for future monitoring."
       }
     ]
   }

@@ -6,7 +6,7 @@ import Mandate from './pages/Mandate'
 import Monitor from './pages/Monitor'
 import Synergy from './pages/Synergy'
 import Debug from './pages/Debug'
-import { getSynergyStatus } from './lib/api'
+import { getSynergyStatus, getMonitorCriticalCount } from './lib/api'
 
 function usePendingSynergy() {
   const [count, setCount] = useState(0)
@@ -14,6 +14,20 @@ function usePendingSynergy() {
     getSynergyStatus()
       .then(s => setCount(s.pending_pairs ?? 0))
       .catch(() => {})
+  }, [])
+  return count
+}
+
+function useCriticalAlerts() {
+  const [count, setCount] = useState(0)
+  useEffect(() => {
+    const fetch = async () => {
+      const n = await getMonitorCriticalCount()
+      setCount(n)
+    }
+    fetch()
+    const interval = setInterval(fetch, 30000)
+    return () => clearInterval(interval)
   }, [])
   return count
 }
@@ -40,7 +54,7 @@ function LogoMark() {
   )
 }
 
-function Sidebar({ pendingSynergy = 0 }) {
+function Sidebar({ pendingSynergy = 0, criticalCount = 0 }) {
   return (
     <aside
       className="fixed left-0 top-0 h-screen flex flex-col z-50 overflow-hidden"
@@ -103,6 +117,17 @@ function Sidebar({ pendingSynergy = 0 }) {
                     {pendingSynergy}
                   </span>
                 )}
+                {to === '/monitor' && criticalCount > 0 && (
+                  <span style={{
+                    background: '#F04438', color: '#fff',
+                    borderRadius: 10, padding: '1px 5px',
+                    fontSize: 10, fontWeight: 700, lineHeight: 1.6,
+                    marginLeft: 4, minWidth: 16, textAlign: 'center',
+                    flexShrink: 0, display: 'inline-block',
+                  }}>
+                    {criticalCount}
+                  </span>
+                )}
               </>
             )}
           </NavLink>
@@ -130,10 +155,10 @@ function Sidebar({ pendingSynergy = 0 }) {
   )
 }
 
-function Layout({ children, pendingSynergy }) {
+function Layout({ children, pendingSynergy, criticalCount }) {
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      <Sidebar pendingSynergy={pendingSynergy} />
+      <Sidebar pendingSynergy={pendingSynergy} criticalCount={criticalCount} />
       <main style={{ marginLeft: 220, padding: '36px 44px', minHeight: '100vh' }}>
         {children}
       </main>
@@ -145,10 +170,11 @@ export default function App() {
   const [refreshKey, setRefreshKey] = useState(0)
   const triggerRefresh = () => setRefreshKey(k => k + 1)
   const pendingSynergy = usePendingSynergy()
+  const criticalCount = useCriticalAlerts()
 
   return (
     <BrowserRouter>
-      <Layout pendingSynergy={pendingSynergy}>
+      <Layout pendingSynergy={pendingSynergy} criticalCount={criticalCount}>
         <Routes>
           <Route path="/"         element={<Dashboard refreshKey={refreshKey} />} />
           <Route path="/evaluate" element={<Evaluate onEvaluationComplete={triggerRefresh} />} />

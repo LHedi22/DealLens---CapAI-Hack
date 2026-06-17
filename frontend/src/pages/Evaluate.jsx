@@ -29,7 +29,7 @@ const LOADING_STEPS = [
   'Generating recommendation...',
 ]
 
-const TIMEOUT_WARN_MS = 90_000
+const TIMEOUT_WARN_MS = 360_000
 
 const CARD = {
   background:   'var(--surface-1)',
